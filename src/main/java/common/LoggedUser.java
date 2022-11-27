@@ -22,12 +22,4 @@ public class LoggedUser extends AbstractUser {
         return this.userID;
     }
 
-    public AbstractUser logout(){
-        return null;
-    }
-
-    /*public void valutaBrano(Song s, int score){
-        if(userID.equals("ale"))
-            System.out.println("Brano " + s + " valutato: " + score);
-    }*/
 }

@@ -50,13 +50,4 @@ public class Playlist implements Serializable {
         return "Brani nella playlist " + this.playlistName + ": \n" + tmp;
     }
 
-	public String toCSVString(){
-		String tmp = this.userId + "<SEP>" + this.playlistName + "£";
-		Iterator<Song> ite = this.songList.iterator();
-		while(ite.hasNext()) {
-			 tmp += ite.next().getId() + "@";
-		}
-		return tmp;
-	}
-
 }
