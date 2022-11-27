@@ -25,12 +25,12 @@ public class ClientES extends UnicastRemoteObject implements ClientInterf, Runna
         ClientES c = new ClientES();
         Registry r = LocateRegistry.getRegistry(11000);
         c.g = (ResourceManagerInterface) r.lookup("Gestore");
-
         c.start();
-
-
     }
 
+    private void start() {
+        io.start();
+    }
 
     @Override
     public boolean logged() throws RemoteException {
@@ -99,7 +99,4 @@ public class ClientES extends UnicastRemoteObject implements ClientInterf, Runna
             }
     }
 
-    private void start() {
-        io.start();
-    }
 }
