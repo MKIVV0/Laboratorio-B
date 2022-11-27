@@ -1,9 +1,13 @@
 package emotionalsongs;
 
+import common.LoggedUser;
+import common.Playlist;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
+import java.util.LinkedList;
 
 public class dbES {
     private static String protocol 	= "jdbc:postgresql" + "://";
@@ -19,8 +23,8 @@ public class dbES {
     private static Connection connection;
     private static Statement statement;
 
-    String scriptPath1 = "C:\\Users\\huang\\IdeaProjects\\Laboratorio-B\\SQLScripts\\initDB.sql";
-    String scriptPath2 = "C:\\Users\\huang\\IdeaProjects\\Laboratorio-B\\SQLScripts\\initTableSong.sql";
+    String scriptPath1 = "C:\\Users\\huang\\OneDrive\\Uni\\LabB-2021-22\\SQLScripts\\initDB.sql";
+    String scriptPath2 = "C:\\Users\\huang\\OneDrive\\Uni\\LabB-2021-22\\SQLScripts\\initTableSong.sql";
 
     // Questo costruttore, grazie al metodo getInstance, potrà
     // essere invocato una volta sola.
@@ -57,20 +61,23 @@ public class dbES {
         System.out.println("Connection successfully established.");
     }
 
+    // Crea il db - DONE
     public static void createDB(Statement st) {
         try {
             if (st.execute("CREATE DATABASE EmotionalSongs"))
                 System.out.println("EmotionalSongs DB successfully created.");
         } catch (SQLException e) {
-            System.out.println("EmotionalSongs DB already exists.");
+            System.err.println("EmotionalSongs DB already exists.");
         }
     }
 
+    // Inizializza le tabelle - DONE
     public static void initializeTables(Statement st, String scriptPath1, String scriptPath2) throws SQLException, IOException {
         String script = null;
         String line;
         BufferedReader br = new BufferedReader(new FileReader(scriptPath1));
 
+        // Effettua la creazione delle tabelle Song, Playlist, Emotion e RegisteredUser
         while ((line = br.readLine()) != null) {
             if (script == null) script = line;
             else script += line;
@@ -78,7 +85,7 @@ public class dbES {
 
         st.executeUpdate(script);
 
-        // Esegue le insert se la tabella Song è vuota
+        // Esegue le insert se la tabella common.Song è vuota
         ResultSet rs = st.executeQuery("SELECT * FROM Song");
         if (!rs.next()) br = new BufferedReader(new FileReader(scriptPath2));
         while ((line = br.readLine()) != null) {
@@ -94,7 +101,87 @@ public class dbES {
     }
 
     // Controllo credenziali
-    public static synchronized void getLoggedUser(String user, String pwd) throws SQLException {
+    // Verifica la presenza di una tupla nella tabella registereduser. Ritorna true, se l'utente è
+    // presente nella tabella, false altrimenti.
+    public static synchronized boolean verifyUserExistence(String user, String pwd) throws SQLException {
+        String query1 = "SELECT * FROM registereduser WHERE user_id = '" + user + "' AND ' password = '" + pwd + "\'";
+        ResultSet rs = statement.executeQuery(query1);
 
+        return rs.next();
     }
+
+    // Ricostruzione utenti
+    public static LoggedUser reconstructLoggedUser(String query, Statement st) throws SQLException {
+        ResultSet rs = st.executeQuery(query);
+        LoggedUser tmp = null;
+        String firstName = null;
+        /**
+         * Attributo rappresentate il cognome dell'utente registrato.
+         */
+        String lastName = null;
+        /**
+         * Attributo rappresentate il codice fiscale dell'utente registrato.
+         */
+        String FC = null;
+        /**
+         * Attributo rappresentate l'indirizzo fisico dell'utente registrato.
+         */
+        String address = null;
+        /**
+         * Attributo rappresentate l'indirizzo email dell'utente registrato.
+         */
+        String email = null;
+        /**
+         * Attributo rappresentate l'identificativo dell'utente registrato.
+         */
+        String userID = null;
+        /**
+         * Attributo rappresentate la password dell'utente registrato.
+         */
+        String password = null;
+        /**
+         * Attributo rappresentate la lista di playlist associata.
+         * all'utente registrato.
+         */
+        LinkedList<Playlist> playlistList = null;
+/*
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+        while (rs.next()) {
+            for (int i = 1; i <= columnsNumber; i++) {
+                String columnValue = rs.getString(i);
+                if (i == 1) firstName = columnValue;
+                else if (i == 2) lastName = columnValue;
+                else if (i == 3) FC = columnValue;
+                else if (i == 4) address = columnValue;
+                else if (i == 5) email = columnValue;
+                else if (i == 6) userID = columnValue;
+                else if (i == 7) password = columnValue;
+                else playlistList.add(new Playlist(columnValue));
+            }
+            tmp = new LoggedUser(firstName, lastName, FC, address, email, userID, password);
+            System.out.println("");
+        }*/
+
+        return tmp;
+    }
+
+    // Caricamento delle playlist
+
+    // Registrazione - DONE
+    public static void registerUser(String fn, String ln, String FC, String a, String email, String uid, String pwd) {
+        try {
+            String query = "INSERT INTO RegisteredUser VALUES (\'" + uid + "\', \'" + pwd + "\', \'" +  email + "\', \'" + fn + "\', \'" + ln + "\', \'" +  a + "\', \'" + FC + "\')";
+            System.out.println(query);
+            statement.executeUpdate(query);
+            System.out.println("User " + uid + " registered successfully.");
+        } catch (SQLException e) {
+            System.err.println("The user " + uid + " already exists.");
+            System.err.println(e.toString());
+        }
+    }
+
+    // Registra feedback
+
+    // Mostra feedback
 }
