@@ -19,8 +19,8 @@ public class dbES {
     private static Connection connection;
     private static Statement statement;
 
-    String scriptPath1 = "C:\\Users\\huang\\OneDrive\\Uni\\LabB-2021-22\\SQLScripts\\initDB.sql";
-    String scriptPath2 = "C:\\Users\\huang\\OneDrive\\Uni\\LabB-2021-22\\SQLScripts\\initTableSong.sql";
+    String scriptPath1 = "C:\\Users\\huang\\IdeaProjects\\Laboratorio-B\\SQLScripts\\initDB.sql";
+    String scriptPath2 = "C:\\Users\\huang\\IdeaProjects\\Laboratorio-B\\SQLScripts\\initTableSong.sql";
 
     // Questo costruttore, grazie al metodo getInstance, potrà
     // essere invocato una volta sola.
