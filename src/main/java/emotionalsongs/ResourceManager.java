@@ -33,21 +33,12 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * ricostruire correttamente i suoi campi (creazione delle sue playlists ecc..)
      */
     @Override
-    public AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, CredentialUncorrectExcepion, SQLException {
+    public AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, SQLException, WrongCredentialsException {
         if (u instanceof LoggedUser)
             throw new AlreadyLoggedException();
 
         //CONTROLLO CREDENZIALI SU DB
-
-        if (dbES.verifyUserExistence(uid, pw)) //se credenziali NON sono ok
-            throw new CredentialUncorrectExcepion();
-
-        else {
-
-            //CARICAMENTO DATI UTENTI DAL DB
-
-            return new LoggedUser(uid, pw);
-        }
+        return dbES.getLoggedUser(uid, pw);
     }
 
     @Override

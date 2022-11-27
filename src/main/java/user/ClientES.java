@@ -55,7 +55,7 @@ public class ClientES extends UnicastRemoteObject implements ClientInterf, Runna
                         this.user = g.login(user, "ale", "pw");
                     } catch (AlreadyLoggedException e) {
                         System.out.println("gia loggatooooooooooo!");
-                    } catch (CredentialUncorrectExcepion ex) {
+                    } catch (WrongCredentialsException ex) {
                         System.out.println("credenziali sbagliateeeeee!");
                     }
 

@@ -2,6 +2,7 @@ package emotionalsongs;
 
 import common.LoggedUser;
 import common.Playlist;
+import common.WrongCredentialsException;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -101,18 +102,21 @@ public class dbES {
     }
 
     // Controllo credenziali
-    // Verifica la presenza di una tupla nella tabella registereduser. Ritorna true, se l'utente è
-    // presente nella tabella, false altrimenti.
-    public static synchronized boolean verifyUserExistence(String user, String pwd) throws SQLException {
+    // Verifica la presenza di una tupla nella tabella registereduser. Ritorna l'oggetto, se l'utente è
+    // presente nella tabella, lancia un'eccezione altrimenti.
+    public static synchronized LoggedUser getLoggedUser(String user, String pwd) throws SQLException, WrongCredentialsException {
         String query1 = "SELECT * FROM registereduser WHERE user_id = '" + user + "' AND ' password = '" + pwd + "\'";
         ResultSet rs = statement.executeQuery(query1);
+        LoggedUser tmp;
 
-        return rs.next();
+        if (!rs.next()) {
+            throw new WrongCredentialsException("The user " + user + " doesn't exist!");
+        }
+        return reconstructLoggedUser(rs);
     }
 
     // Ricostruzione utenti
-    public static LoggedUser reconstructLoggedUser(String query, Statement st) throws SQLException {
-        ResultSet rs = st.executeQuery(query);
+    private static LoggedUser reconstructLoggedUser(ResultSet rs) throws SQLException {
         LoggedUser tmp = null;
         String firstName = null;
         /**

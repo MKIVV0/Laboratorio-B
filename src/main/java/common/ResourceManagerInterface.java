@@ -8,7 +8,7 @@ public interface ResourceManagerInterface extends Remote {
 
     Song getSong(String s) throws RemoteException;
 
-    AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, CredentialUncorrectExcepion, SQLException;
+    AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, WrongCredentialsException, SQLException;
 
     void valutaBrano(AbstractUser u, Song s, int score) throws RemoteException, NotLoggedException;
 
