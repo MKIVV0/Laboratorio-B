@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class ResourceManager extends UnicastRemoteObject implements ResourceManagerInterface {
@@ -32,13 +33,13 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * ricostruire correttamente i suoi campi (creazione delle sue playlists ecc..)
      */
     @Override
-    public AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, CredentialUncorrectExcepion {
+    public AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, CredentialUncorrectExcepion, SQLException {
         if (u instanceof LoggedUser)
             throw new AlreadyLoggedException();
 
         //CONTROLLO CREDENZIALI SU DB
 
-        if (!uid.equals("ale") && !pw.equals("pw")) //se credenziali NON sono ok
+        if (dbES.verifyUserExistence(uid, pw)) //se credenziali NON sono ok
             throw new CredentialUncorrectExcepion();
 
         else {
