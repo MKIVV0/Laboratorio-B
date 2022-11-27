@@ -12,44 +12,61 @@ import java.util.HashMap;
 public class ResourceManager extends UnicastRemoteObject implements ResourceManagerInterface {
 
     private HashMap<String, Song> repoSong;
-   // private LinkedList<LoggedUserInterf> clients;
 
     public ResourceManager() throws RemoteException {
         super();
-       // this.clients = new LinkedList<>();
         this.repoSong = new HashMap<>();
     }
 
     @Override
     public Song getSong(String s) {
+        //debug
         return new Song(1, "id brano", "autore", "titolo");
     }
 
+    /**
+     * metodo di login che restituisce un logged user se e solo se l'utente (parametro u) non è già loggato
+     * e le credenziali (parametri uid e pw) sono corrette.
+     * Uso del DB per verificare le credenziali
+     * in caso di successo, alla creazione del LoggedUser è necessario interagire nuovamente col DB al fine di
+     * ricostruire correttamente i suoi campi (creazione delle sue playlists ecc..)
+     */
     @Override
-    public AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException {
-        //CONTROLLO CREDENZIALI SU DB
-        if(u instanceof LoggedUser)
+    public AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, CredentialUncorrectExcepion {
+        if (u instanceof LoggedUser)
             throw new AlreadyLoggedException();
-        if(!uid.equals("ale") && !pw.equals("pw"))
-            return null;
-        else return new LoggedUser(uid, pw);
+
+        //CONTROLLO CREDENZIALI SU DB
+
+        if (!uid.equals("ale") && !pw.equals("pw")) //se credenziali NON sono ok
+            throw new CredentialUncorrectExcepion();
+
+        else {
+
+            //CARICAMENTO DATI UTENTI DAL DB
+
+            return new LoggedUser(uid, pw);
+        }
     }
 
-   @Override
-    public void valutaBrano(AbstractUser u, Song s, int score) throws RemoteException {
-        if(u instanceof NotLoggedUser){
-            System.out.println("non sei loggatooooo non puoi valutare");
-            return;
-        }
-        //salva su db (prima però fai i check)
+    @Override
+    public void valutaBrano(AbstractUser u, Song s, int score) throws RemoteException, NotLoggedException {
+        if (u instanceof NotLoggedUser)
+            throw new NotLoggedException();
+
+        //SALVA SU DB LA VALUTAZIONE, (RICORDATI DI FARE IL CHECK PERO')
+
+        //debug
         System.out.println("Brano " + s + " \nvalutato: " + score);
     }
 
     @Override
-    public AbstractUser logout(AbstractUser u) throws RemoteException {
-        if(u instanceof LoggedUser) {
-            //salvataggio dati u su db
-        }
+    public AbstractUser logout(AbstractUser u) throws RemoteException, NotLoggedException {
+        if (u instanceof NotLoggedUser)
+            throw new NotLoggedException();
+
+        //SALVATAGGIO DATI SU DB
+
         return new NotLoggedUser();
     }
 
