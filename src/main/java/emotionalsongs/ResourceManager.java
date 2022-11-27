@@ -25,29 +25,25 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         return new Song(1, "id brano", "autore", "titolo");
     }
 
-  /* @Override
-   public LoggedUser login(String uid, String pw) throws RemoteException {
-       //CONTROLLO CREDENZIALI SU DB
-       //LoggedUser loggedUser = new LoggedUser(uid, pw);
-       if(!uid.equals("ale") && !pw.equals("pw"))
-           return null;
-       else return new LoggedUser(uid, pw);
-   }*/
-
     @Override
-    public AbstractUser login(String uid, String pw) throws RemoteException {
+    public AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException {
         //CONTROLLO CREDENZIALI SU DB
-        //LoggedUser loggedUser = new LoggedUser(uid, pw);
+        if(u instanceof LoggedUser)
+            throw new AlreadyLoggedException();
         if(!uid.equals("ale") && !pw.equals("pw"))
             return null;
         else return new LoggedUser(uid, pw);
     }
 
-   /* @Override
-    public void valutaBrano(LoggedUser u, Song s, int score) throws RemoteException {
-        if(u != null)
-            u.valutaBrano(s, score);
-    }*/
+   @Override
+    public void valutaBrano(AbstractUser u, Song s, int score) throws RemoteException {
+        if(u instanceof NotLoggedUser){
+            System.out.println("non sei loggatooooo non puoi valutare");
+            return;
+        }
+        //salva su db (prima però fai i check)
+        System.out.println("Brano " + s + " \nvalutato: " + score);
+    }
 
     @Override
     public AbstractUser logout(AbstractUser u) throws RemoteException {

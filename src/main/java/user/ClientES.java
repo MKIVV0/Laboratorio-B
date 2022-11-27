@@ -39,41 +39,50 @@ public class ClientES extends UnicastRemoteObject implements ClientInterf, Runna
 
     @Override
     public void run() {
-        try {
-            Song song = g.getSong("stringa");
-            System.out.println("brano prima di login: \n" + song); //visibile
+        int i = 0;
+        while (i++ < 3)
+            try {
+                System.out.println("\n\nCICLO NUMERO " + i + "\n\n");
+                Song song = g.getSong("stringa");
+               // System.out.println("brano prima di login: \n" + song); //visibile
 
 
-            if(user instanceof NotLoggedUser)
-               // this.loggedUser = g.login(this, "ale", "pw");
-                this.user = g.login("ale", "pw");
-
-            if (user instanceof LoggedUser)
-                logged = true;
-            else
-                logged = false;
-
-            System.out.println("\nloggato = " + logged());
+                if (i-1 != 0 )
+                    try {
+                        this.user = g.login(user, "ale", "pw");
+                    } catch (AlreadyLoggedException e) {
+                        System.out.println("gia loggatooooooooooo!");
+                    }
 
 
-            song = g.getSong("stringa");
-            System.out.println("\nbrano dopo login: \n" + song); //visibile
+                if (user instanceof LoggedUser)
+                    logged = true;
+                else
+                    logged = false;
+
+                System.out.println("\nloggato = " + logged());
 
 
-            ((LoggedUser)user).valutaBrano(song, 4);
+                //song = g.getSong("stringa");
+                //System.out.println("\nbrano dopo login: \n" + song); //visibile
 
-            user = g.logout(user);
 
-            if (user instanceof LoggedUser)
-                logged = true;
-            else
-                logged = false;
+                g.valutaBrano(user, song, 4);
 
-            System.out.println("\nloggato = " + logged());
+                if (i-1 % 2 == 0)
+                   user = g.logout(user);
 
-            System.err.println("\nterminato client\n");
+                if (user instanceof LoggedUser)
+                    logged = true;
+                else
+                    logged = false;
 
-        }catch (Exception e){}
+                System.out.println("\nloggato = " + logged());
+
+                //System.err.println("\nterminato client\n");
+
+            } catch (Exception e) {
+            }
     }
 
     private void start(){

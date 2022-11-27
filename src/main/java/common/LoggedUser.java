@@ -26,8 +26,8 @@ public class LoggedUser extends AbstractUser {
         return null;
     }
 
-    public void valutaBrano(Song s, int score){
+    /*public void valutaBrano(Song s, int score){
         if(userID.equals("ale"))
             System.out.println("Brano " + s + " valutato: " + score);
-    }
+    }*/
 }
