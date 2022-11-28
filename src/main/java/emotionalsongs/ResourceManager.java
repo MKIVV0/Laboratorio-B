@@ -37,19 +37,13 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         if (u instanceof LoggedUser)
             throw new AlreadyLoggedException();
 
-        //CONTROLLO CREDENZIALI SU DB
-        return dbES.getLoggedUser(uid, pw);
-    }
-
-    @Override
-    public void valutaBrano(AbstractUser u, Song s, int score) throws RemoteException, NotLoggedException {
-        if (u instanceof NotLoggedUser)
-            throw new NotLoggedException();
-
-        //SALVA SU DB LA VALUTAZIONE, (RICORDATI DI FARE IL CHECK PERO')
+        //return dbES.getLoggedUser(uid, pw);
 
         //debug
-        System.out.println("Brano " + s + " \nvalutato: " + score);
+        if(!uid.equals("ale") || !pw.equals("pw"))
+            throw new WrongCredentialsException("cred sbagliate");
+        return new LoggedUser(uid, pw);
+
     }
 
     @Override
@@ -60,6 +54,40 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         //SALVATAGGIO DATI SU DB
 
         return new NotLoggedUser();
+    }
+
+    @Override
+    public void valutaBrano(AbstractUser u, Song s, Emotions e, int score) throws RemoteException, NotLoggedException, AlreadyValuedException {
+        if (u instanceof NotLoggedUser)
+            throw new NotLoggedException();
+
+        //Feedback tmp = new FeedBack(u, s, e, score)
+
+        //IF (TMP ESISTE GIA SU DB)
+            //throw new AlreadyValuedException("Errore: hai gia lasciato un feedback per questo brano!");
+
+        //ELSE{
+            //SALVA TMP SU DB
+            //System.out.println("Grazie per il feedback!");
+        //}
+
+        //debug
+        System.out.println("Brano " + s + " \nvalutato: " + e + " " + score + "\n");
+    }
+
+    @Override
+    public Feedback getFeedback(Song s) throws RemoteException, NoFeedbackException {
+        if (s == null)
+            throw new NullPointerException();
+
+        //Feedback tmp = dbES.GET_FEEDBACK_OF_THE_SONG(s);
+
+        //if(tmp == null)
+           //throw new NoFeedbackException("Ancora nessun feedback per questo brano!");
+
+        //return tmp;
+
+        return null;//TMCH
     }
 
     public static void main(String[] args) throws Exception {

@@ -73,7 +73,7 @@ public class ClientES extends UnicastRemoteObject implements ClientInterf, Runna
 
 
                 try {
-                    g.valutaBrano(user, song, 4);
+                    g.valutaBrano(user, song, Emotions.JOY, 4);
                 } catch (NotLoggedException e) {
                     System.out.println("non sei loggatooooo non puoi valutare");
                 }
