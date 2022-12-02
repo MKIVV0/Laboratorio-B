@@ -3,6 +3,7 @@ package emotionalsongs;
 
 import common.*;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -15,9 +16,10 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
 
     private HashMap<String, Song> repoSong;
 
-    public ResourceManager() throws RemoteException {
+    public ResourceManager(String server, String database, String port, String user, String password) throws IOException, SQLException {
         super();
         this.repoSong = new HashMap<>();
+        dbES.getInstance(server,database,port,user,password);
     }
 
     @Override
@@ -92,10 +94,6 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
     }
 
     public static void main(String[] args) throws Exception {
-        ResourceManager g = new ResourceManager();
-        Registry r = LocateRegistry.createRegistry(11000);
-        r.rebind("Gestore", g);
-
         Scanner sc = new Scanner(System.in);
         String server = "";
         String database = "";
@@ -114,7 +112,10 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         System.out.println("Password [Enter for default]:");
         password = sc.nextLine();
         // Sets the connection to the database and initializes it
-        dbES.getInstance(server,database,port,user,password);
+
+        ResourceManager g = new ResourceManager(server,database,port,user,password);
+        Registry r = LocateRegistry.createRegistry(11000);
+        r.rebind("Gestore", g);
 
         System.err.println("server started");
     }
