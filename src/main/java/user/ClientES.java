@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.LinkedList;
 
 public class ClientES extends UnicastRemoteObject implements ClientInterf, Runnable {
 
@@ -43,10 +44,26 @@ public class ClientES extends UnicastRemoteObject implements ClientInterf, Runna
         //tutto debug
 
         int i = 0;
-        while (i++ < 3)
+      //  while (i++ < 3)
+        LinkedList<Playlist> p = new LinkedList<>();
             try {
+
+                try {
+                    this.user = g.login(user, "mattpl20", "ciao12345");
+                    if(user instanceof LoggedUser)
+                        p = ((LoggedUser)user).getPlaylistList();
+                    if(!p.isEmpty())
+                        for(Playlist t: p)
+                            t.toString();
+                } catch (AlreadyLoggedException e) {
+                    System.out.println("gia loggatooooooooooo!");
+                } catch (WrongCredentialsException ex) {
+                    System.out.println("credenziali sbagliateeeeee!");
+                }
+
+
                 System.out.println("\n\nCICLO NUMERO " + i + "\n\n");
-                Song song = g.getSong("stringa");
+               /* Song song = g.getSong("stringa");
                 // System.out.println("brano prima di login: \n" + song); //visibile
 
 
@@ -93,7 +110,7 @@ public class ClientES extends UnicastRemoteObject implements ClientInterf, Runna
 
                 System.out.println("\nloggato = " + logged());
 
-                //System.err.println("\nterminato client\n");
+                //System.err.println("\nterminato client\n");*/
 
             } catch (Exception e) {
             }

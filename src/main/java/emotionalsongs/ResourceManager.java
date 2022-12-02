@@ -37,12 +37,12 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         if (u instanceof LoggedUser)
             throw new AlreadyLoggedException();
 
-        //return dbES.getLoggedUser(uid, pw);
+        return dbES.getLoggedUser(uid, pw);
 
         //debug
-        if(!uid.equals("ale") || !pw.equals("pw"))
+       /* if(!uid.equals("ale") || !pw.equals("pw"))
             throw new WrongCredentialsException("cred sbagliate");
-        return new LoggedUser(uid, pw);
+        return new LoggedUser(uid, pw);*/
 
     }
 

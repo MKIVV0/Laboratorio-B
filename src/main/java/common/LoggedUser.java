@@ -57,4 +57,7 @@ public class LoggedUser extends AbstractUser {
         return this.userID;
     }
 
+    public LinkedList<Playlist> getPlaylistList() {
+        return playlistList;
+    }
 }
