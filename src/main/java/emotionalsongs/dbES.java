@@ -182,8 +182,6 @@ public class dbES {
         return playlists;
     }
 
-    // Caricamento delle playlist
-
     // Registrazione - DONE
     public static void registerUser(String fn, String ln, String FC, String a, String email, String uid, String pwd) {
         try {
@@ -197,7 +195,33 @@ public class dbES {
         }
     }
 
-    // Registra feedback
-
     // Mostra feedback
+
+
+
+
+    // DAL CLIENT VERSO IL DB
+    // NB: IMPLEMENTARE UNA CODA DI QUERY
+
+    // FEEDBACK
+    // 1) Aggiungi feedback
+    // 2) Elimina feedback
+    /* 3) Commenta canzone -> nel caso in cui un utente lasci una valutazione
+     * senza commento, può aggiungerlo anche successivamente */
+    // 4) Modifica valutazione di un feedback esistente
+
+    // PLAYLIST
+    // 1) Crea playlist
+    // 2) Modifica playlist -> aggiungi/togli canzone
+    // 3) Rinomina playlist
+    // 4) Elimina playlist
+
+    // USER
+    /* 1) Modifica parametri (tutti) -> prima di implementare questa funzione,
+     * verificare se i cascade funzionano su db (7 metodi) */
+    // 2) Elimina utente corrente dal sistema
+    // 3)
+
+    // SONG
+    // 1) Restituisci prospetto riassuntivo di una canzone (statistiche canzoni, e.g. media valutazioni)
 }
