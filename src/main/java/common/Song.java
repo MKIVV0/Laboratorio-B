@@ -16,6 +16,24 @@ public class Song implements Serializable {
         this.yearReleased = yearReleased;
     }
 
+    public Song(){}
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setYearReleased(int yearReleased) {
+        this.yearReleased = yearReleased;
+    }
+
     @Override
     public boolean equals(Object o) {
         if(o instanceof Song)

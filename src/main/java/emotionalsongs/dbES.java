@@ -2,6 +2,7 @@ package emotionalsongs;
 
 import common.LoggedUser;
 import common.Playlist;
+import common.Song;
 import common.WrongCredentialsException;
 
 import java.io.BufferedReader;
@@ -101,73 +102,84 @@ public class dbES {
         System.out.println("DB successfully initialized");
     }
 
+    // FOR TESTING PURPOSES
+    private static ResultSet submitQuery(String query) throws SQLException {
+
+        if ( statement.execute(query) ) {
+
+            return statement.getResultSet();
+        }
+
+        return null;
+    }
+
+
     // Controllo credenziali
     // Verifica la presenza di una tupla nella tabella registereduser. Ritorna l'oggetto, se l'utente è
     // presente nella tabella, lancia un'eccezione altrimenti.
-    public static synchronized LoggedUser getLoggedUser(String user, String pwd) throws SQLException, WrongCredentialsException {
-        String query1 = "SELECT * FROM registereduser WHERE user_id = '" + user + "' AND ' password = '" + pwd + "\'";
+    public static synchronized LoggedUser getLoggedUser(String user_id, String pwd) throws SQLException {
+        String query1 = "SELECT * FROM registereduser WHERE user_id = \'" + user_id + "\' AND password = \'" + pwd + "\'";
         ResultSet rs = statement.executeQuery(query1);
         LoggedUser tmp;
 
         if (!rs.next()) {
-            throw new WrongCredentialsException("The user " + user + " doesn't exist!");
+            throw new SQLException("Wrong username or wrong password");
         }
-        return reconstructLoggedUser(rs);
-    }
-
-    // Ricostruzione utenti
-    private static LoggedUser reconstructLoggedUser(ResultSet rs) throws SQLException {
-        LoggedUser tmp = null;
-        String firstName = null;
-        /**
-         * Attributo rappresentate il cognome dell'utente registrato.
-         */
-        String lastName = null;
-        /**
-         * Attributo rappresentate il codice fiscale dell'utente registrato.
-         */
-        String FC = null;
-        /**
-         * Attributo rappresentate l'indirizzo fisico dell'utente registrato.
-         */
-        String address = null;
-        /**
-         * Attributo rappresentate l'indirizzo email dell'utente registrato.
-         */
-        String email = null;
-        /**
-         * Attributo rappresentate l'identificativo dell'utente registrato.
-         */
-        String userID = null;
-        /**
-         * Attributo rappresentate la password dell'utente registrato.
-         */
-        String password = null;
-        /**
-         * Attributo rappresentate la lista di playlist associata.
-         * all'utente registrato.
-         */
-        LinkedList<Playlist> playlistList = null;
-/*
-        ResultSetMetaData rsmd = rs.getMetaData();
-        int columnsNumber = rsmd.getColumnCount();
-        while (rs.next()) {
-            for (int i = 1; i <= columnsNumber; i++) {
-                String columnValue = rs.getString(i);
-                if (i == 1) firstName = columnValue;
-                else if (i == 2) lastName = columnValue;
-                else if (i == 3) FC = columnValue;
-                else if (i == 4) address = columnValue;
-                else if (i == 5) email = columnValue;
-                else if (i == 6) userID = columnValue;
-                else if (i == 7) password = columnValue;
-                else playlistList.add(new Playlist(columnValue));
-            }
-            tmp = new LoggedUser(firstName, lastName, FC, address, email, userID, password);
-            System.out.println("");
-        }*/
+        else {
+            rs.first();
+            tmp = new LoggedUser();
+            tmp.setUserID(user_id);
+            tmp.setFirstName(rs.getString("first_name"));
+            tmp.setLastName(rs.getString("last_name"));
+            tmp.setFC(rs.getString("fiscal_code"));
+            tmp.setAddress(rs.getString("home_address"));
+            tmp.setEmail(rs.getString("email"));
+            tmp.setPassword(rs.getString("password"));
+            tmp.setPlaylistList(getPlaylists(user_id));
+        }
 
         return tmp;
+    }
+
+    // Data la query specificata, vengono poi ricostruite tutte le playlist
+    // appartenenti all'utente. - DONE
+    private static LinkedList<Playlist> getPlaylists(String user_id) throws SQLException {
+        String query = "SELECT p.playlist_name, s.song_id, s.title,s.author, s.year_released \n" +
+                "FROM playlist p \n" +
+                "    JOIN registereduser ru ON p.user_id = ru.user_id \n" +
+                "    JOIN Song s ON p.song_id = s.song_id \n" +
+                "WHERE p.user_id = \'" + user_id + "\' " +
+                "ORDER BY playlist_name";
+        ResultSet rs = statement.executeQuery(query);
+
+        LinkedList<Playlist> playlists = new LinkedList<>();
+        String plName = "";
+        if (rs.next()) {
+            rs.first();
+            plName = rs.getString("playlist_name");
+            rs.beforeFirst();
+        } else {
+            return null;
+        }
+
+        Playlist pl = new Playlist(user_id, plName);
+
+        while(rs.next()) {
+            if (!pl.getPlaylistName().equals(rs.getString("playlist_name"))) {
+                playlists.add(pl);
+                plName = rs.getString("playlist_name");
+                pl = new Playlist(user_id, plName);
+            }
+            Song song = new Song();
+            song.setId(rs.getString("song_id"));
+            song.setTitle(rs.getString("title"));
+            song.setAuthor(rs.getString("author"));
+            song.setYearReleased(Integer.parseInt(rs.getString("year_released")));
+            pl.addSong(song);
+        }
+        playlists.add(pl);
+
+        return playlists;
     }
 
     // Caricamento delle playlist

@@ -21,6 +21,20 @@ public class Playlist implements Serializable {
 		this.songList = l;
 	}
 
+	public Playlist(){}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public void setPlaylistName(String playlistName) {
+		this.playlistName = playlistName;
+	}
+
+	public void setSongList(LinkedList<Song> songList) {
+		this.songList = songList;
+	}
+
 	public void addSong(Song song){
 		for (Song s: this.songList)
 			if (s.equals(song)) {
