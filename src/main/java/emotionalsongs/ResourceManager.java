@@ -9,6 +9,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class ResourceManager extends UnicastRemoteObject implements ResourceManagerInterface {
 
@@ -94,6 +95,27 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         ResourceManager g = new ResourceManager();
         Registry r = LocateRegistry.createRegistry(11000);
         r.rebind("Gestore", g);
+
+        Scanner sc = new Scanner(System.in);
+        String server = "";
+        String database = "";
+        String port = "";
+        String user = "";
+        String password = "";
+
+        System.out.println("Server [Enter for default]:");
+        server = sc.nextLine();
+        System.out.println("Database [Enter for default]:");
+        database = sc.nextLine();
+        System.out.println("Port [Enter for default]:");
+        port = sc.nextLine();
+        System.out.println("User[Enter for default]:");
+        user = sc.nextLine();
+        System.out.println("Password [Enter for default]:");
+        password = sc.nextLine();
+        // Sets the connection to the database and initializes it
+        dbES.getInstance(server,database,port,user,password);
+
         System.err.println("server started");
     }
 

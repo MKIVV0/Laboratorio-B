@@ -40,21 +40,19 @@ public class ClientES extends UnicastRemoteObject implements ClientInterf, Runna
 
     @Override
     public void run() {
-
         //tutto debug
 
         int i = 0;
       //  while (i++ < 3)
-        LinkedList<Playlist> p = new LinkedList<>();
             try {
 
                 try {
                     this.user = g.login(user, "mattpl20", "ciao12345");
-                    if(user instanceof LoggedUser)
-                        p = ((LoggedUser)user).getPlaylistList();
-                    if(!p.isEmpty())
-                        for(Playlist t: p)
-                            t.toString();
+                    if(user instanceof LoggedUser) {
+                        System.out.println("User loggato: " + this.user.toString());
+                    } else {
+                        System.err.println("User not logged!");
+                    }
                 } catch (AlreadyLoggedException e) {
                     System.out.println("gia loggatooooooooooo!");
                 } catch (WrongCredentialsException ex) {

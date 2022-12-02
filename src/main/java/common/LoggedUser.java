@@ -60,4 +60,20 @@ public class LoggedUser extends AbstractUser {
     public LinkedList<Playlist> getPlaylistList() {
         return playlistList;
     }
+
+    @Override
+    public String toString() {
+        String pl;
+        if (this.playlistList == null) pl = "undefined";
+        else pl = this.playlistList.toString();
+
+        return "Hello! I'm " + this.userID + " and here are my info!" +
+                "\nemail address: " + this.email +
+                "\nfirst name: " + this.firstName +
+                "\nlast_name: " + this.lastName +
+                "\nhome address: " + this.address +
+                "\nfiscal code: " + this.FC +
+                "\npassword: " + this.password +
+                "\nplaylists:\n" + pl;
+    }
 }
