@@ -218,7 +218,8 @@ public class dbES {
 
     // USER
     /* 1) Modifica parametri (tutti) -> prima di implementare questa funzione,
-     * verificare se i cascade funzionano su db (7 metodi) */
+     * verificare se i cascade funzionano su db (7 metodi) DA RIVEDERE ->
+     * Soluzione terminal != solunzione gui */
     // 2) Elimina utente corrente dal sistema
     // 3)
 
