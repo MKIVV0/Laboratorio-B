@@ -3,9 +3,11 @@ package emotionalsongs;
 import common.*;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class dbES {
@@ -22,8 +24,9 @@ public class dbES {
     private static Connection connection;
     private static Statement statement;
 
-    String scriptPath1 = "C:\\Users\\huang\\OneDrive\\Uni\\LabB-2021-22\\SQLScripts\\initDB.sql";
-    String scriptPath2 = "C:\\Users\\huang\\OneDrive\\Uni\\LabB-2021-22\\SQLScripts\\initTableSong.sql";
+    public static final String SCRIPTS_PATH = "." + File.separator + ".." + File.separator + ".." + File.separator + ".." + File.separator + "SQLScripts" + File.separator;
+    public static final String scriptPath1 = SCRIPTS_PATH + "initDB.sql";
+    public static final String scriptPath2 = SCRIPTS_PATH + "initTableSong.sql";
 
     // Questo costruttore, grazie al metodo getInstance, potrà
     // essere invocato una volta sola.
@@ -346,10 +349,12 @@ public class dbES {
 
     // 2) Importa tutte le canzoni e ricostruisci i rispettivi oggetti nella lista nel gestore - DONE*
     // * Gotta adapt it to the real resourceManager
-    public static synchronized void importAllSongs() throws SQLException {
+    public static synchronized HashMap<String, Song> importAllSongs() throws SQLException {
         // Aggiunta della richiesta alla coda di query
         String query = "SELECT * FROM Song ORDER BY year_released, author, song_id";
         ResultSet rs = statement.executeQuery(query);
+
+        HashMap<String, Song> tmp = new HashMap<>();
 
         while (rs.next()) {
             Song song = new Song();
@@ -357,8 +362,9 @@ public class dbES {
             song.setTitle(rs.getString("title"));
             song.setAuthor(rs.getString("author"));
             song.setYearReleased(Integer.parseInt(rs.getString("year_released")));
-            // DA MODIFICARE
-            //resourceManager.songRepo.put(rs.getString("song_id"), song);
+            tmp.put(song.getId(), song);
         }
+
+        return tmp;
     }
 }

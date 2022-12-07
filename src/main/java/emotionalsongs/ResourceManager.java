@@ -14,12 +14,12 @@ import java.util.Scanner;
 
 public class ResourceManager extends UnicastRemoteObject implements ResourceManagerInterface {
 
-    private HashMap<String, Song> repoSong;
+    private static HashMap<String, Song> songRepo = new HashMap<>();
 
     public ResourceManager(String server, String database, String port, String user, String password) throws IOException, SQLException {
         super();
-        this.repoSong = new HashMap<>();
         dbES.getInstance(server,database,port,user,password);
+        songRepo = dbES.importAllSongs();
     }
 
     @Override
@@ -118,6 +118,10 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         r.rebind("Gestore", g);
 
         System.err.println("server started");
+
+        for (Song s : songRepo.values()) {
+            System.out.println(s);
+        }
     }
 
 }
