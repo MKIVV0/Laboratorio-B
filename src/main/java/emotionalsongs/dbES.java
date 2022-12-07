@@ -1,9 +1,6 @@
 package emotionalsongs;
 
-import common.LoggedUser;
-import common.Playlist;
-import common.Song;
-import common.WrongCredentialsException;
+import common.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,12 +9,12 @@ import java.sql.*;
 import java.util.LinkedList;
 
 public class dbES {
-    private static String protocol 	= "jdbc:postgresql" + "://";
-    private static String host		= "localhost" + ':';
-    private static String port         = 5432 + "/";
-    private static String resource	= "emotionalsongs";
+    private static String protocol = "jdbc:postgresql" + "://";
+    private static String host = "localhost" + ':';
+    private static String port = 5432 + "/";
+    private static String resource = "emotionalsongs";
 
-    private static String url  = protocol + host + port;
+    private static String url = protocol + host + port;
     private static String userid = "postgres";
     private static String password = "postgres";
 
@@ -105,7 +102,7 @@ public class dbES {
     // FOR TESTING PURPOSES
     private static ResultSet submitQuery(String query) throws SQLException {
 
-        if ( statement.execute(query) ) {
+        if (statement.execute(query)) {
 
             return statement.getResultSet();
         }
@@ -124,8 +121,7 @@ public class dbES {
 
         if (!rs.next()) {
             throw new SQLException("Wrong username or wrong password");
-        }
-        else {
+        } else {
             rs.first();
             tmp = new LoggedUser();
             tmp.setUserID(user_id);
@@ -164,7 +160,7 @@ public class dbES {
 
         Playlist pl = new Playlist(user_id, plName);
 
-        while(rs.next()) {
+        while (rs.next()) {
             if (!pl.getPlaylistName().equals(rs.getString("playlist_name"))) {
                 playlists.add(pl);
                 plName = rs.getString("playlist_name");
@@ -185,7 +181,7 @@ public class dbES {
     // Registrazione - DONE
     public static void registerUser(String fn, String ln, String FC, String a, String email, String uid, String pwd) {
         try {
-            String query = "INSERT INTO RegisteredUser VALUES (\'" + uid + "\', \'" + pwd + "\', \'" +  email + "\', \'" + fn + "\', \'" + ln + "\', \'" +  a + "\', \'" + FC + "\')";
+            String query = "INSERT INTO RegisteredUser VALUES (\'" + uid + "\', \'" + pwd + "\', \'" + email + "\', \'" + fn + "\', \'" + ln + "\', \'" + a + "\', \'" + FC + "\')";
             System.out.println(query);
             statement.executeUpdate(query);
             System.out.println("User " + uid + " registered successfully.");
@@ -195,34 +191,174 @@ public class dbES {
         }
     }
 
-    // Mostra feedback
+    // Mostra feedback - DONE
+    public static String getSingleFeedback(String user_id, Emotions emotion_name, String song_id) throws Exception, SQLException {
+        String query = "SELECT emotion_name, user_id, title, score, notes\n" +
+                "FROM Emotion e JOIN\n" +
+                "Song s ON e.song_id = s.song_id\n" +
+                "WHERE user_id = \'" + user_id + "\'\n" +
+                "AND emotion_name = \'" + emotion_name.toString() + "\'\n" +
+                "AND s.song_id = \'" + song_id + "\'\n";
+        ResultSet rs = statement.executeQuery(query);
+        if (!rs.next()) throw new Exception("The comment you selected doesn't exist!");
 
-
+        return "Your feedback for the song \"" + rs.getString("title") + "\":\n"
+                + "Emotion: " + rs.getString("emotion_name")
+                + "\nScore: " + rs.getString("score")
+                + "\nNotes: " + rs.getString("notes");
+    }
 
 
     // DAL CLIENT VERSO IL DB
     // NB: IMPLEMENTARE UNA CODA DI QUERY
 
     // FEEDBACK
-    // 1) Aggiungi feedback
-    // 2) Elimina feedback
-    /* 3) Commenta canzone -> nel caso in cui un utente lasci una valutazione
+    // 1) Aggiungi feedback - DONE
+    // VERIFICARE CHE L'AGGIUNTA DI UN FEEDBACK SIA PERMESSA SOLO SE
+    // LA CANZONE ESISTE IN UNA DELLE PLAYLIST DELL'UTENTE
+    public static boolean addFeedback(Emotions emotion, String user_id, String song_id, String score, String notes) throws SQLException {
+        String query = "INSERT INTO emotion(emotion_name, user_id, song_id, score, notes)" +
+                "SELECT '" + emotion.toString().toLowerCase() + "', '" + user_id + "', '" + song_id + "'," + score + ", ''" +
+                "WHERE " +
+                "EXISTS (SELECT * FROM Playlist WHERE song_id = '" + song_id + "')";
+        int count = statement.executeUpdate(query);
+        if (count > 0) return true;
+        else return false;
+    }
+
+    // 2) Elimina feedback - DONE
+    public static boolean deleteFeedback(Emotions emotion, String user_id, String song_id) throws SQLException {
+        String query = "DELETE FROM emotion" +
+                " WHERE emotion_name = '" + emotion.toString().toLowerCase()
+                + "' AND user_id = '" + user_id + "' AND song_id = '" + song_id + "'";
+        int count = statement.executeUpdate(query);
+        if (count > 0) return true;
+        else return false;
+    }
+
+    /* 3) Commenta canzone -> nel caso in cui un utente lasci una valutazione - DONE
      * senza commento, può aggiungerlo anche successivamente */
-    // 4) Modifica valutazione di un feedback esistente
+    public static boolean modifyFeedbackNotes(Emotions emotion, String user_id, String song_id, String notes) throws SQLException {
+        String query = "UPDATE emotion\n" +
+                "SET notes = '" + notes + "'\n"
+                + "WHERE emotion_name = '" + emotion.toString().toLowerCase()
+                + "' AND user_id = '" + user_id + "' AND song_id = '" + song_id + "'";
+        int count = statement.executeUpdate(query);
+        if (count > 0) return true;
+        else return false;
+    }
+
+    // 4) Modifica valutazione di un feedback esistente - DONE
+    public static boolean modifyFeedbackScore(Emotions emotion, String user_id, String song_id, int score) throws SQLException {
+        String query = "UPDATE emotion\n" +
+                "SET score = '" + score + "'\n"
+                + "WHERE emotion_name = '" + emotion.toString().toLowerCase()
+                + "' AND user_id = '" + user_id + "' AND song_id = '" + song_id + "'";
+        int count = statement.executeUpdate(query);
+        if (count > 0) return true;
+        else return false;
+    }
 
     // PLAYLIST
-    // 1) Crea playlist
-    // 2) Modifica playlist -> aggiungi/togli canzone
+    // 1) Crea playlist - DONE
+    public static boolean createPlaylist(String pl_name, String song_id, String user_id) throws SQLException {
+        String query = "INSERT INTO playlist VALUES ('" + pl_name + "', '" + song_id + "', '" + user_id + "')";
+        // AGGIORNARE CON INSERT CONDIZIONATA: LA PLAYLIST ESISTE GIA'
+        int count = statement.executeUpdate(query);
+        if (count > 0) return true;
+        else return false;
+    }
+
+    // 2) Modifica playlist -> togli canzone - DONE
+    public static boolean removeSongFromPlaylist(String pl_name, String song_id, String user_id) throws SQLException {
+        // LANCIARE UN MESSAGGIO NEL CASO IN CUI CI SIA SOLO UNA OCCORRENZA DI pl_name
+        // LA SUA RIMOZIONE COMPORTA L'ELIMINAZIONE DELLA PLAYLIST STESSA
+        String query = "DELETE FROM playlist" +
+                " WHERE playlist_name = '" + pl_name
+                + "' AND song_id = '" + song_id + "' AND user_id = '" + user_id + "' AND (SELECT COUNT(*) " +
+                "FROM Playlist WHERE playlist_name = '" + pl_name + "') > 1";
+        int count = statement.executeUpdate(query);
+        if (count > 0) return true;
+        else return false;
+    }
+
     // 3) Rinomina playlist
-    // 4) Elimina playlist
+    public static boolean renamePlaylist(String curr_pl_name, String new_pl_name, String user_id) throws SQLException {
+        // VERIFICARE CHE LA PLAYLIST ESISTA
+        String query = "UPDATE playlist\n" +
+                "SET playlist_name = '" + new_pl_name + "'\n"
+                + "WHERE playlist_name = '" + curr_pl_name
+                + "' AND user_id = '" + user_id + "'";
+        int count = statement.executeUpdate(query);
+        if (count > 0) return true;
+        else return false;
+    }
+
+    // 4) Elimina playlist - DONE
+    public static boolean deletePlaylist(String pl_name, String user_id) throws SQLException {
+        String query = "DELETE FROM playlist\n"
+                + "WHERE playlist_name = '" + pl_name
+                + "' AND user_id = '" + user_id + "' AND (SELECT COUNT(*) " +
+                "FROM Playlist WHERE playlist_name = '" + pl_name + "') > 0";
+        int count = statement.executeUpdate(query);
+        if (count > 0) return true;
+        else return false;
+    }
+
+    // 5) Aggiungi brani -> sfrutta la hashmap di canzoni presente nel programma - DONE
+    public static boolean addSongToPlaylist(String pl_name, String song_id, String user_id) throws SQLException {
+        String query = "INSERT INTO playlist (playlist_name, song_id, user_id)" +
+                "SELECT '" + pl_name + "', '" + song_id + "', '" + user_id + "'" +
+                "WHERE " +
+                "(SELECT COUNT(*) FROM Playlist WHERE playlist_name = '" + pl_name + "') >= 1";
+        // AGGIORNARE CON INSERT CONDIZIONATA: LA PLAYLIST ESISTE GIA'
+        int count = statement.executeUpdate(query);
+        if (count > 0) return true;
+        else return false;
+    }
 
     // USER
     /* 1) Modifica parametri (tutti) -> prima di implementare questa funzione,
      * verificare se i cascade funzionano su db (7 metodi) DA RIVEDERE ->
-     * Soluzione terminal != solunzione gui */
+     * Soluzione terminal != soluzione gui */
+    public static boolean modifyUserParam(String user_id, String param_name, String param_value) throws SQLException {
+        // UPDATE FROM RegisteredUser SET "nome_parametro" = "parametro_nuovo" WHERE user_id = "utente"
+        // PER EVITARE DI IMPLEMENTARE TRE METODI UGUALI
+        String query = "UPDATE registereduser\n" +
+                "SET " + param_name + " = '" + param_value + "'\n"
+                + "WHERE user_id = '" + user_id + "'";
+        int count = statement.executeUpdate(query);
+        if (count > 0) return true;
+        else return false;
+    }
+
     // 2) Elimina utente corrente dal sistema
-    // 3)
+    public static boolean deleteUser(String user_id) throws SQLException {
+        String query = "DELETE FROM registereduser\n" +
+                "WHERE user_id = '" + user_id + "'";
+        int count = statement.executeUpdate(query);
+        if (count > 0) return true;
+        else return false;
+    }
 
     // SONG
     // 1) Restituisci prospetto riassuntivo di una canzone (statistiche canzoni, e.g. media valutazioni)
+
+    // 2) Importa tutte le canzoni e ricostruisci i rispettivi oggetti nella lista nel gestore - DONE*
+    // * Gotta adapt it to the real resourceManager
+    public static synchronized void importAllSongs() throws SQLException {
+        // Aggiunta della richiesta alla coda di query
+        String query = "SELECT * FROM Song ORDER BY year_released, author, song_id";
+        ResultSet rs = statement.executeQuery(query);
+
+        while (rs.next()) {
+            Song song = new Song();
+            song.setId(rs.getString("song_id"));
+            song.setTitle(rs.getString("title"));
+            song.setAuthor(rs.getString("author"));
+            song.setYearReleased(Integer.parseInt(rs.getString("year_released")));
+            // DA MODIFICARE
+            //resourceManager.songRepo.put(rs.getString("song_id"), song);
+        }
+    }
 }
