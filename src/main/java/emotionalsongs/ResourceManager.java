@@ -10,6 +10,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class ResourceManager extends UnicastRemoteObject implements ResourceManagerInterface {
@@ -23,9 +24,13 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
     }
 
     @Override
-    public Song getSong(String s) {
-        //debug
-        return new Song(1, "id brano", "autore", "titolo");
+    public LinkedList<Song> findSong(String title){
+        LinkedList<Song> tmp = new LinkedList<>();
+        for(Song b: songRepo.values()) {
+            if(b.getTitle().toLowerCase().contains(title.toLowerCase()))
+                tmp.add(b);
+        }
+        return tmp;
     }
 
     /**

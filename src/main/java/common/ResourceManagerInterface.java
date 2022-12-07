@@ -3,10 +3,11 @@ package common;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 public interface ResourceManagerInterface extends Remote {
 
-    Song getSong(String s) throws RemoteException;
+    LinkedList<Song> findSong(String s) throws RemoteException;
 
     AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, WrongCredentialsException, SQLException;
 

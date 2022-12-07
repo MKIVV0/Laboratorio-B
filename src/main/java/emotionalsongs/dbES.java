@@ -24,7 +24,7 @@ public class dbES {
     private static Connection connection;
     private static Statement statement;
 
-    public static final String SCRIPTS_PATH = "." + File.separator + ".." + File.separator + ".." + File.separator + ".." + File.separator + "SQLScripts" + File.separator;
+    public static final String SCRIPTS_PATH = "." + File.separator + "SQLScripts" + File.separator;
     public static final String scriptPath1 = SCRIPTS_PATH + "initDB.sql";
     public static final String scriptPath2 = SCRIPTS_PATH + "initTableSong.sql";
 

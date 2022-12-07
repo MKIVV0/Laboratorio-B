@@ -46,7 +46,11 @@ public class ClientES extends UnicastRemoteObject implements ClientInterf, Runna
       //  while (i++ < 3)
             try {
 
-                try {
+                LinkedList<Song> tmp = g.findSong("so");
+                for (Song s : tmp) {
+                    System.out.println(s);
+                }
+               /* try {
                     this.user = g.login(user, "mattpl20", "ciao12345");
                     if(user instanceof LoggedUser) {
                         System.out.println("User loggato: " + this.user.toString());
@@ -57,7 +61,7 @@ public class ClientES extends UnicastRemoteObject implements ClientInterf, Runna
                     System.out.println("gia loggatooooooooooo!");
                 } catch (WrongCredentialsException ex) {
                     System.out.println("credenziali sbagliateeeeee!");
-                }
+                }*/
 
 
                 System.out.println("\n\nCICLO NUMERO " + i + "\n\n");
