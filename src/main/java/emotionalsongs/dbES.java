@@ -195,7 +195,7 @@ public class dbES {
     }
 
     // Mostra feedback - DONE
-    public static String getSingleFeedback(String user_id, Emotions emotion_name, String song_id) throws Exception, SQLException {
+    public static String getFeedback(String user_id, Emotions emotion_name, String song_id) throws SQLException {
         String query = "SELECT emotion_name, user_id, title, score, notes\n" +
                 "FROM Emotion e JOIN\n" +
                 "Song s ON e.song_id = s.song_id\n" +
@@ -203,12 +203,50 @@ public class dbES {
                 "AND emotion_name = \'" + emotion_name.toString() + "\'\n" +
                 "AND s.song_id = \'" + song_id + "\'\n";
         ResultSet rs = statement.executeQuery(query);
-        if (!rs.next()) throw new Exception("The comment you selected doesn't exist!");
+        if (!rs.next()) return null;
 
         return "Your feedback for the song \"" + rs.getString("title") + "\":\n"
                 + "Emotion: " + rs.getString("emotion_name")
                 + "\nScore: " + rs.getString("score")
                 + "\nNotes: " + rs.getString("notes");
+    }
+
+    public static LinkedList<String> getFeedback(String song_id) throws SQLException {
+        String query = "SELECT * " +
+                        "FROM Emotion " +
+                        "WHERE song_id = '" + song_id + "'";
+        ResultSet rs = statement.executeQuery(query);
+        if (!rs.next()) return null;
+
+        LinkedList<String> feedback_list = new LinkedList<>();
+        String feedback = "";
+
+        while (rs.next()) {
+            feedback += "emotion: " + rs.getString("emotion_name") + "\n user: " +
+                    rs.getString("user_id") + "\n score: " + rs.getString("score") +
+                    "\n notes: " + rs.getString("notes") + "\n";
+        }
+
+        return feedback_list;
+    }
+
+    public static LinkedList<String> getFeedback(String song_id, String user_id) throws SQLException {
+        String query = "SELECT * " +
+                        "FROM Emotion " +
+                        "WHERE song_id = '" + song_id + "' AND user_id = '" + user_id + "'";
+        ResultSet rs = statement.executeQuery(query);
+        if (!rs.next()) return null;
+
+        LinkedList<String> feedback_list = new LinkedList<>();
+        String feedback = "";
+
+        while (rs.next()) {
+            feedback += "emotion: " + rs.getString("emotion_name")
+                    + "\n score: " + rs.getString("score") +
+                    "\n notes: " + rs.getString("notes") + "\n";
+        }
+
+        return feedback_list;
     }
 
 

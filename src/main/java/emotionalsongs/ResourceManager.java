@@ -11,7 +11,7 @@ import java.util.LinkedList;
 
 public class ResourceManager extends UnicastRemoteObject implements ResourceManagerInterface {
 
-    private static HashMap<String, Song> songRepo = new HashMap<>();
+    private static HashMap<String, Song> songRepo;
 
     public ResourceManager(String server, String database, String port, String user, String password) throws IOException, SQLException {
         super();
@@ -60,28 +60,34 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         return new NotLoggedUser();
     }
 
+    // MODIFICATA IMPLEMENTAZIONE DA TEO
     @Override
-    public void valutaBrano(AbstractUser u, Song s, Emotions e, int score) throws RemoteException, NotLoggedException, AlreadyValuedException {
-        if (u instanceof NotLoggedUser)
+    public void evaluateSong(Emotions emotion, AbstractUser user, Song song, String score, String notes) throws RemoteException, NotLoggedException, AlreadyValuedException, SQLException {
+        if (user instanceof NotLoggedUser)
             throw new NotLoggedException();
 
         //Feedback tmp = new FeedBack(u, s, e, score)
 
         //IF (TMP ESISTE GIA SU DB)
             //throw new AlreadyValuedException("Errore: hai gia lasciato un feedback per questo brano!");
-
+        boolean feedbackAdded = dbES.addFeedback(emotion, ((LoggedUser) user).getId(), song.getId(), score, notes);
+        if (!feedbackAdded)
+            throw new AlreadyValuedException("Error! You already left a feedback for this song.");
+        else
+            System.out.println("Thank you for your feedback!");
         //ELSE{
             //SALVA TMP SU DB
             //System.out.println("Grazie per il feedback!");
         //}
 
         //debug
-        System.out.println("Brano " + s + " \nvalutato: " + e + " " + score + "\n");
+        System.out.println("Evaluated " + song + " \nsong: " + emotion + " " + score + " " + notes + "\n");
     }
 
+    // MODIFICATO DA TEO - DA DISCUTERE L'IMPLMENTAZIONE, VISTO L'OVERLOADING DEL METODO getFeedback di dbES
     @Override
-    public Feedback getFeedback(Song s) throws RemoteException, NoFeedbackException {
-        if (s == null)
+    public String getOwnFeedback(String user_id, Emotions emotion_name, Song song) throws RemoteException, NoFeedbackException, SQLException {
+        if (song == null)
             throw new NullPointerException();
 
         //Feedback tmp = dbES.GET_FEEDBACK_OF_THE_SONG(s);
@@ -89,11 +95,14 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         //if(tmp == null)
            //throw new NoFeedbackException("Ancora nessun feedback per questo brano!");
 
+        String feedback = dbES.getFeedback(user_id, emotion_name, song.getId());
+        if (feedback == null)
+            throw new NoFeedbackException("You haven't left any feedback for this song for the parameter you inserted!");
+
         //return tmp;
 
-        return null;//TMCH
+        return feedback;//TMCH
     }
-
 
 
 }
