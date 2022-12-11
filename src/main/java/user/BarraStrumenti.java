@@ -149,14 +149,6 @@ public class BarraStrumenti extends JPanel {
 
                 }
 
-               /* if(frame.user instanceof LoggedUser) {
-                    bottoneLog.setText("Logout");
-                    bottoneRegistra.setText("+ Playlist");
-                }
-                else if(frame.user instanceof NotLoggedUser) {
-                    bottoneLog.setText("Login");
-                    bottoneRegistra.setText("Registrati");
-                }*/
             }
         });
 
