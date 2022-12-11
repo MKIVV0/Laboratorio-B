@@ -26,6 +26,7 @@ public class BarraStrumenti extends JPanel {
             bottoneRegistra.setText("+ Playlist");
         }
 
+        // LOGIN / LOGOUT
         bottoneLog.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,6 +85,7 @@ public class BarraStrumenti extends JPanel {
             }
         });
 
+        // REGISTRAZIONE / + PLAYLIST
         bottoneRegistra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -138,6 +140,7 @@ public class BarraStrumenti extends JPanel {
                             } catch (AlreadyRegisteredException ex) {
                                 JOptionPane.showMessageDialog(null, "The user with these data already exists!");
                             } catch (SQLException ex) {
+                            } catch (RemoteException ex){
                             }
                         }
                     }
