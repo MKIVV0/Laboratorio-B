@@ -182,16 +182,14 @@ public class dbES {
     }
 
     // Registrazione - DONE
-    public static void registerUser(String fn, String ln, String FC, String a, String email, String uid, String pwd) {
-        try {
+    public static boolean registerUser(String fn, String ln, String FC, String a, String email, String uid, String pwd) throws SQLException {
             String query = "INSERT INTO RegisteredUser VALUES (\'" + uid + "\', \'" + pwd + "\', \'" + email + "\', \'" + fn + "\', \'" + ln + "\', \'" + a + "\', \'" + FC + "\')";
             System.out.println(query);
             statement.executeUpdate(query);
             System.out.println("User " + uid + " registered successfully.");
-        } catch (SQLException e) {
-            System.err.println("The user " + uid + " already exists.");
-            System.err.println(e.toString());
-        }
+            int count = statement.executeUpdate(query);
+            if (count > 0) return true;
+            else return false;
     }
 
     // Mostra feedback - DONE
@@ -279,20 +277,10 @@ public class dbES {
 
     /* 3) Commenta canzone -> nel caso in cui un utente lasci una valutazione - DONE
      * senza commento, può aggiungerlo anche successivamente */
-    public static boolean modifyFeedbackNotes(Emotions emotion, String user_id, String song_id, String notes) throws SQLException {
+    // Possono essere modificati score e note
+    public static boolean modifyFeedback(Emotions emotion, String user_id, String song_id, String param_name, String param_value) throws SQLException {
         String query = "UPDATE emotion\n" +
-                "SET notes = '" + notes + "'\n"
-                + "WHERE emotion_name = '" + emotion.toString().toLowerCase()
-                + "' AND user_id = '" + user_id + "' AND song_id = '" + song_id + "'";
-        int count = statement.executeUpdate(query);
-        if (count > 0) return true;
-        else return false;
-    }
-
-    // 4) Modifica valutazione di un feedback esistente - DONE
-    public static boolean modifyFeedbackScore(Emotions emotion, String user_id, String song_id, int score) throws SQLException {
-        String query = "UPDATE emotion\n" +
-                "SET score = '" + score + "'\n"
+                "SET " +  param_name + " = '" + param_value + "'\n"
                 + "WHERE emotion_name = '" + emotion.toString().toLowerCase()
                 + "' AND user_id = '" + user_id + "' AND song_id = '" + song_id + "'";
         int count = statement.executeUpdate(query);

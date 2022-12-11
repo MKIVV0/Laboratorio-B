@@ -41,12 +41,13 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         if (u instanceof LoggedUser)
             throw new AlreadyLoggedException();
 
-//        return dbES.getLoggedUser(uid, pw);
+       return dbES.getLoggedUser(uid, pw);
 
         //debug
+        /*
         if(!uid.equals("ale") || !pw.equals("pw"))
             throw new WrongCredentialsException("cred sbagliate");
-        return new LoggedUser(uid, pw);
+        return new LoggedUser(uid, pw);*/
 
     }
 
@@ -124,5 +125,12 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
             throw new NoFeedbackException("No feedbacks present for this song under the user" + ((LoggedUser) user).getId() + " !");
 
         return feedback;
+    }
+
+    public void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws SQLException, AlreadyRegisteredException {
+        if (!dbES.registerUser(fn, ln, FC, addr, email, uid, pwd))
+            throw new AlreadyRegisteredException("The user with these data already exists!");
+        else
+            System.out.println("User registered successfully!");
     }
 }
