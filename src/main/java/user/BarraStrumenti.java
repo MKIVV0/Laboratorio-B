@@ -14,14 +14,14 @@ public class BarraStrumenti extends JPanel {
     private JButton bottoneLog;
     private JButton bottoneRegistra;
 
-    public BarraStrumenti(Frame frame){
+    public BarraStrumenti(Frame frame) {
 
         super(new FlowLayout(FlowLayout.LEFT));
 
-        if(frame.user instanceof NotLoggedUser) {
+        if (frame.user instanceof NotLoggedUser) {
             bottoneLog = new JButton("Login");
             bottoneRegistra = new JButton("Registrati");
-        }else if(frame.user instanceof LoggedUser){
+        } else if (frame.user instanceof LoggedUser) {
             bottoneLog.setText("Logout");
             bottoneRegistra.setText("+ Playlist");
         }
@@ -30,7 +30,7 @@ public class BarraStrumenti extends JPanel {
         bottoneLog.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(bottoneLog.getText().equals("Login")) {
+                if (bottoneLog.getText().equals("Login")) {
                     JPanel panel = new JPanel(new BorderLayout(5, 5));
 
                     JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
@@ -52,33 +52,32 @@ public class BarraStrumenti extends JPanel {
                     if (scelta == 0) {
                         String uid = username.getText();
                         String pw = new String(password.getPassword());
-                        if(uid.equals("") || pw.equals("")) {
+                        if (uid.equals("") || pw.equals("")) {
                             JOptionPane.showMessageDialog(null, "Please insert Username and Password");
-                        }
-                        else {
+                        } else {
                             try {
                                 frame.user = frame.resourceManager.login(frame.user, username.getText(), new String(password.getPassword()));
                                 JOptionPane.showMessageDialog(null, "Logged in!");
                             } catch (RemoteException ex) {
                             } catch (AlreadyLoggedException ex) {
                             } catch (SQLException ex) {
-                            }catch (WrongCredentialsException ex){
+                            } catch (WrongCredentialsException ex) {
                                 JOptionPane.showMessageDialog(null, "Wrong Username / Password");
                             }
                         }
                     }
-                }else {
+                } else {
                     try {
                         frame.user = frame.resourceManager.logout(frame.user);
                         JOptionPane.showMessageDialog(null, "Logged out!");
-                    }catch (Exception exe){}
+                    } catch (Exception exe) {
+                    }
                 }
 
-                if(frame.user instanceof LoggedUser) {
+                if (frame.user instanceof LoggedUser) {
                     bottoneLog.setText("Logout");
                     bottoneRegistra.setText("+ Playlist");
-                }
-                else if(frame.user instanceof NotLoggedUser) {
+                } else if (frame.user instanceof NotLoggedUser) {
                     bottoneLog.setText("Login");
                     bottoneRegistra.setText("Registrati");
                 }
@@ -89,7 +88,7 @@ public class BarraStrumenti extends JPanel {
         bottoneRegistra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(bottoneRegistra.getText().equals("Registrati")) {
+                if (bottoneRegistra.getText().equals("Registrati")) {
                     JPanel panel = new JPanel(new BorderLayout(5, 5));
 
                     JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
@@ -111,6 +110,7 @@ public class BarraStrumenti extends JPanel {
                     JTextField email = new JTextField();
                     JTextField username = new JTextField();
                     JPasswordField password = new JPasswordField();
+
                     controls.add(firstname);
                     controls.add(lastname);
                     controls.add(fiscalcode);
@@ -131,20 +131,19 @@ public class BarraStrumenti extends JPanel {
                         String em = email.getText();
                         String uid = username.getText();
                         String pw = new String(password.getPassword());
-                        if(fn.equals("") || ln.equals("") || FC.equals("") || addr.equals("") || em.equals("") || uid.equals("") || pw.equals("")) {
+                        if (fn.equals("") || ln.equals("") || FC.equals("") || addr.equals("") || em.equals("") || uid.equals("") || pw.equals(""))
                             JOptionPane.showMessageDialog(null, "Please insert all info");
-                        } else {
+                        else
                             try {
                                 frame.resourceManager.registerUser(fn, ln, FC, addr, em, uid, pw);
                                 JOptionPane.showMessageDialog(null, "User registered successfully!");
                             } catch (AlreadyRegisteredException ex) {
                                 JOptionPane.showMessageDialog(null, "The user with these data already exists!");
-                            } catch (RemoteException ex){
+                            } catch (RemoteException ex) {
                             }
-                        }
                     }
 
-                }else {
+                } else {
 
                 }
 

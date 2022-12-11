@@ -188,8 +188,8 @@ public class dbES {
             int count;
             try{
                count = statement.executeUpdate(query);
-               System.out.println("count = " + count + "User " + uid + " registered successfully.");
-               if (count > 0) return true;
+               System.out.println("count = " + count + " User " + uid + " registered successfully.");
+//               if (count > 0) return true;
             } catch (SQLException e){
                  return false;
             }
