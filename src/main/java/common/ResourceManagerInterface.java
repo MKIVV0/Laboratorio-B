@@ -23,21 +23,21 @@ public interface ResourceManagerInterface extends Remote {
 
     LinkedList<String> getFeedback(Song song, AbstractUser user) throws SQLException, NoFeedbackException, RemoteException;
 
-    void deleteFeedback(Emotions emotion, String user_id, String song_id) throws SQLException, NoFeedbackException,RemoteException;
+    void deleteFeedback(Emotions emotion, AbstractUser user, Song song) throws SQLException, NoFeedbackException,RemoteException;
 
-    void modifyFeedback(Emotions emotion, String user_id, String song_id, String param_name, String param_value) throws SQLException, NoFeedbackException, RemoteException;
+    void modifyFeedback(Emotions emotion, AbstractUser user, Song song, String param_name, String param_value) throws SQLException, NoFeedbackException, RemoteException;
 
-    void createPlaylist(String pl_name, String song_id, String user_id) throws SQLException, playlistException, RemoteException;
+    void createPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException;
 
-    void removeSongFromPlaylist(String pl_name, String song_id, String user_id) throws SQLException, playlistException, RemoteException;
+    void removeSongFromPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException;
 
-    void renamePlaylist(String curr_pl_name, String new_pl_name, String user_id) throws SQLException, playlistException, RemoteException;
+    void renamePlaylist(String curr_pl_name, String new_pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException;
 
-    void deletePlaylist(String pl_name, String user_id) throws SQLException, playlistException, RemoteException;
+    void deletePlaylist(String pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException;
 
-    void addSongToPlaylist(String pl_name, String song_id, String user_id) throws SQLException, playlistException, RemoteException;
+    void addSongToPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException;
 
-    void modifyUserParam(String user_id, String param_name, String param_value) throws SQLException, UserException, RemoteException;
+    void modifyUserParam(AbstractUser user, String param_name, String param_value) throws SQLException, UserException, RemoteException;
 
-    void deleteUser(String user_id) throws SQLException, UserException, RemoteException;
+    void deleteUser(AbstractUser user) throws SQLException, UserException, RemoteException;
 }

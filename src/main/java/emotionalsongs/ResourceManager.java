@@ -134,65 +134,65 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
             System.out.println("User registered successfully!");
     }
 
-    public synchronized void deleteFeedback(Emotions emotion, String user_id, String song_id) throws SQLException, NoFeedbackException, RemoteException {
-        if (!dbES.deleteFeedback(emotion, user_id, song_id))
+    public synchronized void deleteFeedback(Emotions emotion, AbstractUser user, Song song) throws SQLException, NoFeedbackException, RemoteException {
+        if (!dbES.deleteFeedback(emotion, ((LoggedUser) user).getId(), song.getId()))
             throw new NoFeedbackException("This song with these parameters doesn't have any feedbacks!");
         else
             System.out.println("Thank you for your feedback!");
     }
 
-    public synchronized void modifyFeedback(Emotions emotion, String user_id, String song_id, String param_name, String param_value) throws SQLException, NoFeedbackException, RemoteException {
-        if (!dbES.modifyFeedback(emotion, user_id, song_id, param_name, param_value))
+    public synchronized void modifyFeedback(Emotions emotion, AbstractUser user, Song song, String param_name, String param_value) throws SQLException, NoFeedbackException, RemoteException {
+        if (!dbES.modifyFeedback(emotion, ((LoggedUser) user).getId(), song.getId(), param_name, param_value))
             throw new NoFeedbackException("This song with these parameters doesn't have any feedbacks!");
         else
             System.out.println("Feedback modified successfully!");
     }
 
     // La creazione di una playlist comporta l'inserimento di almeno una canzone
-    public synchronized void createPlaylist(String pl_name, String song_id, String user_id) throws SQLException, playlistException, RemoteException {
-        if (!dbES.createPlaylist(pl_name, song_id, user_id))
+    public synchronized void createPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException {
+        if (!dbES.createPlaylist(pl_name, song.getId(), ((LoggedUser) user).getId()))
             throw new playlistException("This playlist already exists!");
         else
             System.out.println("Playlist created successfully!");
     }
 
-    public synchronized void removeSongFromPlaylist(String pl_name, String song_id, String user_id) throws SQLException, playlistException, RemoteException {
-        if (!dbES.removeSongFromPlaylist(pl_name, song_id, user_id))
+    public synchronized void removeSongFromPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException {
+        if (!dbES.removeSongFromPlaylist(pl_name, song.getId(), ((LoggedUser) user).getId()))
             throw new playlistException("This playlist doesn't exist!");
         else
             System.out.println("Song removed successfully!");
     }
 
-    public synchronized void renamePlaylist(String curr_pl_name, String new_pl_name, String user_id) throws SQLException, playlistException, RemoteException {
-        if (!dbES.removeSongFromPlaylist(curr_pl_name, new_pl_name, user_id))
+    public synchronized void renamePlaylist(String curr_pl_name, String new_pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException {
+        if (!dbES.removeSongFromPlaylist(curr_pl_name, new_pl_name, ((LoggedUser) user).getId()))
             throw new playlistException("This playlist doesn't exist!");
         else
             System.out.println("Playlist renamed successfully!");
     }
 
-    public synchronized void deletePlaylist(String pl_name, String user_id) throws SQLException, playlistException, RemoteException {
-        if (!dbES.deletePlaylist(pl_name, user_id))
+    public synchronized void deletePlaylist(String pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException {
+        if (!dbES.deletePlaylist(pl_name, ((LoggedUser) user).getId()))
             throw new playlistException("This playlist doesn't exist!");
         else
             System.out.println("Playlist deleted successfully!");
     }
 
-    public synchronized void addSongToPlaylist(String pl_name, String song_id, String user_id) throws SQLException, playlistException, RemoteException {
-        if (!dbES.addSongToPlaylist(pl_name, song_id, user_id))
+    public synchronized void addSongToPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException {
+        if (!dbES.addSongToPlaylist(pl_name, song.getId(), ((LoggedUser) user).getId()))
             throw new playlistException("This playlist doesn't exist!");
         else
             System.out.println("Song added successfully!");
     }
 
-    public synchronized void modifyUserParam(String user_id, String param_name, String param_value) throws SQLException, UserException, RemoteException {
-        if (!dbES.modifyUserParam(user_id, param_name, param_value))
+    public synchronized void modifyUserParam(AbstractUser user, String param_name, String param_value) throws SQLException, UserException, RemoteException {
+        if (!dbES.modifyUserParam(((LoggedUser) user).getId(), param_name, param_value))
             throw new UserException("This user doesn't exist!");
         else
             System.out.println("User parameters modified successfully!");
     }
 
-    public synchronized void deleteUser(String user_id) throws SQLException, UserException, RemoteException {
-        if (!dbES.deleteUser(user_id))
+    public synchronized void deleteUser(AbstractUser user) throws SQLException, UserException, RemoteException {
+        if (!dbES.deleteUser(((LoggedUser) user).getId()))
             throw new UserException("This user doesn't exist!");
         else
             System.out.println("User deleted successfully!");
