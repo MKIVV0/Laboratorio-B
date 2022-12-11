@@ -37,8 +37,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * ricostruire correttamente i suoi campi (creazione delle sue playlists ecc..)
      */
     @Override
-    public synchronized AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, SQLException, WrongCredentialsException {
-        if (u instanceof LoggedUser)
+    public synchronized AbstractUser login(AbstractUser user, String uid, String pw) throws RemoteException, AlreadyLoggedException, SQLException, WrongCredentialsException {
+        if (user instanceof LoggedUser)
             throw new AlreadyLoggedException();
 
         return dbES.getLoggedUser(uid, pw);
@@ -52,8 +52,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
     }
 
     @Override
-    public synchronized AbstractUser logout(AbstractUser u) throws RemoteException, NotLoggedException {
-        if (u instanceof NotLoggedUser)
+    public synchronized AbstractUser logout(AbstractUser user) throws RemoteException, NotLoggedException {
+        if (user instanceof NotLoggedUser)
             throw new NotLoggedException();
 
         //SALVATAGGIO DATI SU DB
@@ -87,7 +87,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
 
     // MODIFICATO DA TEO - DA DISCUTERE L'IMPLMENTAZIONE, VISTO L'OVERLOADING DEL METODO getFeedback di dbES
     @Override
-    public synchronized String getFeedback(String user_id, Emotions emotion_name, Song song) throws RemoteException, NoFeedbackException, SQLException {
+    public synchronized String getFeedback(AbstractUser user, Emotions emotion_name, Song song) throws RemoteException, NoFeedbackException, SQLException {
         if (song == null)
             throw new NullPointerException();
 
@@ -96,7 +96,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         //if(tmp == null)
         //throw new NoFeedbackException("Ancora nessun feedback per questo brano!");
 
-        String feedback = dbES.getFeedback(user_id, emotion_name, song.getId());
+        String feedback = dbES.getFeedback(((LoggedUser)user).getId(), emotion_name, song.getId());
         if (feedback == null)
             throw new NoFeedbackException("You haven't left any feedback for this song for the parameter you inserted!");
 
