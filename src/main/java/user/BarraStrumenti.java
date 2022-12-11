@@ -129,26 +129,21 @@ public class BarraStrumenti extends JPanel {
                         String em = username.getText();
                         String uid = username.getText();
                         String pw = new String(password.getPassword());
-                        if(uid.equals("") || pw.equals("")) {
-                            JOptionPane.showMessageDialog(null, "Please insert Username and Password");
-                        }
-                        else {
+                        if(fn.equals("") || ln.equals("") || FC.equals("") || addr.equals("") || em.equals("") || uid.equals("") || pw.equals("")) {
+                            JOptionPane.showMessageDialog(null, "Please insert all info");
+                        } else {
                             try {
-                                frame.user = frame.resourceManager.login(frame.user, username.getText(), new String(password.getPassword()));
-                                JOptionPane.showMessageDialog(null, "Logged in!");
-                            } catch (RemoteException ex) {
-                            } catch (AlreadyLoggedException ex) {
+                                frame.resourceManager.registerUser(fn, ln, FC, addr, em, uid, pw);
+                                JOptionPane.showMessageDialog(null, "User registered successfully!");
+                            } catch (AlreadyRegisteredException ex) {
+                                JOptionPane.showMessageDialog(null, "The user with these data already exists!");
                             } catch (SQLException ex) {
-                            }catch (WrongCredentialsException ex){
-                                JOptionPane.showMessageDialog(null, "Wrong Username / Password");
                             }
                         }
                     }
+
                 }else {
-                    try {
-                        frame.user = frame.resourceManager.logout(frame.user);
-                        JOptionPane.showMessageDialog(null, "Logged out!");
-                    }catch (Exception exe){}
+
                 }
 
                 if(frame.user instanceof LoggedUser) {
