@@ -89,7 +89,7 @@ public class BarraStrumenti extends JPanel {
         bottoneRegistra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(bottoneLog.getText().equals("Registrati")) {
+                if(bottoneRegistra.getText().equals("Registrati")) {
                     JPanel panel = new JPanel(new BorderLayout(5, 5));
 
                     JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
@@ -124,11 +124,11 @@ public class BarraStrumenti extends JPanel {
                     int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "registrazione", JOptionPane.OK_CANCEL_OPTION);
 
                     if (scelta == 0) {
-                        String fn = username.getText();
-                        String ln = username.getText();
-                        String FC = username.getText();
-                        String addr = username.getText();
-                        String em = username.getText();
+                        String fn = firstname.getText();
+                        String ln = lastname.getText();
+                        String FC = fiscalcode.getText();
+                        String addr = address.getText();
+                        String em = email.getText();
                         String uid = username.getText();
                         String pw = new String(password.getPassword());
                         if(fn.equals("") || ln.equals("") || FC.equals("") || addr.equals("") || em.equals("") || uid.equals("") || pw.equals("")) {
@@ -149,14 +149,14 @@ public class BarraStrumenti extends JPanel {
 
                 }
 
-                if(frame.user instanceof LoggedUser) {
+               /* if(frame.user instanceof LoggedUser) {
                     bottoneLog.setText("Logout");
                     bottoneRegistra.setText("+ Playlist");
                 }
                 else if(frame.user instanceof NotLoggedUser) {
                     bottoneLog.setText("Login");
                     bottoneRegistra.setText("Registrati");
-                }
+                }*/
             }
         });
 
