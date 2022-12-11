@@ -117,13 +117,13 @@ public class dbES {
     // Controllo credenziali
     // Verifica la presenza di una tupla nella tabella registereduser. Ritorna l'oggetto, se l'utente è
     // presente nella tabella, lancia un'eccezione altrimenti.
-    public static synchronized LoggedUser getLoggedUser(String user_id, String pwd) throws SQLException {
+    public static synchronized LoggedUser getLoggedUser(String user_id, String pwd) throws SQLException, WrongCredentialsException {
         String query1 = "SELECT * FROM registereduser WHERE user_id = \'" + user_id + "\' AND password = \'" + pwd + "\'";
         ResultSet rs = statement.executeQuery(query1);
         LoggedUser tmp;
 
         if (!rs.next()) {
-            throw new SQLException("Wrong username or wrong password");
+            throw new WrongCredentialsException("Wrong username or wrong password");
         } else {
             rs.first();
             tmp = new LoggedUser();

@@ -11,14 +11,13 @@ CREATE TABLE IF NOT EXISTS RegisteredUser (
     4) ,
     CONSTRAINT passlength CHECK ( char_length ( password ) >=
     8) ,
-    CONSTRAINT emailpattern CHECK ( email ~ '^[a-zA -Z0
-    -9.!# $%& ''*+/=?^_ `{|}~ -]+ @[a-zA -Z0 -9](?:[a-zA -Z0
-    -9 -]{0 ,61}[a-zA -Z0 -9]) ?(?:\.[a-zA -Z0 -9](?:[a-zA -Z0
-    -9 -]{0 ,61}[a-zA -Z0 -9]) ?)*$' ),
+    CONSTRAINT emailpattern CHECK (email::text ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'::text),
     CONSTRAINT fnamelength CHECK ( char_length ( first_name )
     >= 3) ,
     CONSTRAINT lnamelength CHECK ( char_length ( user_id ) >=
-    3)
+    3),
+    CONSTRAINT fclength CHECK (char_length(fiscal_code) = 16),
+    CONSTRAINT fcformat CHECK (fiscal_code ~* '^[a-zA-Z]{6}[0-9]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9]{2}([a-zA-Z]{1}[0-9]{3})[a-zA-Z]{1}$'::text)
 );
 
 CREATE TABLE IF NOT EXISTS Song (
@@ -38,7 +37,8 @@ CREATE TABLE IF NOT EXISTS Playlist (
     ON UPDATE CASCADE ,
     user_id VARCHAR (30) REFERENCES RegisteredUser
     ON DELETE CASCADE
-    ON UPDATE CASCADE
+    ON UPDATE CASCADE,
+    PRIMARY KEY(playlist_name, song_id, user_id)
 );
 
 CREATE TABLE IF NOT EXISTS Emotion (
