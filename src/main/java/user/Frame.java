@@ -23,7 +23,7 @@ public class Frame extends JFrame {
 
     public Frame() throws RemoteException, NotBoundException {
 
-        super("Titolo finestra");
+        super("Emotional Songs");
 
         setLayout(new BorderLayout());
 
