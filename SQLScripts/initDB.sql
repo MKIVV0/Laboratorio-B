@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS RegisteredUser (
     user_id VARCHAR (30) PRIMARY KEY ,
     password VARCHAR (30) NOT NULL ,
-    email VARCHAR (50) NOT NULL ,
+    email VARCHAR (50) UNIQUE NOT NULL ,
     first_name VARCHAR (20) NOT NULL ,
     last_name VARCHAR (20) NOT NULL ,
     home_address VARCHAR (50) NOT NULL ,
