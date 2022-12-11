@@ -44,6 +44,7 @@ public class Frame extends JFrame {
 
                 try {
                     LinkedList<Song> tmp = resourceManager.findSong(testo);
+                    textAreaPanel.pulisciArea();
                     for (Song s : tmp)
                         textAreaPanel.appendiTesto(s.toString());
 

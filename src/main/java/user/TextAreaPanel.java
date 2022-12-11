@@ -23,4 +23,10 @@ public class TextAreaPanel extends JPanel {
 
     }
 
+    public void pulisciArea() {
+
+        textArea.setText(null);
+
+    }
+
 }

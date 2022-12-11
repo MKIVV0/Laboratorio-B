@@ -46,6 +46,7 @@ public class PannelloForm extends JPanel {
         gruppoRadioCercaPer.add(radioCercaPerAutore);
 
         bottoneCerca = new JButton("Cerca!");
+        bottoneCerca.setFocusable(false);
 
         bottoneCerca.addActionListener(new ActionListener() {
             @Override

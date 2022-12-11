@@ -21,9 +21,10 @@ public class BarraStrumenti extends JPanel {
         if (frame.user instanceof NotLoggedUser) {
             bottoneLog = new JButton("Login");
             bottoneRegistra = new JButton("Registrati");
+            bottoneRegistra.setVisible(true);
         } else if (frame.user instanceof LoggedUser) {
             bottoneLog.setText("Logout");
-            bottoneRegistra.setText("+ Playlist");
+            bottoneRegistra.setVisible(false);
         }
 
         // LOGIN / LOGOUT
@@ -76,10 +77,10 @@ public class BarraStrumenti extends JPanel {
 
                 if (frame.user instanceof LoggedUser) {
                     bottoneLog.setText("Logout");
-                    bottoneRegistra.setText("+ Playlist");
+                    bottoneRegistra.setVisible(false);
                 } else if (frame.user instanceof NotLoggedUser) {
                     bottoneLog.setText("Login");
-                    bottoneRegistra.setText("Registrati");
+                    bottoneRegistra.setVisible(true);
                 }
             }
         });
@@ -88,64 +89,60 @@ public class BarraStrumenti extends JPanel {
         bottoneRegistra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (bottoneRegistra.getText().equals("Registrati")) {
-                    JPanel panel = new JPanel(new BorderLayout(5, 5));
+                JPanel panel = new JPanel(new BorderLayout(5, 5));
 
-                    JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
-                    label.add(new JLabel("First name", SwingConstants.RIGHT));
-                    label.add(new JLabel("Last name", SwingConstants.RIGHT));
-                    label.add(new JLabel("Fiscal code", SwingConstants.RIGHT));
-                    label.add(new JLabel("Address", SwingConstants.RIGHT));
-                    label.add(new JLabel("E-Mail", SwingConstants.RIGHT));
-                    label.add(new JLabel("Username", SwingConstants.RIGHT));
-                    label.add(new JLabel("Password", SwingConstants.RIGHT));
+                JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+                label.add(new JLabel("First name", SwingConstants.RIGHT));
+                label.add(new JLabel("Last name", SwingConstants.RIGHT));
+                label.add(new JLabel("Fiscal code", SwingConstants.RIGHT));
+                label.add(new JLabel("Address", SwingConstants.RIGHT));
+                label.add(new JLabel("E-Mail", SwingConstants.RIGHT));
+                label.add(new JLabel("Username", SwingConstants.RIGHT));
+                label.add(new JLabel("Password", SwingConstants.RIGHT));
 
-                    panel.add(label, BorderLayout.WEST);
+                panel.add(label, BorderLayout.WEST);
 
-                    JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
-                    JTextField firstname = new JTextField();
-                    JTextField lastname = new JTextField();
-                    JTextField fiscalcode = new JTextField();
-                    JTextField address = new JTextField();
-                    JTextField email = new JTextField();
-                    JTextField username = new JTextField();
-                    JPasswordField password = new JPasswordField();
+                JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+                JTextField firstname = new JTextField();
+                JTextField lastname = new JTextField();
+                JTextField fiscalcode = new JTextField();
+                JTextField address = new JTextField();
+                JTextField email = new JTextField();
+                JTextField username = new JTextField();
+                JPasswordField password = new JPasswordField();
 
-                    controls.add(firstname);
-                    controls.add(lastname);
-                    controls.add(fiscalcode);
-                    controls.add(address);
-                    controls.add(email);
-                    controls.add(username);
-                    controls.add(password);
+                controls.add(firstname);
+                controls.add(lastname);
+                controls.add(fiscalcode);
+                controls.add(address);
+                controls.add(email);
+                controls.add(username);
+                controls.add(password);
 
-                    panel.add(controls, BorderLayout.CENTER);
+                panel.add(controls, BorderLayout.CENTER);
 
-                    int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "registrazione", JOptionPane.OK_CANCEL_OPTION);
+                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "registrazione", JOptionPane.OK_CANCEL_OPTION);
 
-                    if (scelta == 0) {
-                        String fn = firstname.getText();
-                        String ln = lastname.getText();
-                        String FC = fiscalcode.getText();
-                        String addr = address.getText();
-                        String em = email.getText();
-                        String uid = username.getText();
-                        String pw = new String(password.getPassword());
-                        if (fn.equals("") || ln.equals("") || FC.equals("") || addr.equals("") || em.equals("") || uid.equals("") || pw.equals(""))
-                            JOptionPane.showMessageDialog(null, "Please insert all info");
-                        else
-                            try {
-                                frame.resourceManager.registerUser(fn, ln, FC, addr, em, uid, pw);
-                                JOptionPane.showMessageDialog(null, "User registered successfully!");
-                            } catch (AlreadyRegisteredException ex) {
-                                JOptionPane.showMessageDialog(null, "The user with these data already exists!");
-                            } catch (RemoteException ex) {
-                            }
-                    }
-
-                } else {
-
+                if (scelta == 0) {
+                    String fn = firstname.getText();
+                    String ln = lastname.getText();
+                    String FC = fiscalcode.getText();
+                    String addr = address.getText();
+                    String em = email.getText();
+                    String uid = username.getText();
+                    String pw = new String(password.getPassword());
+                    if (fn.equals("") || ln.equals("") || FC.equals("") || addr.equals("") || em.equals("") || uid.equals("") || pw.equals(""))
+                        JOptionPane.showMessageDialog(null, "Please insert all info");
+                    else
+                        try {
+                            frame.resourceManager.registerUser(fn, ln, FC, addr, em, uid, pw);
+                            JOptionPane.showMessageDialog(null, "User registered successfully!");
+                        } catch (AlreadyRegisteredException ex) {
+                            JOptionPane.showMessageDialog(null, "The user with these data already exists!");
+                        } catch (RemoteException ex) {
+                        }
                 }
+
 
             }
         });
