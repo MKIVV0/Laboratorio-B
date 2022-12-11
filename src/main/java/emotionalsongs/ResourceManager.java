@@ -15,15 +15,15 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
 
     public ResourceManager(String server, String database, String port, String user, String password) throws IOException, SQLException {
         super();
-        dbES.getInstance(server,database,port,user,password);
+        dbES.getInstance(server, database, port, user, password);
         songRepo = dbES.importAllSongs();
     }
 
     @Override
-    public LinkedList<Song> findSong(String title){
+    public synchronized LinkedList<Song> findSong(String title) {
         LinkedList<Song> tmp = new LinkedList<>();
-        for(Song b: songRepo.values()) {
-            if(b.getTitle().toLowerCase().contains(title.toLowerCase()))
+        for (Song b : songRepo.values()) {
+            if (b.getTitle().toLowerCase().contains(title.toLowerCase()))
                 tmp.add(b);
         }
         return tmp;
@@ -37,11 +37,11 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * ricostruire correttamente i suoi campi (creazione delle sue playlists ecc..)
      */
     @Override
-    public AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, SQLException, WrongCredentialsException {
+    public synchronized AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, SQLException, WrongCredentialsException {
         if (u instanceof LoggedUser)
             throw new AlreadyLoggedException();
 
-       return dbES.getLoggedUser(uid, pw);
+        return dbES.getLoggedUser(uid, pw);
 
         //debug
         /*
@@ -52,7 +52,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
     }
 
     @Override
-    public AbstractUser logout(AbstractUser u) throws RemoteException, NotLoggedException {
+    public synchronized AbstractUser logout(AbstractUser u) throws RemoteException, NotLoggedException {
         if (u instanceof NotLoggedUser)
             throw new NotLoggedException();
 
@@ -63,22 +63,22 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
 
     // MODIFICATA IMPLEMENTAZIONE DA TEO
     @Override
-    public void evaluateSong(Emotions emotion, AbstractUser user, Song song, String score, String notes) throws RemoteException, NotLoggedException, AlreadyValuedException, SQLException {
+    public synchronized void evaluateSong(Emotions emotion, AbstractUser user, Song song, String score, String notes) throws RemoteException, NotLoggedException, AlreadyValuedException, SQLException {
         if (user instanceof NotLoggedUser)
             throw new NotLoggedException();
 
         //Feedback tmp = new FeedBack(u, s, e, score)
 
         //IF (TMP ESISTE GIA SU DB)
-            //throw new AlreadyValuedException("Errore: hai gia lasciato un feedback per questo brano!");
+        //throw new AlreadyValuedException("Errore: hai gia lasciato un feedback per questo brano!");
         boolean feedbackAdded = dbES.addFeedback(emotion, ((LoggedUser) user).getId(), song.getId(), score, notes);
         if (!feedbackAdded)
             throw new AlreadyValuedException("Error! You already left a feedback for this song.");
         else
             System.out.println("Thank you for your feedback!");
         //ELSE{
-            //SALVA TMP SU DB
-            //System.out.println("Grazie per il feedback!");
+        //SALVA TMP SU DB
+        //System.out.println("Grazie per il feedback!");
         //}
 
         //debug
@@ -87,14 +87,14 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
 
     // MODIFICATO DA TEO - DA DISCUTERE L'IMPLMENTAZIONE, VISTO L'OVERLOADING DEL METODO getFeedback di dbES
     @Override
-    public String getFeedback(String user_id, Emotions emotion_name, Song song) throws RemoteException, NoFeedbackException, SQLException {
+    public synchronized String getFeedback(String user_id, Emotions emotion_name, Song song) throws RemoteException, NoFeedbackException, SQLException {
         if (song == null)
             throw new NullPointerException();
 
         //Feedback tmp = dbES.GET_FEEDBACK_OF_THE_SONG(s);
 
         //if(tmp == null)
-           //throw new NoFeedbackException("Ancora nessun feedback per questo brano!");
+        //throw new NoFeedbackException("Ancora nessun feedback per questo brano!");
 
         String feedback = dbES.getFeedback(user_id, emotion_name, song.getId());
         if (feedback == null)
@@ -105,7 +105,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         return feedback;//TMCH
     }
 
-    public LinkedList<String> getFeedback(Song song) throws SQLException, NoFeedbackException {
+    public synchronized LinkedList<String> getFeedback(Song song) throws SQLException, NoFeedbackException {
         if (song == null)
             throw new NullPointerException();
 
@@ -116,7 +116,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         return feedback;
     }
 
-    public LinkedList<String> getFeedback(Song song, AbstractUser user) throws SQLException, NoFeedbackException {
+    public synchronized LinkedList<String> getFeedback(Song song, AbstractUser user) throws SQLException, NoFeedbackException {
         if (song == null)
             throw new NullPointerException();
 
@@ -127,10 +127,74 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         return feedback;
     }
 
-    public void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws SQLException, AlreadyRegisteredException {
-        if (!dbES.registerUser(fn, ln, FC, addr, email, uid, pwd))
+    public synchronized void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws SQLException, AlreadyRegisteredException {
+        if (dbES.registerUser(fn, ln, FC, addr, email, uid, pwd))
             throw new AlreadyRegisteredException("The user with these data already exists!");
         else
             System.out.println("User registered successfully!");
+    }
+
+    public synchronized void deleteFeedback(Emotions emotion, String user_id, String song_id) throws SQLException, NoFeedbackException {
+        if (!dbES.deleteFeedback(emotion, user_id, song_id))
+            throw new NoFeedbackException("This song with these parameters doesn't have any feedbacks!");
+        else
+            System.out.println("Thank you for your feedback!");
+    }
+
+    public synchronized void modifyFeedback(Emotions emotion, String user_id, String song_id, String param_name, String param_value) throws SQLException, NoFeedbackException {
+        if (!dbES.modifyFeedback(emotion, user_id, song_id, param_name, param_value))
+            throw new NoFeedbackException("This song with these parameters doesn't have any feedbacks!");
+        else
+            System.out.println("Feedback modified successfully!");
+    }
+
+    // La creazione di una playlist comporta l'inserimento di almeno una canzone
+    public synchronized void createPlaylist(String pl_name, String song_id, String user_id) throws SQLException, playlistException {
+        if (!dbES.createPlaylist(pl_name, song_id, user_id))
+            throw new playlistException("This playlist already exists!");
+        else
+            System.out.println("Playlist created successfully!");
+    }
+
+    public synchronized void removeSongFromPlaylist(String pl_name, String song_id, String user_id) throws SQLException, playlistException {
+        if (!dbES.removeSongFromPlaylist(pl_name, song_id, user_id))
+            throw new playlistException("This playlist doesn't exist!");
+        else
+            System.out.println("Song removed successfully!");
+    }
+
+    public synchronized void renamePlaylist(String curr_pl_name, String new_pl_name, String user_id) throws SQLException, playlistException {
+        if (!dbES.removeSongFromPlaylist(curr_pl_name, new_pl_name, user_id))
+            throw new playlistException("This playlist doesn't exist!");
+        else
+            System.out.println("Playlist renamed successfully!");
+    }
+
+    public synchronized void deletePlaylist(String pl_name, String user_id) throws SQLException, playlistException {
+        if (!dbES.deletePlaylist(pl_name, user_id))
+            throw new playlistException("This playlist doesn't exist!");
+        else
+            System.out.println("Playlist deleted successfully!");
+    }
+
+    public synchronized void addSongToPlaylist(String pl_name, String song_id, String user_id) throws SQLException, playlistException {
+        if (!dbES.addSongToPlaylist(pl_name, song_id, user_id))
+            throw new playlistException("This playlist doesn't exist!");
+        else
+            System.out.println("Song added successfully!");
+    }
+
+    public synchronized void modifyUserParam(String user_id, String param_name, String param_value) throws SQLException, UserException {
+        if (!dbES.modifyUserParam(user_id, param_name, param_value))
+            throw new UserException("This user doesn't exist!");
+        else
+            System.out.println("User parameters modified successfully!");
+    }
+
+    public synchronized void deleteUser(String user_id) throws SQLException, UserException {
+        if (!dbES.deleteUser(user_id))
+            throw new UserException("This user doesn't exist!");
+        else
+            System.out.println("User deleted successfully!");
     }
 }
