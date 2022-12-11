@@ -16,4 +16,9 @@ public interface ResourceManagerInterface extends Remote {
     String getFeedback(String user_id, Emotions emotion_name, Song song) throws RemoteException, NoFeedbackException, SQLException;
 
     AbstractUser logout(AbstractUser u) throws RemoteException, NotLoggedException;
+
+    void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws SQLException, AlreadyRegisteredException;
+
+    LinkedList<String> getFeedback(Song song) throws SQLException, NoFeedbackException;
+    LinkedList<String> getFeedback(Song song, AbstractUser user) throws SQLException, NoFeedbackException;
 }
