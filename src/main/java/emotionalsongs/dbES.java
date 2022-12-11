@@ -182,14 +182,18 @@ public class dbES {
     }
 
     // Registrazione - DONE
-    public static boolean registerUser(String fn, String ln, String FC, String a, String email, String uid, String pwd) throws SQLException {
+    public static boolean registerUser(String fn, String ln, String FC, String a, String email, String uid, String pwd) {
             String query = "INSERT INTO RegisteredUser VALUES (\'" + uid + "\', \'" + pwd + "\', \'" + email + "\', \'" + fn + "\', \'" + ln + "\', \'" + a + "\', \'" + FC + "\')";
             System.out.println(query);
-            statement.executeUpdate(query);
-            System.out.println("User " + uid + " registered successfully.");
-            int count = statement.executeUpdate(query);
-            if (count > 0) return true;
-            else return false;
+            int count;
+            try{
+               count = statement.executeUpdate(query);
+               System.out.println("count = " + count + "User " + uid + " registered successfully.");
+               if (count > 0) return true;
+            } catch (SQLException e){
+                 return false;
+            }
+           return true;
     }
 
     // Mostra feedback - DONE

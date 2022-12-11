@@ -139,7 +139,6 @@ public class BarraStrumenti extends JPanel {
                                 JOptionPane.showMessageDialog(null, "User registered successfully!");
                             } catch (AlreadyRegisteredException ex) {
                                 JOptionPane.showMessageDialog(null, "The user with these data already exists!");
-                            } catch (SQLException ex) {
                             } catch (RemoteException ex){
                             }
                         }

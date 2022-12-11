@@ -127,8 +127,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         return feedback;
     }
 
-    public synchronized void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws SQLException, AlreadyRegisteredException, RemoteException {
-        if (dbES.registerUser(fn, ln, FC, addr, email, uid, pwd))
+    public synchronized void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws AlreadyRegisteredException, RemoteException {
+        if (!dbES.registerUser(fn, ln, FC, addr, email, uid, pwd))
             throw new AlreadyRegisteredException("The user with these data already exists!");
         else
             System.out.println("User registered successfully!");
