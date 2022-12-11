@@ -86,7 +86,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
 
     // MODIFICATO DA TEO - DA DISCUTERE L'IMPLMENTAZIONE, VISTO L'OVERLOADING DEL METODO getFeedback di dbES
     @Override
-    public String getOwnFeedback(String user_id, Emotions emotion_name, Song song) throws RemoteException, NoFeedbackException, SQLException {
+    public String getFeedback(String user_id, Emotions emotion_name, Song song) throws RemoteException, NoFeedbackException, SQLException {
         if (song == null)
             throw new NullPointerException();
 
@@ -104,5 +104,25 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         return feedback;//TMCH
     }
 
+    public LinkedList<String> getFeedback(Song song) throws SQLException, NoFeedbackException {
+        if (song == null)
+            throw new NullPointerException();
 
+        LinkedList<String> feedback = dbES.getFeedback(song.getId());
+        if (feedback == null)
+            throw new NoFeedbackException("No feedbacks present for this song!");
+
+        return feedback;
+    }
+
+    public LinkedList<String> getFeedback(Song song, AbstractUser user) throws SQLException, NoFeedbackException {
+        if (song == null)
+            throw new NullPointerException();
+
+        LinkedList<String> feedback = dbES.getFeedback(song.getId(), ((LoggedUser) user).getId());
+        if (feedback == null)
+            throw new NoFeedbackException("No feedbacks present for this song under the user" + ((LoggedUser) user).getId() + " !");
+
+        return feedback;
+    }
 }
