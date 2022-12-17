@@ -150,8 +150,12 @@ public class PannelloForm extends JPanel {
 
     }
 
+
+
     public void setFormListener(FormListener formListener) {
+
         this.formListener = formListener;
+
     }
 
 }

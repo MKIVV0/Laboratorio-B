@@ -1,24 +1,23 @@
 package user;
 
-import common.*;
+import common.AbstractUser;
+import common.NotLoggedUser;
+import common.ResourceManagerInterface;
+import common.Song;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.sql.SQLException;
 import java.util.LinkedList;
-import java.util.Vector;
 
 public class Frame extends JFrame {
 
     private BarraStrumenti barraStrumenti;
 //    private TextAreaPanel textAreaPanel;
-    private ObjectAreaPanel objectAreaPanel;
+    ObjectAreaPanel objectAreaPanel;
     private PannelloForm pannelloForm;
     ResourceManagerInterface resourceManager;
     AbstractUser user;
@@ -34,7 +33,7 @@ public class Frame extends JFrame {
         user = new NotLoggedUser();
 
 //        textAreaPanel = new TextAreaPanel();
-        objectAreaPanel = new ObjectAreaPanel();
+        objectAreaPanel = new ObjectAreaPanel(this);
         pannelloForm = new PannelloForm();
         barraStrumenti = new BarraStrumenti(this);
 
