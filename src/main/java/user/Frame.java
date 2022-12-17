@@ -12,11 +12,13 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.Vector;
 
 public class Frame extends JFrame {
 
     private BarraStrumenti barraStrumenti;
-    private TextAreaPanel textAreaPanel;
+//    private TextAreaPanel textAreaPanel;
+    private ObjectAreaPanel objectAreaPanel;
     private PannelloForm pannelloForm;
     ResourceManagerInterface resourceManager;
     AbstractUser user;
@@ -31,7 +33,8 @@ public class Frame extends JFrame {
         resourceManager = (ResourceManagerInterface) r.lookup("Gestore");
         user = new NotLoggedUser();
 
-        textAreaPanel = new TextAreaPanel();
+//        textAreaPanel = new TextAreaPanel();
+        objectAreaPanel = new ObjectAreaPanel();
         pannelloForm = new PannelloForm();
         barraStrumenti = new BarraStrumenti(this);
 
@@ -44,16 +47,20 @@ public class Frame extends JFrame {
 
                 try {
                     LinkedList<Song> tmp = resourceManager.findSong(testo);
-                    textAreaPanel.pulisciArea();
-                    for (Song s : tmp)
-                        textAreaPanel.appendiTesto(s.toString());
+//                    Vector<Song> v = new Vector<>(tmp);
+//                    textAreaPanel.pulisciArea();
+                    objectAreaPanel.pulisciArea();
+                    /*for (Song s : tmp)
+                        textAreaPanel.appendiTesto(s.toString());*/
+                    objectAreaPanel.inserisciBrani(tmp);
 
                 } catch (RemoteException e) {
                 }
             }
         });
 
-        add(textAreaPanel, BorderLayout.CENTER);
+//        add(textAreaPanel, BorderLayout.CENTER);
+        add(objectAreaPanel, BorderLayout.CENTER);
         add(barraStrumenti, BorderLayout.PAGE_START);
         add(pannelloForm, BorderLayout.LINE_START);
 
