@@ -34,7 +34,7 @@ public class Frame extends JFrame {
 
 //        textAreaPanel = new TextAreaPanel();
         objectAreaPanel = new ObjectAreaPanel(this);
-        pannelloForm = new PannelloForm();
+        pannelloForm = new PannelloForm(this);
         barraStrumenti = new BarraStrumenti(this);
 
 
