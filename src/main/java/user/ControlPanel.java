@@ -36,7 +36,7 @@ public class ControlPanel extends JPanel {
 
         add(pannelloForm);
 
-        pannelloPlaylist = new PannelloPlaylist(frame);
+        pannelloPlaylist = new PannelloPlaylist();
         add(pannelloPlaylist);
 
         logged(frame.user);

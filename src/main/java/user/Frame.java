@@ -16,7 +16,6 @@ public class Frame extends JFrame {
     private BarraStrumenti barraStrumenti;
     ObjectAreaPanel objectAreaPanel;
     ControlPanel controlPanel;
-//    private PannelloForm pannelloForm;
     ResourceManagerInterface resourceManager;
     AbstractUser user;
 
@@ -31,28 +30,11 @@ public class Frame extends JFrame {
         user = new NotLoggedUser();
 
         objectAreaPanel = new ObjectAreaPanel(this);
-//        pannelloForm = new PannelloForm();
         controlPanel = new ControlPanel(this);
         barraStrumenti = new BarraStrumenti(this);
 
-
-        /*pannelloForm.setFormListener(new FormListener() {
-            @Override
-            public void formEventListener(FormEvent fe) {
-                String testo = fe.getTesto();
-                String tipoRicerca = fe.getTipoRicerca();
-                try {
-                    LinkedList<Song> tmp = resourceManager.findSong(testo);
-                    objectAreaPanel.pulisciArea();
-                    objectAreaPanel.inserisciBrani(tmp);
-                } catch (RemoteException e) {
-                }
-            }
-        });*/
-
         add(objectAreaPanel, BorderLayout.CENTER);
         add(barraStrumenti, BorderLayout.PAGE_START);
-//        add(pannelloForm, BorderLayout.LINE_START);
         add(controlPanel, BorderLayout.LINE_START);
 
         setSize(800, 500);

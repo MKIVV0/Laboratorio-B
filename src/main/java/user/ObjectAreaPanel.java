@@ -54,12 +54,6 @@ public class ObjectAreaPanel extends JPanel {
         aggiungi = new JButton("Aggiungi");
 
         valuta = new JButton("Valuta");
-        valuta.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
 
         tasti.add(showFeedback);
         tasti.add(aggiungi);

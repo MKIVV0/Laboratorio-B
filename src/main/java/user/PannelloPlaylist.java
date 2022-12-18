@@ -14,10 +14,50 @@ public class PannelloPlaylist extends JPanel {
     private JLabel labelPlaylist;
     private JList listaPlaylist;
 
+    private JPanel tasti;
     private JButton bottoneApri;
 
-    PannelloPlaylist(Frame frame) {
+    PannelloPlaylist(/*Frame frame*/) {
         setPreferredSize(new Dimension(300, 50));//100
+        setLayout(new BorderLayout());
+
+        // Bordi
+        Border bordoInterno = BorderFactory.createTitledBorder("le tue playlist");
+        Border bordoEsterno = BorderFactory.createEmptyBorder(0, 5, 5, 5);
+        Border bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
+
+        setBorder(bordoFinale);
+
+        listaPlaylist = new JList<Playlist>();
+        listaPlaylist.setBorder(BorderFactory.createEtchedBorder());
+
+        tasti = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+        bottoneApri = new JButton("Apri");
+
+        tasti.add(bottoneApri);
+
+        add(new JScrollPane(listaPlaylist), BorderLayout.CENTER);
+        add(tasti, BorderLayout.SOUTH);
+
+    }
+
+    public void refresh(AbstractUser user){
+        if(user instanceof LoggedUser) {
+            DefaultListModel modelloPlaylists = new DefaultListModel<Playlist>();
+            LinkedList<Playlist> tmp = ((LoggedUser) user).getPlaylistList();
+            if(tmp.isEmpty()){
+                listaPlaylist.setModel(new DefaultListModel());
+            }else {
+                for (Playlist p : tmp)
+                    modelloPlaylists.addElement(p);
+                listaPlaylist.setModel(modelloPlaylists);
+            }
+        } else {
+            listaPlaylist.setModel(new DefaultListModel());
+        }
+    }
+        /*setPreferredSize(new Dimension(300, 50));//100
         setLayout(new GridBagLayout());
 
         // Bordi
@@ -29,11 +69,12 @@ public class PannelloPlaylist extends JPanel {
 
         //label
         labelPlaylist = new JLabel("Playlist: ");
-
+//password123
         //lista
         listaPlaylist = new JList<Playlist>();
+//        listaPlaylist.setPreferredSize(new Dimension(170, 55));
         listaPlaylist.setBorder(BorderFactory.createEtchedBorder());
-        DefaultListModel modelloPlaylists = new DefaultListModel<Playlist>();
+//        DefaultListModel modelloPlaylists = new DefaultListModel<Playlist>();
 
         if(frame.user instanceof LoggedUser) {
             LinkedList<Playlist> tmp = ((LoggedUser) frame.user).getPlaylistList();
@@ -56,9 +97,9 @@ public class PannelloPlaylist extends JPanel {
         gbc.weightx = 0.01;
         gbc.weighty = 0.03;
 
-        gbc.anchor = GridBagConstraints.LINE_END;
+        gbc.anchor = GridBagConstraints.FIRST_LINE_END;
 
-        gbc.insets = new Insets(0, 0, 0, 5);
+        gbc.insets = new Insets(5, 0, 0, 5);
 
         add(labelPlaylist, gbc);
 
@@ -66,7 +107,7 @@ public class PannelloPlaylist extends JPanel {
         gbc.gridx = 1;
         gbc.gridy = 0;
 
-        gbc.weightx = 0.01;
+        gbc.weightx = 0.1;
         gbc.weighty = 0.03;
 
         gbc.anchor = GridBagConstraints.LINE_START;
@@ -93,16 +134,19 @@ public class PannelloPlaylist extends JPanel {
     }
 
     public void refresh(AbstractUser user){
-
-        DefaultListModel modelloPlaylists = new DefaultListModel<Playlist>();
-
         if(user instanceof LoggedUser) {
+            DefaultListModel modelloPlaylists = new DefaultListModel<Playlist>();
             LinkedList<Playlist> tmp = ((LoggedUser) user).getPlaylistList();
-            for (Playlist p : tmp)
-                modelloPlaylists.addElement(p);
+            if(tmp.isEmpty()){
+                listaPlaylist.setModel(new DefaultListModel());
+            }else {
+                for (Playlist p : tmp)
+                    modelloPlaylists.addElement(p);
+                listaPlaylist.setModel(modelloPlaylists);
+            }
+        } else {
+            listaPlaylist.setModel(new DefaultListModel());
         }
-
-        listaPlaylist.setModel(modelloPlaylists);
-    }
+    }*/
 
 }

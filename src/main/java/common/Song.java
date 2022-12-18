@@ -54,7 +54,8 @@ public class Song implements Serializable {
     }
 
     public String toString() {
-        return "Song id: " + this.id + "\nSong title: " + this.title + "\nAuthor: " + this.author + "\nYear: " + this.yearReleased;
+        return  this.title + " (" + this.author + ", " + this.yearReleased + ")";
+//        return "Song id: " + this.id + "\nSong title: " + this.title + "\nAuthor: " + this.author + "\nYear: " + this.yearReleased;
     }
 
 }
