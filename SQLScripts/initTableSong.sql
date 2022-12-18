@@ -117,4 +117,7 @@ INSERT INTO Song VALUES ('TRSGHLU128F421DF83','Don''t Pan Me','Alberta Hunter', 
 ('TRPUMAL12903CEB489','Ballad of Lil'' Kim','Walter Schreifels', 2010), 
 ('TRETLWS12903CEB483','Society Sucker','Walter Schreifels', 2010), 
 ('TRSQLTA12903CEB486','Don''t Gotta Prove It','Walter Schreifels', 2010), 
-('TRSZGEL12903CEB487','Wild Pandas','Walter Schreifels', 2010);
+('TRSZGEL12903CEB487','Wild Pandas','Walter Schreifels', 2010),
+('ZZZZZZZZZZZZZZZZZZ','','', 1111);
+
+INSERT INTO registereduser VALUES('mattpl', 'ciao12345', 'mattpl20@live.it', 'matt', 'huang', 'Via Roma, 30', 'HNGMTT00S02F205B');

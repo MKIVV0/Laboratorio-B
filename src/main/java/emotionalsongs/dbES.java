@@ -147,7 +147,7 @@ public class dbES {
                 "FROM playlist p \n" +
                 "    JOIN registereduser ru ON p.user_id = ru.user_id \n" +
                 "    JOIN Song s ON p.song_id = s.song_id \n" +
-                "WHERE p.user_id = \'" + user_id + "\' " +
+                "WHERE p.user_id = '" + user_id + "' AND s.song_id != 'ZZZZZZZZZZZZZZZZZZ'" +
                 "ORDER BY playlist_name";
         ResultSet rs = statement.executeQuery(query);
 
@@ -264,7 +264,7 @@ public class dbES {
         String query = "INSERT INTO emotion(emotion_name, user_id, song_id, score, notes)" +
                 "SELECT '" + emotion.toString().toLowerCase() + "', '" + user_id + "', '" + song_id + "'," + score + ", ''" +
                 "WHERE " +
-                "EXISTS (SELECT * FROM Playlist WHERE song_id = '" + song_id + "')";
+                "EXISTS (SELECT * FROM Playlist WHERE song_id = '" + song_id + "', '" + notes + "')";
         int count = statement.executeUpdate(query);
         if (count > 0) return true;
         else return false;
