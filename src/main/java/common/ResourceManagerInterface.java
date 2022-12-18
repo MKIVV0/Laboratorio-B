@@ -27,7 +27,7 @@ public interface ResourceManagerInterface extends Remote {
 
     void modifyFeedback(Emotions emotion, AbstractUser user, Song song, String param_name, String param_value) throws SQLException, NoFeedbackException, RemoteException;
 
-    void createPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException;
+    void createPlaylist(String pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException;
 
     void removeSongFromPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException;
 

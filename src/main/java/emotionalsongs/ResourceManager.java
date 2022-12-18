@@ -148,8 +148,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
     }
 
     // La creazione di una playlist comporta l'inserimento di almeno una canzone
-    public synchronized void createPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException {
-        if (!dbES.createPlaylist(pl_name, song.getId(), ((LoggedUser) user).getId()))
+    public synchronized void createPlaylist(String pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException {
+        if (!dbES.createPlaylist(pl_name, ((LoggedUser) user).getId()))
             throw new playlistException("This playlist already exists!");
         else
             System.out.println("Playlist created successfully!");
@@ -163,7 +163,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
     }
 
     public synchronized void renamePlaylist(String curr_pl_name, String new_pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException {
-        if (!dbES.removeSongFromPlaylist(curr_pl_name, new_pl_name, ((LoggedUser) user).getId()))
+        if (!dbES.renamePlaylist(curr_pl_name, new_pl_name, ((LoggedUser) user).getId()))
             throw new playlistException("This playlist doesn't exist!");
         else
             System.out.println("Playlist renamed successfully!");
