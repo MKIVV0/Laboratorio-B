@@ -76,10 +76,12 @@ public class BarraStrumenti extends JPanel {
                 }
 
                 if (frame.user instanceof LoggedUser) {
+                    frame.controlPanel.logged(frame.user);
                     frame.objectAreaPanel.logged(true);
                     bottoneLog.setText("Logout");
                     bottoneRegistra.setVisible(false);
                 } else if (frame.user instanceof NotLoggedUser) {
+                    frame.controlPanel.logged(frame.user);
                     frame.objectAreaPanel.logged(false);
                     bottoneLog.setText("Login");
                     bottoneRegistra.setVisible(true);

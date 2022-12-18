@@ -158,7 +158,8 @@ public class dbES {
             plName = rs.getString("playlist_name");
             rs.beforeFirst();
         } else {
-            return null;
+//            return null;
+            return playlists;
         }
 
         Playlist pl = new Playlist(user_id, plName);
