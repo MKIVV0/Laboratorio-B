@@ -2,15 +2,15 @@ package user;
 
 import java.util.EventObject;
 
-public class FormEvent extends EventObject {
+public class CercaEvent extends EventObject {
     private String testo;
     private String tipoRicerca;
 
-    public FormEvent(Object source) {
+    public CercaEvent(Object source) {
         super(source);
     }
 
-    public FormEvent(Object source, String testo, String tipoRicerca) {
+    public CercaEvent(Object source, String testo, String tipoRicerca) {
         super(source);
         this.testo = testo;
         this.tipoRicerca = tipoRicerca;

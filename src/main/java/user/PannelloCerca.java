@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PannelloForm extends JPanel {
+public class PannelloCerca extends JPanel {
 
     private JLabel labelCercaBrano;
     private JTextField fieldCercaBrano;
@@ -18,10 +18,12 @@ public class PannelloForm extends JPanel {
 
     private JButton bottoneCerca;
 
-    private FormListener formListener;
+//    private PannelloPlaylist pannelloPlaylist;
+
+    private CercaListener cercaListener;
 
 
-    PannelloForm() {
+    PannelloCerca() {
         setPreferredSize(new Dimension(300, 50));//100
         setLayout(new GridBagLayout());
 
@@ -39,6 +41,7 @@ public class PannelloForm extends JPanel {
 
         radioCercaPerTitolo = new JRadioButton("Titolo");
         radioCercaPerTitolo.setActionCommand("titolo");
+        radioCercaPerTitolo.setSelected(true);
         radioCercaPerAutore = new JRadioButton("Autore");
         radioCercaPerAutore.setActionCommand("autore");
 
@@ -55,10 +58,10 @@ public class PannelloForm extends JPanel {
                 String testo = fieldCercaBrano.getText();
                 String tipoRicerca = gruppoRadioCercaPer.getSelection().getActionCommand();
 
-                FormEvent formEvent = new FormEvent(this, testo, tipoRicerca);
+                CercaEvent cercaEvent = new CercaEvent(this, testo, tipoRicerca);
 
-                if (formListener != null) {
-                    formListener.formEventListener(formEvent);
+                if (cercaListener != null) {
+                    cercaListener.cercaEventListener(cercaEvent);
                 }
             }
         });
@@ -149,9 +152,9 @@ public class PannelloForm extends JPanel {
 
     }
 
-    public void setFormListener(FormListener formListener) {
+    public void setCercaListener(CercaListener cercaListener) {
 
-        this.formListener = formListener;
+        this.cercaListener = cercaListener;
 
     }
 

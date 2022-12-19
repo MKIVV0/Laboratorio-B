@@ -11,53 +11,55 @@ import java.sql.SQLException;
 
 public class BarraStrumenti extends JPanel {
 
-    private JButton bottoneLog;
+    private JButton bottoneLogin;
+    private JButton bottoneLogout;
     private JButton bottoneRegistra;
+    private LogListener logListener;
+    private RegistrazioneListener registrazioneListener;
 
-    public BarraStrumenti(Frame frame) {
+    public BarraStrumenti() {
 
         super(new FlowLayout(FlowLayout.LEFT));
 
-        if (frame.user instanceof NotLoggedUser) {
-            bottoneLog = new JButton("Login");
+            bottoneLogin = new JButton("Login");
             bottoneRegistra = new JButton("Registrati");
-            bottoneRegistra.setVisible(true);
-        } else if (frame.user instanceof LoggedUser) {
-            bottoneLog.setText("Logout");
-            bottoneRegistra.setVisible(false);
-        }
+            bottoneLogout = new JButton("Logout");
+            bottoneLogout.setVisible(false);
 
-        // LOGIN / LOGOUT
-        bottoneLog.addActionListener(new ActionListener() {
+        // LOGIN
+        bottoneLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (bottoneLog.getText().equals("Login")) {
-                    JPanel panel = new JPanel(new BorderLayout(5, 5));
 
-                    JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
-                    label.add(new JLabel("Username", SwingConstants.RIGHT));
-                    label.add(new JLabel("Password", SwingConstants.RIGHT));
+                JPanel panel = new JPanel(new BorderLayout(5, 5));
 
-                    panel.add(label, BorderLayout.WEST);
+                JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+                label.add(new JLabel("Username", SwingConstants.RIGHT));
+                label.add(new JLabel("Password", SwingConstants.RIGHT));
 
-                    JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
-                    JTextField username = new JTextField();
-                    JPasswordField password = new JPasswordField();
-                    controls.add(username);
-                    controls.add(password);
+                panel.add(label, BorderLayout.WEST);
 
-                    panel.add(controls, BorderLayout.CENTER);
+                JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+                JTextField username = new JTextField();
+                JPasswordField password = new JPasswordField();
+                controls.add(username);
+                controls.add(password);
 
-                    int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "login", JOptionPane.OK_CANCEL_OPTION);
+                panel.add(controls, BorderLayout.CENTER);
 
-                    if (scelta == 0) {
-                        String uid = username.getText();
-                        String pw = new String(password.getPassword());
-                        if (uid.equals("") || pw.equals("")) {
-                            JOptionPane.showMessageDialog(null, "Please insert Username and Password");
-                        } else {
+                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "login", JOptionPane.OK_CANCEL_OPTION);
+
+                if (scelta == 0) {
+                    String uid = username.getText();
+                    String pw = new String(password.getPassword());
+                    if (uid.equals("") || pw.equals("")) {
+                        JOptionPane.showMessageDialog(null, "Please insert Username and Password");
+                    } else {
+                        LogEvent le = new LogEvent(this, uid, pw);
+                        if (logListener != null)
                             try {
-                                frame.user = frame.resourceManager.login(frame.user, username.getText(), new String(password.getPassword()));
+//                                frame.user = frame.resourceManager.login(frame.user, username.getText(), new String(password.getPassword()));
+                                logListener.credenzialiFornite(le);
                                 JOptionPane.showMessageDialog(null, "Logged in!");
                             } catch (RemoteException ex) {
                             } catch (AlreadyLoggedException ex) {
@@ -65,31 +67,27 @@ public class BarraStrumenti extends JPanel {
                             } catch (WrongCredentialsException ex) {
                                 JOptionPane.showMessageDialog(null, "Wrong Username / Password");
                             }
-                        }
-                    }
-                } else {
-                    try {
-                        frame.user = frame.resourceManager.logout(frame.user);
-                        JOptionPane.showMessageDialog(null, "Logged out!");
-                    } catch (Exception exe) {
                     }
                 }
 
-                if (frame.user instanceof LoggedUser) {
-                    frame.controlPanel.logged(frame.user);
-                    frame.objectAreaPanel.logged(true);
-                    bottoneLog.setText("Logout");
-                    bottoneRegistra.setVisible(false);
-                } else if (frame.user instanceof NotLoggedUser) {
-                    frame.controlPanel.logged(frame.user);
-                    frame.objectAreaPanel.logged(false);
-                    bottoneLog.setText("Login");
-                    bottoneRegistra.setVisible(true);
-                }
             }
         });
 
-        // REGISTRAZIONE / + PLAYLIST
+        // LOGOUT
+        bottoneLogout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(logListener != null)
+                    try {
+                        logListener.logout();
+                        JOptionPane.showMessageDialog(null, "Logged out!");
+                    } catch (NotLoggedException ex) {
+                    } catch (RemoteException ex) {
+                    }
+            }
+        });
+
+        // REGISTRAZIONE
         bottoneRegistra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,7 +124,6 @@ public class BarraStrumenti extends JPanel {
                 panel.add(controls, BorderLayout.CENTER);
 
                 int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "registrazione", JOptionPane.OK_CANCEL_OPTION);
-
                 if (scelta == 0) {
                     String fn = firstname.getText();
                     String ln = lastname.getText();
@@ -137,26 +134,49 @@ public class BarraStrumenti extends JPanel {
                     String pw = new String(password.getPassword());
                     if (fn.equals("") || ln.equals("") || FC.equals("") || addr.equals("") || em.equals("") || uid.equals("") || pw.equals(""))
                         JOptionPane.showMessageDialog(null, "Please insert all info");
-                    else
-                        try {
-                            frame.resourceManager.registerUser(fn, ln, FC, addr, em, uid, pw);
-                            JOptionPane.showMessageDialog(null, "User registered successfully!");
-                        } catch (AlreadyRegisteredException ex) {
-                            JOptionPane.showMessageDialog(null, "The user with these data already exists!");
-                        } catch (RemoteException ex) {
-                        }
+                    else {
+                        RegistrazioneEvent re = new RegistrazioneEvent(this, fn, ln, FC, addr, em, uid, pw);
+                        if (registrazioneListener != null)
+                            try {
+//                            frame.resourceManager.registerUser(fn, ln, FC, addr, em, uid, pw);
+                                registrazioneListener.datiForniti(re);
+                                JOptionPane.showMessageDialog(null, "User registered successfully!");
+                            } catch (AlreadyRegisteredException ex) {
+                                JOptionPane.showMessageDialog(null, "The user with these data already exists!");
+                            } catch (RemoteException ex) {
+                            }
+                    }
                 }
-
-
             }
         });
 
-        bottoneLog.setFocusable(false);
+        bottoneLogin.setFocusable(false);
         bottoneRegistra.setFocusable(false);
+        bottoneLogout.setFocusable(false);
 
-        this.add(bottoneLog);
-        this.add(bottoneRegistra);
+        add(bottoneLogin);
+        add(bottoneRegistra);
+        add(bottoneLogout);
     }
 
+    public void logged(boolean logged){
+        if(logged){
+            bottoneLogin.setVisible(false);
+            bottoneRegistra.setVisible(false);
+            bottoneLogout.setVisible(true);
+        } else {
+            bottoneLogin.setVisible(true);
+            bottoneRegistra.setVisible(true);
+            bottoneLogout.setVisible(false);
+        }
+    }
+
+    public void setLogListener(LogListener logListener) {
+        this.logListener = logListener;
+    }
+
+    public void setRegistrazioneListener(RegistrazioneListener registrazioneListener) {
+        this.registrazioneListener = registrazioneListener;
+    }
 
 }

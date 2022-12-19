@@ -11,15 +11,15 @@ import java.util.LinkedList;
 
 public class PannelloPlaylist extends JPanel {
 
-    private JLabel labelPlaylist;
     private JList listaPlaylist;
 
     private JPanel tasti;
     private JButton bottoneApri;
 
-    PannelloPlaylist(/*Frame frame*/) {
+    PannelloPlaylist() {
         setPreferredSize(new Dimension(300, 50));//100
         setLayout(new BorderLayout());
+        setVisible(false);
 
         // Bordi
         Border bordoInterno = BorderFactory.createTitledBorder("le tue playlist");
@@ -42,19 +42,17 @@ public class PannelloPlaylist extends JPanel {
 
     }
 
-    public void refresh(AbstractUser user){
-        if(user instanceof LoggedUser) {
+    public void logged(AbstractUser user) {
+        if (user instanceof LoggedUser) {
             DefaultListModel modelloPlaylists = new DefaultListModel<Playlist>();
             LinkedList<Playlist> tmp = ((LoggedUser) user).getPlaylistList();
-            if(tmp.isEmpty()){
-                listaPlaylist.setModel(new DefaultListModel());
-            }else {
-                for (Playlist p : tmp)
-                    modelloPlaylists.addElement(p);
-                listaPlaylist.setModel(modelloPlaylists);
-            }
+            for (Playlist p : tmp)
+                modelloPlaylists.addElement(p);
+            listaPlaylist.setModel(modelloPlaylists);
+            setVisible(true);
         } else {
             listaPlaylist.setModel(new DefaultListModel());
+            setVisible(false);
         }
     }
         /*setPreferredSize(new Dimension(300, 50));//100
