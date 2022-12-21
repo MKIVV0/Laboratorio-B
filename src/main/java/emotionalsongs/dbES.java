@@ -314,10 +314,11 @@ public class dbES {
     // VERIFICARE CHE L'AGGIUNTA DI UN FEEDBACK SIA PERMESSA SOLO SE
     // LA CANZONE ESISTE IN UNA DELLE PLAYLIST DELL'UTENTE
     public static boolean addFeedback(Emotions emotion, String user_id, String song_id, String score, String notes) throws SQLException {
-        String query = "INSERT INTO emotion(emotion_name, user_id, song_id, score, notes)" +
-                "SELECT '" + emotion.toString().toLowerCase() + "', '" + user_id + "', '" + song_id + "'," + score + ", ''" +
+        String query = "INSERT INTO emotion(emotion_name, user_id, song_id, score, notes)\n" +
+                "SELECT '" + emotion.toString().toLowerCase() + "', '" + user_id + "', '" + song_id + "', '" + score + "', '" + notes + "'\n" +
                 "WHERE " +
-                "EXISTS (SELECT * FROM Playlist WHERE song_id = '" + song_id + "', '" + notes + "')";
+                "EXISTS (SELECT * FROM Playlist WHERE song_id = '" + song_id + "')";
+        System.err.println(query);
         int count = statement.executeUpdate(query);
         if (count > 0) return true;
         else return false;
