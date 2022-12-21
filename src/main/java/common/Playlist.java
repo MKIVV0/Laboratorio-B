@@ -36,11 +36,11 @@ public class Playlist implements Serializable {
 	}
 
 	public void addSong(Song song){
-		for (Song s: this.songList)
+		/*for (Song s: this.songList)
 			if (s.equals(song)) {
 				System.out.println("\nCanzone già presente nella playlist!");
 				return;
-			}
+			}*/
 		this.songList.add(song);
 	}
 
@@ -50,6 +50,10 @@ public class Playlist implements Serializable {
 
 	public boolean isEmpty(){
 		return this.songList.isEmpty();
+	}
+
+	public void removeSong(Song song){
+		songList.remove(song);
 	}
 
 	public String getPlaylistName() {

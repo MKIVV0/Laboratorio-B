@@ -18,6 +18,7 @@ public class PannelloPlaylist extends JPanel {
     private JPanel tasti;
     private JButton bottoneApri, bottoneCrea, bottoneElimina;
     private PlaylistListener playlistListener;
+    private Playlist playlist;
 
     PannelloPlaylist() {
         setPreferredSize(new Dimension(300, 50));//100
@@ -128,6 +129,14 @@ public class PannelloPlaylist extends JPanel {
             listaPlaylist.setModel(new DefaultListModel());
             setVisible(false);
         }
+    }
+
+    public void setPlaylist(Playlist playlist) {
+        this.playlist = playlist;
+    }
+
+    public Playlist getPlaylist() {
+        return playlist;
     }
 
     public void setPlaylistListener(PlaylistListener playlistListener) {

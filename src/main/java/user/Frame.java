@@ -49,8 +49,8 @@ public class Frame extends JFrame {
                 user = resourceManager.logout(user);
                 logged = user instanceof LoggedUser;
                 barraStrumenti.logged(logged);
-                objectAreaPanel.logged(logged);
                 objectAreaPanel.isSongOfPlaylist(false);
+                objectAreaPanel.logged(logged);
                 objectAreaPanel.pulisciArea();
                 pannelloPlaylist.logged(user);
             }
@@ -74,8 +74,39 @@ public class Frame extends JFrame {
             }
 
             @Override
-            public void addSong(Song song) {
+            public void addSong(Song song) throws SQLException, playlistException, RemoteException {
+                LinkedList<Playlist> userPlaylists = ((LoggedUser)user).getPlaylistList();
+                String[] opzioni = new String[userPlaylists.size()];
+                int i = 0;
+                for(Playlist p: userPlaylists)
+                    opzioni[i++] = p.getPlaylistName();
+                JPanel panel = new JPanel(new BorderLayout(5, 5));
+                JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+                label.add(new JLabel("Playlist: ", SwingConstants.RIGHT));
+                panel.add(label, BorderLayout.WEST);
+                JPanel controls = new JPanel(new GridLayout());
+                JComboBox listaPlaylists = new JComboBox(opzioni);
+                controls.add(listaPlaylists);
+                panel.add(controls, BorderLayout.CENTER);
+                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "seleziona playlist", JOptionPane.OK_CANCEL_OPTION);
+                if(scelta == 0 && listaPlaylists.getSelectedIndex() != -1){
+                    String plName = (String)listaPlaylists.getSelectedItem();
+                    Playlist p = ((LoggedUser)user).getPlaylist(plName);
+                    resourceManager.addSongToPlaylist(plName, song, user);
+                    p.addSong(song);
+                    pannelloPlaylist.logged(user);
+                }
+            }
 
+            @Override
+            public void removeSong(Song song) throws SQLException, playlistException, RemoteException {
+                Playlist playlist = pannelloPlaylist.getPlaylist();
+                resourceManager.removeSongFromPlaylist(playlist.getPlaylistName(), song, user);
+                playlist.removeSong(song);
+                pannelloPlaylist.logged(user);
+                objectAreaPanel.pulisciArea();
+                objectAreaPanel.inserisciBrani(playlist.getSongList());
+                objectAreaPanel.isSongOfPlaylist(true);
             }
         });
 
@@ -94,6 +125,7 @@ public class Frame extends JFrame {
                     objectAreaPanel.pulisciArea();
                     objectAreaPanel.inserisciBrani(tmp);
                     objectAreaPanel.isSongOfPlaylist(false);
+                    objectAreaPanel.logged(logged);
                 } catch (RemoteException e) {
                 }
             }
@@ -120,6 +152,7 @@ public class Frame extends JFrame {
             public void apriPlaylist(String plName) {
                 Playlist playlist = ((LoggedUser) user).getPlaylist(plName);
                 LinkedList<Song> tmp = playlist.getSongList();
+                pannelloPlaylist.setPlaylist(playlist);
                 objectAreaPanel.pulisciArea();
                 objectAreaPanel.inserisciBrani(tmp);
                 objectAreaPanel.isSongOfPlaylist(true);

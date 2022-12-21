@@ -1,7 +1,9 @@
 package user;
 
 import common.NoFeedbackException;
+import common.Playlist;
 import common.Song;
+import common.playlistException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,8 +35,8 @@ public class ObjectAreaPanel extends JPanel {
         valuta = new JButton("Valuta");
         togli = new JButton("Togli");
 
-        logged(false);
         isSongOfPlaylist(false);
+        logged(false);
 
         showFeedback.addActionListener(new ActionListener() {
             @Override
@@ -66,8 +68,42 @@ public class ObjectAreaPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if(songResultSet.getSelectedIndex() != -1){
                     Song song = (Song) songResultSet.getSelectedValue();
-                    if(songListener != null){}
+                    if(songListener != null)
+                        try {
+                            songListener.addSong(song);
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, "Brano gia presente");
+                        } catch (playlistException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (RemoteException ex) {
+                            throw new RuntimeException(ex);
+                        }
                 }
+            }
+        });
+
+        togli.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(songResultSet.getSelectedIndex() != -1){
+                    Song song = (Song) songResultSet.getSelectedValue();
+                    if(songListener != null)
+                        try {
+                            songListener.removeSong(song);
+                        } catch (SQLException ex) {
+                        } catch (playlistException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (RemoteException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                }
+            }
+        });
+
+        valuta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
 
