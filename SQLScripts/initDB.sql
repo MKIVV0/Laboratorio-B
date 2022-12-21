@@ -44,14 +44,14 @@ CREATE TABLE IF NOT EXISTS Playlist (
 CREATE TABLE IF NOT EXISTS Emotion (
     emotion_name VARCHAR (10) NOT NULL
     CONSTRAINT emotionenum CHECK ( emotion_name
-    IN ('joy ','power ',
-    'amazement ',
-    'solemnity ',
-    'tenderness ',
-    'nostalgia ',
-    'calmness ',
-    'tension ',
-    'sadness ')),
+    IN ('joy','power',
+    'amazement',
+    'solemnity',
+    'tenderness',
+    'nostalgia',
+    'calmness',
+    'tension',
+    'sadness')),
 
     user_id VARCHAR (30) NOT NULL REFERENCES registeredUser
     ON DELETE CASCADE
