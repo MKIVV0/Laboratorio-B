@@ -17,7 +17,7 @@ public class PannelloPlaylist extends JPanel {
     private LinkedList<Playlist> playlists;
     private JPanel tasti;
     private JButton bottoneApri, bottoneCrea, bottoneElimina;
-    private CreaPlaylistListener creaPlaylistListener;
+    private PlaylistListener playlistListener;
 
     PannelloPlaylist() {
         setPreferredSize(new Dimension(300, 50));//100
@@ -46,28 +46,22 @@ public class PannelloPlaylist extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
-
                 JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
                 label.add(new JLabel("Nome", SwingConstants.RIGHT));
-
                 panel.add(label, BorderLayout.WEST);
-
                 JPanel controls = new JPanel(new GridLayout());
                 JTextField playlistName = new JTextField();
                 controls.add(playlistName);
-
                 panel.add(controls, BorderLayout.CENTER);
-
                 int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "nuova playlist", JOptionPane.OK_CANCEL_OPTION);
-
                 if (scelta == 0) {
                     String plName = playlistName.getText();
                     if (plName.equals("")) {
                         JOptionPane.showMessageDialog(null, "Please insert Playlist name");
                     } else
-                        if (creaPlaylistListener != null)
+                        if (playlistListener != null)
                             try {
-                                creaPlaylistListener.creaPlaylist(plName);
+                                playlistListener.creaPlaylist(plName);
                                 JOptionPane.showMessageDialog(null, "Playlist " + plName + " creata");
                             } catch (RemoteException ex) {
                                 JOptionPane.showMessageDialog(null, "remote");
@@ -76,6 +70,29 @@ public class PannelloPlaylist extends JPanel {
                             } catch (SQLException ex){
                                 JOptionPane.showMessageDialog(null, "sql");
                             }
+                }
+            }
+        });
+
+        bottoneElimina.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!listaPlaylist.isSelectionEmpty()){
+                    String nomePlaylist = (String)listaPlaylist.getSelectedValue();
+                    String domanda = "Eliminare " + nomePlaylist + " ?";
+                    int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], domanda, "elimina playlist", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (scelta == 0) {
+                        if(playlistListener != null)
+                            try{
+                                playlistListener.eliminaPlaylist(nomePlaylist);
+                            } catch (SQLException ex) {
+                                JOptionPane.showMessageDialog(null, "sql");
+                            } catch (playlistException ex) {
+                                JOptionPane.showMessageDialog(null, "pl");
+                            } catch (RemoteException ex) {
+                                JOptionPane.showMessageDialog(null, "remote");
+                            }
+                    }
                 }
             }
         });
@@ -104,9 +121,10 @@ public class PannelloPlaylist extends JPanel {
         }
     }
 
-    public void setCreaPlaylistListener(CreaPlaylistListener creaPlaylistListener) {
+    public void setPlaylistListener(PlaylistListener playlistListener) {
 
-        this.creaPlaylistListener = creaPlaylistListener;
+        this.playlistListener = playlistListener;
 
     }
+
 }

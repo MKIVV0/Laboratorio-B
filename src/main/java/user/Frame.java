@@ -93,11 +93,18 @@ public class Frame extends JFrame {
 
         // PANNELLO PLAYLIST
         pannelloPlaylist = new PannelloPlaylist();
-        pannelloPlaylist.setCreaPlaylistListener(new CreaPlaylistListener() {
+        pannelloPlaylist.setPlaylistListener(new PlaylistListener() {
             @Override
             public void creaPlaylist(String plName) throws SQLException, playlistException, RemoteException {
                 Playlist nuova = resourceManager.createPlaylist(plName, user);
                 ((LoggedUser)user).addPlaylist(nuova);
+                pannelloPlaylist.logged(user);
+            }
+
+            @Override
+            public void eliminaPlaylist(String plName) throws SQLException, playlistException, RemoteException {
+                resourceManager.deletePlaylist(plName, user);
+                ((LoggedUser)user).deletePlaylist(plName);
                 pannelloPlaylist.logged(user);
             }
         });

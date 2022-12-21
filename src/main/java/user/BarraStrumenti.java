@@ -58,7 +58,6 @@ public class BarraStrumenti extends JPanel {
                         LogEvent le = new LogEvent(this, uid, pw);
                         if (logListener != null)
                             try {
-//                                frame.user = frame.resourceManager.login(frame.user, username.getText(), new String(password.getPassword()));
                                 logListener.credenzialiFornite(le);
                                 JOptionPane.showMessageDialog(null, "Logged in!");
                             } catch (RemoteException ex) {

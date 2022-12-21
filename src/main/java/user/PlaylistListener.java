@@ -1,11 +1,11 @@
 package user;
 
-import common.Playlist;
 import common.playlistException;
 
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 
-public interface CreaPlaylistListener {
+public interface PlaylistListener {
     void creaPlaylist(String plName) throws SQLException, playlistException, RemoteException;
+    void eliminaPlaylist(String plName) throws SQLException, playlistException, RemoteException;
 }

@@ -65,6 +65,14 @@ public class LoggedUser extends AbstractUser {
         playlistList.add(p);
     }
 
+    public void deletePlaylist(String s){
+        for (Playlist p: playlistList)
+            if(p.getPlaylistName().equals(s)){
+                playlistList.remove(p);
+                break;
+            }
+    }
+
     @Override
     public String toString() {
         String pl;
