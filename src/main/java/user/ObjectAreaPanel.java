@@ -43,11 +43,15 @@ public class ObjectAreaPanel extends JPanel {
                     if(songListener != null) {
                         try {
                             LinkedList<String> feedbacks = songListener.guardaFeedback(song);
+                            JPanel panel = new JPanel(new BorderLayout(5, 5));
+                            JTextArea textArea = new JTextArea();
+                            panel.add(textArea, BorderLayout.CENTER);
                             String feedbackString = "";
                             for (String s : feedbacks) {
                                 feedbackString += s + "\n";
+                                textArea.append(feedbackString);
                             }
-                            JOptionPane.showMessageDialog(null, feedbackString);
+                            JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "feedbacks", JOptionPane.OK_CANCEL_OPTION);
                         } catch (NoFeedbackException ex) {
                             JOptionPane.showMessageDialog(null, "No feedbacks for this song!");
                         } catch (SQLException ex) {

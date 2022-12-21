@@ -300,6 +300,7 @@ public class dbES {
             feedback += "emotion: " + rs.getString("emotion_name")
                     + "\n score: " + rs.getString("score") +
                     "\n notes: " + rs.getString("notes") + "\n";
+
         }
 
         return feedback_list;
