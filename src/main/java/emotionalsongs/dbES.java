@@ -147,7 +147,7 @@ public class dbES {
                 "FROM playlist p \n" +
                 "    JOIN registereduser ru ON p.user_id = ru.user_id \n" +
                 "    JOIN Song s ON p.song_id = s.song_id \n" +
-                "WHERE p.user_id = '" + user_id + "' AND s.song_id != 'ZZZZZZZZZZZZZZZZZZ'" +
+                "WHERE p.user_id = '" + user_id + "'\n" +
                 "ORDER BY playlist_name";
         ResultSet rs = statement.executeQuery(query);
 
