@@ -14,7 +14,7 @@ import java.util.LinkedList;
 public class PannelloPlaylist extends JPanel {
 
     private JList listaPlaylist;
-    private LinkedList<Playlist> playlists;
+//    private LinkedList<Playlist> playlists;
     private JPanel tasti;
     private JButton bottoneApri, bottoneCrea, bottoneElimina;
     private PlaylistListener playlistListener;
@@ -31,7 +31,7 @@ public class PannelloPlaylist extends JPanel {
 
         setBorder(bordoFinale);
 
-        playlists = new LinkedList<>();
+//        playlists = new LinkedList<>();
 
         listaPlaylist = new JList<Playlist>();
         listaPlaylist.setBorder(BorderFactory.createEtchedBorder());
@@ -97,6 +97,15 @@ public class PannelloPlaylist extends JPanel {
             }
         });
 
+        bottoneApri.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!listaPlaylist.isSelectionEmpty())
+                    if(playlistListener != null)
+                        playlistListener.apriPlaylist((String)listaPlaylist.getSelectedValue());
+            }
+        });
+
         tasti.add(bottoneApri);
         tasti.add(bottoneCrea);
         tasti.add(bottoneElimina);
@@ -108,14 +117,14 @@ public class PannelloPlaylist extends JPanel {
 
     public void logged(AbstractUser user) {
         if (user instanceof LoggedUser) {
-            playlists = ((LoggedUser) user).getPlaylistList();
+//            playlists = ((LoggedUser) user).getPlaylistList();
             DefaultListModel modelloPlaylists = new DefaultListModel();
-            for (Playlist p : playlists)
+            for (Playlist p : ((LoggedUser) user).getPlaylistList())
                 modelloPlaylists.addElement(p.getPlaylistName());
             listaPlaylist.setModel(modelloPlaylists);
             setVisible(true);
         } else {
-            playlists = new LinkedList<>();
+//            playlists = new LinkedList<>();
             listaPlaylist.setModel(new DefaultListModel());
             setVisible(false);
         }

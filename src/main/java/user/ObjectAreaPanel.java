@@ -15,8 +15,8 @@ public class ObjectAreaPanel extends JPanel {
 
     private JList songResultSet;
     private JPanel tasti;
-    private JButton showFeedback, aggiungi, valuta;
-    private FeedbackListener feedbackListener;
+    private JButton showFeedback, aggiungi, valuta, togli;
+    private SongListener songListener;
 
     public ObjectAreaPanel(){
         setLayout(new BorderLayout());
@@ -31,19 +31,19 @@ public class ObjectAreaPanel extends JPanel {
         showFeedback = new JButton("Feedbacks");
         aggiungi = new JButton("Aggiungi");
         valuta = new JButton("Valuta");
+        togli = new JButton("Togli");
 
-        aggiungi.setVisible(false);
-        valuta.setVisible(false);
+        logged(false);
+        isSongOfPlaylist(false);
 
         showFeedback.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(songResultSet.getSelectedIndex() != -1){
                     Song song = (Song) songResultSet.getSelectedValue();
-                    if(feedbackListener != null) {
+                    if(songListener != null) {
                         try {
-//                            LinkedList<String> feedbacks = frame.resourceManager.getFeedback(song);
-                            LinkedList<String> feedbacks = feedbackListener.guardaFeedback(song);
+                            LinkedList<String> feedbacks = songListener.guardaFeedback(song);
                             String feedbackString = "";
                             for (String s : feedbacks) {
                                 feedbackString += s + "\n";
@@ -61,13 +61,43 @@ public class ObjectAreaPanel extends JPanel {
             }
         });
 
+        aggiungi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(songResultSet.getSelectedIndex() != -1){
+                    Song song = (Song) songResultSet.getSelectedValue();
+                    if(songListener != null){}
+                }
+            }
+        });
+
         tasti.add(showFeedback);
         tasti.add(aggiungi);
         tasti.add(valuta);
+        tasti.add(togli);
 
         add(new JScrollPane(songResultSet), BorderLayout.CENTER);
         add(tasti, BorderLayout.SOUTH);
 
+    }
+
+    public void isSongOfPlaylist(boolean songOfPlaylist) {
+        if(songOfPlaylist){
+            aggiungi.setVisible(false);
+            togli.setVisible(true);
+            valuta.setVisible(true);
+        } else {
+            aggiungi.setVisible(true);
+            togli.setVisible(false);
+            valuta.setVisible(false);
+        }
+    }
+
+    public void logged(boolean logged){
+        if(logged)
+            aggiungi.setVisible(true);
+        else
+            aggiungi.setVisible(false);
     }
 
     public void inserisciBrani(LinkedList<Song> songs) {
@@ -81,17 +111,8 @@ public class ObjectAreaPanel extends JPanel {
         songResultSet.setModel(new DefaultListModel());
     }
 
-    public void logged(boolean logged){
-        if(logged){
-            aggiungi.setVisible(true);
-            valuta.setVisible(true);
-        } else {
-            aggiungi.setVisible(false);
-            valuta.setVisible(false);
-        }
-    }
 
-    public void setFeedbackListener(FeedbackListener feedbackListener) {
-        this.feedbackListener = feedbackListener;
+    public void setSongListener(SongListener songListener) {
+        this.songListener = songListener;
     }
 }

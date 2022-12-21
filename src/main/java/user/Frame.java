@@ -50,6 +50,8 @@ public class Frame extends JFrame {
                 logged = user instanceof LoggedUser;
                 barraStrumenti.logged(logged);
                 objectAreaPanel.logged(logged);
+                objectAreaPanel.isSongOfPlaylist(false);
+                objectAreaPanel.pulisciArea();
                 pannelloPlaylist.logged(user);
             }
         });
@@ -65,10 +67,15 @@ public class Frame extends JFrame {
 
         // OBJECT AREA PANEL
         objectAreaPanel = new ObjectAreaPanel();
-        objectAreaPanel.setFeedbackListener(new FeedbackListener() {
+        objectAreaPanel.setSongListener(new SongListener() {
             @Override
             public LinkedList<String> guardaFeedback(Song song) throws NoFeedbackException, SQLException, RemoteException {
                 return resourceManager.getFeedback(song);
+            }
+
+            @Override
+            public void addSong(Song song) {
+
             }
         });
 
@@ -86,6 +93,7 @@ public class Frame extends JFrame {
                     LinkedList<Song> tmp = resourceManager.findSong(testo);
                     objectAreaPanel.pulisciArea();
                     objectAreaPanel.inserisciBrani(tmp);
+                    objectAreaPanel.isSongOfPlaylist(false);
                 } catch (RemoteException e) {
                 }
             }
@@ -106,6 +114,15 @@ public class Frame extends JFrame {
                 resourceManager.deletePlaylist(plName, user);
                 ((LoggedUser)user).deletePlaylist(plName);
                 pannelloPlaylist.logged(user);
+            }
+
+            @Override
+            public void apriPlaylist(String plName) {
+                Playlist playlist = ((LoggedUser) user).getPlaylist(plName);
+                LinkedList<Song> tmp = playlist.getSongList();
+                objectAreaPanel.pulisciArea();
+                objectAreaPanel.inserisciBrani(tmp);
+                objectAreaPanel.isSongOfPlaylist(true);
             }
         });
 

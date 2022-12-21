@@ -73,6 +73,13 @@ public class LoggedUser extends AbstractUser {
             }
     }
 
+    public Playlist getPlaylist(String plName){
+        for (Playlist p: playlistList)
+            if(p.getPlaylistName().equals(plName))
+                return p;
+        return null; //TMCH
+    }
+
     @Override
     public String toString() {
         String pl;
