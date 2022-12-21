@@ -150,6 +150,7 @@ public class Frame extends JFrame {
             public void eliminaPlaylist(String plName) throws SQLException, playlistException, RemoteException {
                 resourceManager.deletePlaylist(plName, user);
                 ((LoggedUser)user).deletePlaylist(plName);
+                objectAreaPanel.pulisciArea();
                 pannelloPlaylist.logged(user);
             }
 
