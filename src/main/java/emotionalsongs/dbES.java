@@ -312,7 +312,7 @@ public class dbES {
     // FEEDBACK
     // 1) Aggiungi feedback - DONE
     // VERIFICARE CHE L'AGGIUNTA DI UN FEEDBACK SIA PERMESSA SOLO SE
-    // LA CANZONE ESISTE IN UNA DELLE PLAYLIST DELL'UTENTE
+    // LA CANZONE ESISTE IN UNA DELLE PLAYLIST DELL'UTENTE.
     public static boolean addFeedback(Emotions emotion, String user_id, String song_id, String score, String notes) throws SQLException {
         String query = "INSERT INTO emotion(emotion_name, user_id, song_id, score, notes)\n" +
                 "SELECT '" + emotion.toString().toLowerCase() + "', '" + user_id + "', '" + song_id + "', '" + score + "', '" + notes + "'\n" +
