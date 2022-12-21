@@ -11,25 +11,73 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class dbES {
+    /**
+     * database's URL.
+     */
     private static String protocol = "jdbc:postgresql" + "://";
+    /**
+     * default host's name in which the database is located.
+     */
     private static String host = "localhost" + ':';
+    /**
+     * default port on which the database is located.
+     */
     private static String port = 5432 + "/";
+    /**
+     * database's name.
+     */
     private static String resource = "emotionalsongs";
-
+    /**
+     * full path for accessing the database.
+     */
     private static String url = protocol + host + port;
+    /**
+     * default database's userid.
+     */
     private static String userid = "postgres";
-    private static String password = "postgres";
-
+    /**
+     * database user password.
+     */
+    private static String password = null;
+    /**
+     * static object instance of the class.
+     */
     private static dbES database;
+    /**
+     * connection object by which a connection is established between the program and the database.
+     */
     private static Connection connection;
+    /**
+     * object by which query statements are created.
+     */
     private static Statement statement;
-
+    /**
+     * base path.
+     */
     public static final String SCRIPTS_PATH = "." + File.separator + "SQLScripts" + File.separator;
+    /**
+     * path of the file that creates the tables in the database.
+     */
     public static final String scriptPath1 = SCRIPTS_PATH + "initDB.sql";
+    /**
+     * path of the file that initializes the repository and gives a default user.
+     */
     public static final String scriptPath2 = SCRIPTS_PATH + "initTableSong.sql";
 
     // Questo costruttore, grazie al metodo getInstance, potrà
     // essere invocato una volta sola.
+    /**
+     * dbES constructor.
+     * It sets the credentials for connecting to the server on which the databases is
+     * located on, then a connection between the database on the server and the client
+     * is created in order to create the database emotionalsongs if it doesn't exist.
+     * The path is then updated with the resource name and the connection is reinitialized.
+     * In the end, the tables are constructed and the data are initialized.
+     * @param server server's name.
+     * @param p server's port on which the database service is available.
+     * @param user database's userid credential.
+     * @param pwd database's password credential.
+     */
     private dbES(String server, String p, String user, String pwd) throws SQLException, IOException {
         setCredentials(server, p, user, pwd); // si settano le credenziali per collegarsi al server database
         setConnection(); // si setta la connessione con le credenziali prese prima
@@ -39,8 +87,10 @@ public class dbES {
         initializeTables(statement, scriptPath1, scriptPath2); // si inizializzano le tabelle
     }
 
-    // Sfrutto il pattern Singleton per assicurarmi di gestire la
-    // comunicazione con il db in modo centralizzato.
+    /**
+     * gets the single dbES instance.
+     * A singleton pattern is used, in order to maintain a centralized communication structure.
+     */
     public static dbES getInstance(String server, String db, String p, String user, String pwd) throws SQLException, IOException {
 
         if (database == null) {
@@ -50,6 +100,9 @@ public class dbES {
         return database;
     }
 
+    /**
+     * sets the object's field for accessing the database, in case a user has other URL specifications.
+     */
     private void setCredentials(String server, String p, String user, String pwd) {
         if (!server.equals("")) host = server + ':';
         if (!p.equals("")) port = p + "/";
@@ -57,6 +110,9 @@ public class dbES {
         if (!pwd.equals("")) password = pwd;
     }
 
+    /**
+     * ìnitializes the connection to the database.
+     */
     private void setConnection() throws SQLException {
         connection = DriverManager.getConnection(url, userid, password);
         statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -64,6 +120,9 @@ public class dbES {
     }
 
     // Crea il db - DONE
+    /**
+     * creates the default database.
+     */
     public static void createDB(Statement st) {
         try {
             if (st.execute("CREATE DATABASE EmotionalSongs"))
@@ -73,7 +132,9 @@ public class dbES {
         }
     }
 
-    // Inizializza le tabelle - DONE
+    /**
+     * initializes the database tables.
+     */
     public static void initializeTables(Statement st, String scriptPath1, String scriptPath2) throws SQLException, IOException {
         String script = null;
         String line;
@@ -102,21 +163,13 @@ public class dbES {
         System.out.println("DB successfully initialized");
     }
 
-    // FOR TESTING PURPOSES
-    private static ResultSet submitQuery(String query) throws SQLException {
-
-        if (statement.execute(query)) {
-
-            return statement.getResultSet();
-        }
-
-        return null;
-    }
-
 
     // Controllo credenziali
     // Verifica la presenza di una tupla nella tabella registereduser. Ritorna l'oggetto, se l'utente è
     // presente nella tabella, lancia un'eccezione altrimenti.
+    /**
+     * gets a LoggedUser object from the
+     */
     public static synchronized LoggedUser getLoggedUser(String user_id, String pwd) throws SQLException, WrongCredentialsException {
         String query1 = "SELECT * FROM registereduser WHERE user_id = \'" + user_id + "\' AND password = \'" + pwd + "\'";
         ResultSet rs = statement.executeQuery(query1);
