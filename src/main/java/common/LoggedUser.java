@@ -61,6 +61,10 @@ public class LoggedUser extends AbstractUser {
         return playlistList;
     }
 
+    public void addPlaylist(Playlist p){
+        playlistList.add(p);
+    }
+
     @Override
     public String toString() {
         String pl;

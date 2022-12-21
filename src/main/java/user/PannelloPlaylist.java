@@ -1,20 +1,23 @@
 package user;
 
-import common.AbstractUser;
-import common.LoggedUser;
-import common.Playlist;
+import common.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 public class PannelloPlaylist extends JPanel {
 
     private JList listaPlaylist;
-
+    private LinkedList<Playlist> playlists;
     private JPanel tasti;
-    private JButton bottoneApri;
+    private JButton bottoneApri, bottoneCrea, bottoneElimina;
+    private CreaPlaylistListener creaPlaylistListener;
 
     PannelloPlaylist() {
         setPreferredSize(new Dimension(300, 50));//100
@@ -28,14 +31,58 @@ public class PannelloPlaylist extends JPanel {
 
         setBorder(bordoFinale);
 
+        playlists = new LinkedList<>();
+
         listaPlaylist = new JList<Playlist>();
         listaPlaylist.setBorder(BorderFactory.createEtchedBorder());
 
         tasti = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         bottoneApri = new JButton("Apri");
+        bottoneCrea = new JButton("Crea");
+        bottoneElimina = new JButton("Elimina");
+
+        bottoneCrea.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel panel = new JPanel(new BorderLayout(5, 5));
+
+                JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+                label.add(new JLabel("Nome", SwingConstants.RIGHT));
+
+                panel.add(label, BorderLayout.WEST);
+
+                JPanel controls = new JPanel(new GridLayout());
+                JTextField playlistName = new JTextField();
+                controls.add(playlistName);
+
+                panel.add(controls, BorderLayout.CENTER);
+
+                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "nuova playlist", JOptionPane.OK_CANCEL_OPTION);
+
+                if (scelta == 0) {
+                    String plName = playlistName.getText();
+                    if (plName.equals("")) {
+                        JOptionPane.showMessageDialog(null, "Please insert Playlist name");
+                    } else
+                        if (creaPlaylistListener != null)
+                            try {
+                                creaPlaylistListener.creaPlaylist(plName);
+                                JOptionPane.showMessageDialog(null, "Playlist " + plName + " creata");
+                            } catch (RemoteException ex) {
+                                JOptionPane.showMessageDialog(null, "remote");
+                            } catch (playlistException ex){
+                                JOptionPane.showMessageDialog(null, "Playlist esistente");
+                            } catch (SQLException ex){
+                                JOptionPane.showMessageDialog(null, "sql");
+                            }
+                }
+            }
+        });
 
         tasti.add(bottoneApri);
+        tasti.add(bottoneCrea);
+        tasti.add(bottoneElimina);
 
         add(new JScrollPane(listaPlaylist), BorderLayout.CENTER);
         add(tasti, BorderLayout.SOUTH);
@@ -44,107 +91,22 @@ public class PannelloPlaylist extends JPanel {
 
     public void logged(AbstractUser user) {
         if (user instanceof LoggedUser) {
-            DefaultListModel modelloPlaylists = new DefaultListModel<Playlist>();
-            LinkedList<Playlist> tmp = ((LoggedUser) user).getPlaylistList();
-            for (Playlist p : tmp)
-                modelloPlaylists.addElement(p);
+            playlists = ((LoggedUser) user).getPlaylistList();
+            DefaultListModel modelloPlaylists = new DefaultListModel();
+            for (Playlist p : playlists)
+                modelloPlaylists.addElement(p.getPlaylistName());
             listaPlaylist.setModel(modelloPlaylists);
             setVisible(true);
         } else {
+            playlists = new LinkedList<>();
             listaPlaylist.setModel(new DefaultListModel());
             setVisible(false);
         }
     }
-        /*setPreferredSize(new Dimension(300, 50));//100
-        setLayout(new GridBagLayout());
 
-        // Bordi
-        Border bordoInterno = BorderFactory.createTitledBorder("area personale");
-        Border bordoEsterno = BorderFactory.createEmptyBorder(0, 5, 5, 5);
-        Border bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
+    public void setCreaPlaylistListener(CreaPlaylistListener creaPlaylistListener) {
 
-        setBorder(bordoFinale);
+        this.creaPlaylistListener = creaPlaylistListener;
 
-        //label
-        labelPlaylist = new JLabel("Playlist: ");
-//password123
-        //lista
-        listaPlaylist = new JList<Playlist>();
-//        listaPlaylist.setPreferredSize(new Dimension(170, 55));
-        listaPlaylist.setBorder(BorderFactory.createEtchedBorder());
-//        DefaultListModel modelloPlaylists = new DefaultListModel<Playlist>();
-
-        if(frame.user instanceof LoggedUser) {
-            LinkedList<Playlist> tmp = ((LoggedUser) frame.user).getPlaylistList();
-            for (Playlist p : tmp)
-                modelloPlaylists.addElement(p);
-        }
-
-        listaPlaylist.setModel(modelloPlaylists);
-
-        //button
-        bottoneApri = new JButton("Apri");
-
-        //layout
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        // RIGA 0
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-
-        gbc.weightx = 0.01;
-        gbc.weighty = 0.03;
-
-        gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-
-        gbc.insets = new Insets(5, 0, 0, 5);
-
-        add(labelPlaylist, gbc);
-
-        // RIGA 0
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-
-        gbc.weightx = 0.1;
-        gbc.weighty = 0.03;
-
-        gbc.anchor = GridBagConstraints.LINE_START;
-
-        gbc.insets = new Insets(0, 0, 0, 0);
-
-        add(new JScrollPane(listaPlaylist), gbc);
-
-        // RIGA 1
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-
-        gbc.gridwidth = 2;
-        gbc.gridheight = 1;
-
-        gbc.anchor = GridBagConstraints.PAGE_START;
-
-        gbc.insets = new Insets(0, 0, 0, 0);
-
-        add(bottoneApri, gbc);
     }
-
-    public void refresh(AbstractUser user){
-        if(user instanceof LoggedUser) {
-            DefaultListModel modelloPlaylists = new DefaultListModel<Playlist>();
-            LinkedList<Playlist> tmp = ((LoggedUser) user).getPlaylistList();
-            if(tmp.isEmpty()){
-                listaPlaylist.setModel(new DefaultListModel());
-            }else {
-                for (Playlist p : tmp)
-                    modelloPlaylists.addElement(p);
-                listaPlaylist.setModel(modelloPlaylists);
-            }
-        } else {
-            listaPlaylist.setModel(new DefaultListModel());
-        }
-    }*/
-
 }

@@ -296,8 +296,9 @@ public class dbES {
     // PLAYLIST
     // 1) Crea playlist - DONE
     public static boolean createPlaylist(String pl_name, String user_id) throws SQLException {
-        String query = "INSERT INTO playlist VALUES ('" + pl_name + "', ' ', '" + user_id + "')";
+        String query = "INSERT INTO playlist VALUES ('" + pl_name + "', '" + user_id + "')";
         // AGGIORNARE CON INSERT CONDIZIONATA: LA PLAYLIST ESISTE GIA'
+        System.out.println(query);
         int count = statement.executeUpdate(query);
         if (count > 0) return true;
         else return false;

@@ -17,9 +17,9 @@ public class Frame extends JFrame {
     private JPanel panel;
     private PannelloCerca pannelloCerca;
     private PannelloPlaylist pannelloPlaylist;
-    ObjectAreaPanel objectAreaPanel;
-    ResourceManagerInterface resourceManager;
-    AbstractUser user;
+    private ObjectAreaPanel objectAreaPanel;
+    private ResourceManagerInterface resourceManager;
+    private AbstractUser user;
     private boolean logged;
 
     public Frame() throws RemoteException, NotBoundException {
@@ -93,13 +93,21 @@ public class Frame extends JFrame {
 
         // PANNELLO PLAYLIST
         pannelloPlaylist = new PannelloPlaylist();
+        pannelloPlaylist.setCreaPlaylistListener(new CreaPlaylistListener() {
+            @Override
+            public void creaPlaylist(String plName) throws SQLException, playlistException, RemoteException {
+                Playlist nuova = resourceManager.createPlaylist(plName, user);
+                ((LoggedUser)user).addPlaylist(nuova);
+                pannelloPlaylist.logged(user);
+            }
+        });
 
         // PANNELLO
-        panel = new JPanel(new GridLayout(2,1));
+        panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(300, 100));
 
-        panel.add(pannelloCerca);
-        panel.add(pannelloPlaylist);
+        panel.add(pannelloCerca, BorderLayout.PAGE_START);
+        panel.add(pannelloPlaylist, BorderLayout.CENTER);
 
         add(objectAreaPanel, BorderLayout.CENTER);
         add(barraStrumenti, BorderLayout.PAGE_START);

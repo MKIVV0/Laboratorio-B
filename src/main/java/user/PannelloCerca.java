@@ -10,21 +10,14 @@ public class PannelloCerca extends JPanel {
 
     private JLabel labelCercaBrano;
     private JTextField fieldCercaBrano;
-
     private JLabel labelCercaPer;
     private JRadioButton radioCercaPerTitolo;
     private JRadioButton radioCercaPerAutore;
     private ButtonGroup gruppoRadioCercaPer;
-
     private JButton bottoneCerca;
-
-//    private PannelloPlaylist pannelloPlaylist;
-
     private CercaListener cercaListener;
 
-
     PannelloCerca() {
-        setPreferredSize(new Dimension(300, 50));//100
         setLayout(new GridBagLayout());
 
         // Bordi
