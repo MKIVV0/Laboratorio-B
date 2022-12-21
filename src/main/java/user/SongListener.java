@@ -1,9 +1,6 @@
 package user;
 
-import common.NoFeedbackException;
-import common.Playlist;
-import common.Song;
-import common.playlistException;
+import common.*;
 
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -13,4 +10,6 @@ public interface SongListener {
     LinkedList<String> guardaFeedback(Song song) throws NoFeedbackException, SQLException, RemoteException;
     void addSong(Song song) throws SQLException, playlistException, RemoteException;
     void removeSong(Song song) throws SQLException, playlistException, RemoteException;
+
+    void valutaSong(FeedbackForm ff) throws NotLoggedException, SQLException, AlreadyValuedException, RemoteException;
 }

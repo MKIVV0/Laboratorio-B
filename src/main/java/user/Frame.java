@@ -108,6 +108,11 @@ public class Frame extends JFrame {
                 objectAreaPanel.inserisciBrani(playlist.getSongList());
                 objectAreaPanel.isSongOfPlaylist(true);
             }
+
+            @Override
+            public void valutaSong(FeedbackForm ff) throws NotLoggedException, SQLException, AlreadyValuedException, RemoteException {
+                resourceManager.evaluateSong(ff.emotions, user, ff.song, String.valueOf(ff.score), ff.notes);
+            }
         });
 
 

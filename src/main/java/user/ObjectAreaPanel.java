@@ -1,9 +1,6 @@
 package user;
 
-import common.NoFeedbackException;
-import common.Playlist;
-import common.Song;
-import common.playlistException;
+import common.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -103,7 +100,53 @@ public class ObjectAreaPanel extends JPanel {
         valuta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(songResultSet.getSelectedIndex() != -1){
+                    JPanel panel = new JPanel(new BorderLayout(5, 5));
 
+                    JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+                    label.add(new JLabel("Emotion", SwingConstants.RIGHT));
+                    label.add(new JLabel("Score", SwingConstants.RIGHT));
+                    label.add(new JLabel("Notes", SwingConstants.RIGHT));
+
+                    panel.add(label, BorderLayout.WEST);
+
+                    JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+
+                    Emotions[] emotions = Emotions.values();
+                    JComboBox listaEmotions = new JComboBox(emotions);
+                    listaEmotions.setSelectedIndex(1);
+                    JSpinner score = new JSpinner();
+                    SpinnerNumberModel modelloSpinner = new SpinnerNumberModel(1, 1, 5, 1);
+                    score.setModel(modelloSpinner);
+                    JTextArea notes = new JTextArea();
+
+                    controls.add(listaEmotions);
+                    controls.add(score);
+                    controls.add(notes);
+
+                    panel.add(controls, BorderLayout.CENTER);
+
+                    int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "valutazione", JOptionPane.OK_CANCEL_OPTION);
+                    if(scelta == 0){
+                        Emotions em = (Emotions) listaEmotions.getSelectedItem();
+                        Song song = (Song) songResultSet.getSelectedValue();
+                        int sc = (int)score.getValue();
+                        String note = notes.getText();
+                        FeedbackForm ff = new FeedbackForm(em, song, sc, note);
+                        if(songListener != null)
+                            try{
+                                songListener.valutaSong(ff);
+                            } catch (NotLoggedException ex) {
+                                throw new RuntimeException(ex);
+                            } catch (SQLException ex) {
+                                JOptionPane.showMessageDialog(null, "sql");
+                            } catch (AlreadyValuedException ex) {
+                                JOptionPane.showMessageDialog(null, "already valued");
+                            } catch (RemoteException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                    }
+                }
             }
         });
 
