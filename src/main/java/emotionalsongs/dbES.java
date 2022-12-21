@@ -278,9 +278,12 @@ public class dbES {
         String feedback = "";
 
         while (rs.next()) {
+            feedback = "";
             feedback += "emotion: " + rs.getString("emotion_name") + "\n user: " +
                     rs.getString("user_id") + "\n score: " + rs.getString("score") +
                     "\n notes: " + rs.getString("notes") + "\n";
+            System.out.println(feedback);
+            feedback_list.add(feedback);
         }
 
         return feedback_list;

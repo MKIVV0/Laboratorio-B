@@ -112,7 +112,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         LinkedList<String> feedback = dbES.getFeedback(song.getId());
         if (feedback == null)
             throw new NoFeedbackException("No feedbacks present for this song!");
-
+        for(String f: feedback)
+            System.out.println(f);
         return feedback;
     }
 
