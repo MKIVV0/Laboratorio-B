@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -42,19 +44,27 @@ public class ObjectAreaPanel extends JPanel {
                     Song song = (Song) songResultSet.getSelectedValue();
                     if(songListener != null) {
                         try {
+                            songListener.guardaFeedback(song);
                             LinkedList<String> feedbacks = songListener.guardaFeedback(song);
-//                            JPanel panel = new JPanel(new BorderLayout(5, 5));
-                            JPanel panel = new JPanel(new BorderLayout());
-                            panel.setSize(800, 500);
                             JTextArea textArea = new JTextArea();
-                            panel.add(new JScrollPane(textArea), BorderLayout.CENTER);
-                            String feedbackString = "";
+                            String feedbackString;
                             for (String s : feedbacks) {
                                 feedbackString = s + "\n";
                                 textArea.append(feedbackString);
                             }
-                            JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "feedbacks", JOptionPane.OK_CANCEL_OPTION);
-//                            JOptionPane.showMessageDialog(null, panel);
+                            textArea.setEditable(false);
+                            JFrame f = new JFrame(song.getTitle() + "'s feedbacks");
+                            f.setSize(500, 400);
+                            f.add(new JScrollPane(textArea), BorderLayout.CENTER);
+                            f.setLocationRelativeTo(null);
+                            f.addWindowListener(new WindowAdapter() {
+                                @Override
+                                public void windowClosing(WindowEvent e) {
+                                    f.dispose();
+                                }
+                            });
+                            f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                            f.setVisible(true);
                         } catch (NoFeedbackException ex) {
                             JOptionPane.showMessageDialog(null, "No feedbacks for this song!");
                         } catch (SQLException ex) {
