@@ -273,17 +273,19 @@ public class dbES {
                         "WHERE song_id = '" + song_id + "'";
         ResultSet rs = statement.executeQuery(query);
         if (!rs.next()) return null;
+        rs.beforeFirst();
 
         LinkedList<String> feedback_list = new LinkedList<>();
-        String feedback = "";
+        Feedback feedback = null;
 
         while (rs.next()) {
-            feedback = "";
-            feedback += "emotion: " + rs.getString("emotion_name") + "\n user: " +
-                    rs.getString("user_id") + "\n score: " + rs.getString("score") +
-                    "\n notes: " + rs.getString("notes") + "\n";
+            feedback = new Feedback();
+            feedback.setEmotion(rs.getString("emotion_name"));
+            feedback.setUser(rs.getString("user_id"));
+            feedback.setScore(rs.getString("score"));
+            feedback.setNotes(rs.getString("notes"));
             System.out.println(feedback);
-            feedback_list.add(feedback);
+            feedback_list.add(feedback.toString());
         }
 
         return feedback_list;
