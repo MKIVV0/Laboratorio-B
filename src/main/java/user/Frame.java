@@ -4,6 +4,9 @@ import common.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -178,6 +181,22 @@ public class Frame extends JFrame {
 
         setSize(800, 500);
         setLocationRelativeTo(null);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], "Continuare?",
+                        "Chiusura applicazione", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (scelta == 0) {
+                    if (user instanceof LoggedUser)
+                        try {
+                            user = resourceManager.logout(user);
+                        } catch (NotLoggedException ex) {
+                        } catch (RemoteException ex) {
+                        }
+                    System.exit(0);
+                }
+            }
+        });
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }

@@ -12,11 +12,13 @@ import java.util.LinkedList;
 public class ResourceManager extends UnicastRemoteObject implements ResourceManagerInterface {
 
     private static HashMap<String, Song> songRepo;
+    private static HashMap<String, LoggedUser> users;
 
     public ResourceManager(String server, String database, String port, String user, String password) throws IOException, SQLException {
         super();
         dbES.getInstance(server, database, port, user, password);
         songRepo = dbES.importAllSongs();
+        users = new HashMap<>();
     }
 
     @Override
@@ -41,14 +43,14 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         if (user instanceof LoggedUser)
             throw new AlreadyLoggedException();
 
-        return dbES.getLoggedUser(uid, pw);
+        LoggedUser u = dbES.getLoggedUser(uid, pw);
 
-        //debug
-        /*
-        if(!uid.equals("ale") || !pw.equals("pw"))
-            throw new WrongCredentialsException("cred sbagliate");
-        return new LoggedUser(uid, pw);*/
+        if(users.containsKey(u.getId()))
+            throw new AlreadyLoggedException();
+        else
+            users.put(u.getId(), u);
 
+        return u;
     }
 
     @Override
@@ -56,7 +58,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         if (user instanceof NotLoggedUser)
             throw new NotLoggedException();
 
-        //SALVATAGGIO DATI SU DB
+        users.remove(((LoggedUser)user).getId());
 
         return new NotLoggedUser();
     }
