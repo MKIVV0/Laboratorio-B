@@ -185,8 +185,9 @@ public class ObjectAreaPanel extends JPanel {
 
     public void inserisciBrani(LinkedList<Song> songs) {
         DefaultListModel modelloSongs = new DefaultListModel<Song>();
-        for(Song s: songs)
-            modelloSongs.addElement(s);
+        for (Song s : songs)
+            if (!s.getId().equals("ZZZZZZZZZZZZZZZZZZ"))
+                modelloSongs.addElement(s);
         songResultSet.setModel(modelloSongs);
     }
 
