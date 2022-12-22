@@ -14,7 +14,7 @@ public class ObjectAreaPanel extends JPanel {
 
     private JList songResultSet;
     private JPanel tasti;
-    private JButton showFeedback, aggiungi, valuta, togli;
+    private JButton bottoneShowFeedback, bottoneAggiungi, bottoneValuta, bottoneTogli;
     private SongListener songListener;
 
     public ObjectAreaPanel(){
@@ -27,15 +27,15 @@ public class ObjectAreaPanel extends JPanel {
         // PANNELLO DEI TASTI
         tasti = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        showFeedback = new JButton("Feedbacks");
-        aggiungi = new JButton("Aggiungi");
-        valuta = new JButton("Valuta");
-        togli = new JButton("Togli");
+        bottoneShowFeedback = new JButton("Feedbacks");
+        bottoneAggiungi = new JButton("Aggiungi");
+        bottoneValuta = new JButton("Valuta");
+        bottoneTogli = new JButton("Togli");
 
         isSongOfPlaylist(false);
         logged(false);
 
-        showFeedback.addActionListener(new ActionListener() {
+        bottoneShowFeedback.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(songResultSet.getSelectedIndex() != -1){
@@ -48,10 +48,11 @@ public class ObjectAreaPanel extends JPanel {
                             panel.add(textArea, BorderLayout.CENTER);
                             String feedbackString = "";
                             for (String s : feedbacks) {
-                                feedbackString += s + "\n";
+                                feedbackString = s + "\n";
                                 textArea.append(feedbackString);
                             }
-                            JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "feedbacks", JOptionPane.OK_CANCEL_OPTION);
+//                            JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "feedbacks", JOptionPane.OK_CANCEL_OPTION);
+                            JOptionPane.showConfirmDialog(null, panel);
                         } catch (NoFeedbackException ex) {
                             JOptionPane.showMessageDialog(null, "No feedbacks for this song!");
                         } catch (SQLException ex) {
@@ -64,7 +65,7 @@ public class ObjectAreaPanel extends JPanel {
             }
         });
 
-        aggiungi.addActionListener(new ActionListener() {
+        bottoneAggiungi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(songResultSet.getSelectedIndex() != -1){
@@ -83,7 +84,7 @@ public class ObjectAreaPanel extends JPanel {
             }
         });
 
-        togli.addActionListener(new ActionListener() {
+        bottoneTogli.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(songResultSet.getSelectedIndex() != -1){
@@ -101,7 +102,7 @@ public class ObjectAreaPanel extends JPanel {
             }
         });
 
-        valuta.addActionListener(new ActionListener() {
+        bottoneValuta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(songResultSet.getSelectedIndex() != -1){
@@ -154,10 +155,10 @@ public class ObjectAreaPanel extends JPanel {
             }
         });
 
-        tasti.add(showFeedback);
-        tasti.add(aggiungi);
-        tasti.add(valuta);
-        tasti.add(togli);
+        tasti.add(bottoneShowFeedback);
+        tasti.add(bottoneAggiungi);
+        tasti.add(bottoneValuta);
+        tasti.add(bottoneTogli);
 
         add(new JScrollPane(songResultSet), BorderLayout.CENTER);
         add(tasti, BorderLayout.SOUTH);
@@ -166,21 +167,21 @@ public class ObjectAreaPanel extends JPanel {
 
     public void isSongOfPlaylist(boolean songOfPlaylist) {
         if(songOfPlaylist){
-            aggiungi.setVisible(false);
-            togli.setVisible(true);
-            valuta.setVisible(true);
+            bottoneAggiungi.setVisible(false);
+            bottoneTogli.setVisible(true);
+            bottoneValuta.setVisible(true);
         } else {
-            aggiungi.setVisible(true);
-            togli.setVisible(false);
-            valuta.setVisible(false);
+            bottoneAggiungi.setVisible(true);
+            bottoneTogli.setVisible(false);
+            bottoneValuta.setVisible(false);
         }
     }
 
     public void logged(boolean logged){
         if(logged)
-            aggiungi.setVisible(true);
+            bottoneAggiungi.setVisible(true);
         else
-            aggiungi.setVisible(false);
+            bottoneAggiungi.setVisible(false);
     }
 
     public void inserisciBrani(LinkedList<Song> songs) {
