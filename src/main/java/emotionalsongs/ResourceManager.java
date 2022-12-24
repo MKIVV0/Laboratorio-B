@@ -31,6 +31,16 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         return tmp;
     }
 
+    @Override
+    public synchronized LinkedList<Song> findSong(String author, int year){
+        LinkedList<Song> tmp = new LinkedList<>();
+        for(Song b: songRepo.values()) {
+            if(b.getAuthor().toLowerCase().contains(author.toLowerCase()) && b.getYear() == year)
+                tmp.add(b);
+        }
+        return tmp;
+    }
+
     /**
      * metodo di login che restituisce un logged user se e solo se l'utente (parametro u) non è già loggato
      * e le credenziali (parametri uid e pw) sono corrette.

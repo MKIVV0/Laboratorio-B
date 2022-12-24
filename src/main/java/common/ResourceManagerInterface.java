@@ -9,6 +9,8 @@ public interface ResourceManagerInterface extends Remote {
 
     LinkedList<Song> findSong(String s) throws RemoteException;
 
+    LinkedList<Song> findSong(String author, int year) throws RemoteException;
+
     AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, WrongCredentialsException, SQLException;
 
     void evaluateSong(Emotions emotion, AbstractUser user, Song song, String score, String notes) throws RemoteException, NotLoggedException, AlreadyValuedException, SQLException;

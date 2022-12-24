@@ -10,6 +10,8 @@ public class PannelloCerca extends JPanel {
 
     private JLabel labelCercaBrano;
     private JTextField fieldCercaBrano;
+    private JLabel labelYear;
+    private JTextField fieldYear;
     private JLabel labelCercaPer;
     private JRadioButton radioCercaPerTitolo;
     private JRadioButton radioCercaPerAutore;
@@ -27,16 +29,41 @@ public class PannelloCerca extends JPanel {
 
         setBorder(bordoFinale);
 
-        labelCercaBrano = new JLabel("CercaBrano: ");
+        labelCercaBrano = new JLabel("Brano: ");
         fieldCercaBrano = new JTextField(15);
+
+        labelYear = new JLabel("Anno: ");
+        fieldYear = new JTextField(15);
+        labelYear.setEnabled(false);
+        fieldYear.setEnabled(false);
 
         labelCercaPer = new JLabel("CercaPer: ");
 
         radioCercaPerTitolo = new JRadioButton("Titolo");
         radioCercaPerTitolo.setActionCommand("titolo");
         radioCercaPerTitolo.setSelected(true);
+        radioCercaPerTitolo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(radioCercaPerTitolo.isSelected()){
+                    labelCercaBrano.setText("Brano: ");
+                    labelYear.setEnabled(false);
+                    fieldYear.setEnabled(false);
+                }
+            }
+        });
         radioCercaPerAutore = new JRadioButton("Autore");
         radioCercaPerAutore.setActionCommand("autore");
+        radioCercaPerAutore.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(radioCercaPerAutore.isSelected()){
+                    labelCercaBrano.setText("Autore: ");
+                    labelYear.setEnabled(true);
+                    fieldYear.setEnabled(true);
+                }
+            }
+        });
 
         gruppoRadioCercaPer = new ButtonGroup();
         gruppoRadioCercaPer.add(radioCercaPerTitolo);
@@ -48,11 +75,20 @@ public class PannelloCerca extends JPanel {
         bottoneCerca.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String testo = fieldCercaBrano.getText();
                 String tipoRicerca = gruppoRadioCercaPer.getSelection().getActionCommand();
-
-                CercaEvent cercaEvent = new CercaEvent(this, testo, tipoRicerca);
-
+                String testo = fieldCercaBrano.getText();
+                CercaEvent cercaEvent;
+                if (radioCercaPerAutore.isSelected()) {
+                    try {
+                        int year = Integer.parseInt(fieldYear.getText());
+                        cercaEvent = new CercaEvent(this, testo, year, tipoRicerca);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Please insert a valid year");
+                        return;
+                    }
+                } else {
+                    cercaEvent = new CercaEvent(this, testo, -1, tipoRicerca);
+                }
                 if (cercaListener != null) {
                     cercaListener.cercaEventListener(cercaEvent);
                 }
@@ -99,7 +135,7 @@ public class PannelloCerca extends JPanel {
 
         gbc.insets = new Insets(0, 0, 0, 5);
 
-        add(labelCercaPer, gbc);
+        add(labelYear, gbc);
 
         // RIGA 1
         gbc.gridx = 1;
@@ -112,7 +148,20 @@ public class PannelloCerca extends JPanel {
 
         gbc.insets = new Insets(0, 0, 0, 0);
 
-        add(radioCercaPerTitolo, gbc);
+        add(fieldYear, gbc);
+
+        // RIGA 2
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.03;
+
+        gbc.anchor = GridBagConstraints.LINE_END;
+
+        gbc.insets = new Insets(0, 0, 0, 5);
+
+        add(labelCercaPer, gbc);
 
         // RIGA 2
         gbc.gridx = 1;
@@ -123,13 +172,26 @@ public class PannelloCerca extends JPanel {
 
         gbc.anchor = GridBagConstraints.LINE_START;
 
+        gbc.insets = new Insets(0, 0, 0, 0);
+
+        add(radioCercaPerTitolo, gbc);
+
+        // RIGA 3
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.03;
+
+        gbc.anchor = GridBagConstraints.LINE_START;
+
         gbc.insets = new Insets(0, 0, 0, 5);
 
         add(radioCercaPerAutore, gbc);
 
-        // RIGA 3
+        // RIGA 4
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
 
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;

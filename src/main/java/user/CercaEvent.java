@@ -4,36 +4,27 @@ import java.util.EventObject;
 
 public class CercaEvent extends EventObject {
     private String testo;
+    private int year;
     private String tipoRicerca;
 
-    public CercaEvent(Object source) {
-        super(source);
-    }
-
-    public CercaEvent(Object source, String testo, String tipoRicerca) {
+    public CercaEvent(Object source, String testo, int year, String tipoRicerca) {
         super(source);
         this.testo = testo;
         this.tipoRicerca = tipoRicerca;
+        this.year = year;
     }
-
 
     public String getTipoRicerca() {
         return tipoRicerca;
-    }
-
-    public void setTipoRicerca(String tipoRicerca) {
-        this.tipoRicerca = tipoRicerca;
     }
 
     public String getTesto() {
         return testo;
     }
 
-    public void setTesto(String testo) {
-        this.testo = testo;
+    public int getYear() {
+        return year;
     }
-
-
 }
 
 

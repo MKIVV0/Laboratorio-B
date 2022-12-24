@@ -3,13 +3,9 @@ package user;
 import common.*;
 
 import javax.swing.*;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyVetoException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -131,14 +127,24 @@ public class Frame extends JFrame {
             public void cercaEventListener(CercaEvent ce) {
                 String testo = ce.getTesto();
                 String tipoRicerca = ce.getTipoRicerca();
-                try {
-                    LinkedList<Song> tmp = resourceManager.findSong(testo);
-                    objectAreaPanel.pulisciArea();
-                    objectAreaPanel.inserisciBrani(tmp);
-                    objectAreaPanel.isSongOfPlaylist(false);
-                    objectAreaPanel.logged(logged);
-                } catch (RemoteException e) {
+                LinkedList<Song> tmp;
+                if (tipoRicerca.equals("titolo")) {
+                    try {
+                        tmp = resourceManager.findSong(testo);
+                    } catch (RemoteException e) {
+                        return;
+                    }
+                } else {
+                    try {
+                        tmp = resourceManager.findSong(testo, ce.getYear());
+                    } catch (RemoteException e) {
+                        return;
+                    }
                 }
+                objectAreaPanel.pulisciArea();
+                objectAreaPanel.inserisciBrani(tmp);
+                objectAreaPanel.isSongOfPlaylist(false);
+                objectAreaPanel.logged(logged);
             }
         });
 
@@ -200,7 +206,7 @@ public class Frame extends JFrame {
                 }
             }
         });
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setVisible(true);
     }
 
