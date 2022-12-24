@@ -43,7 +43,7 @@ public class Frame extends JFrame {
                 user = resourceManager.login(user, username, password);
                 logged = user instanceof LoggedUser;
                 barraStrumenti.logged(logged);
-                objectAreaPanel.logged(logged);
+                objectAreaPanel.setLogged(logged);
                 pannelloPlaylist.logged(user);
             }
             @Override
@@ -51,8 +51,8 @@ public class Frame extends JFrame {
                 user = resourceManager.logout(user);
                 logged = user instanceof LoggedUser;
                 barraStrumenti.logged(logged);
-                objectAreaPanel.isSongOfPlaylist(false);
-                objectAreaPanel.logged(logged);
+                objectAreaPanel.setSongOfPlaylist(false);
+                objectAreaPanel.setLogged(logged);
                 objectAreaPanel.pulisciArea();
                 pannelloPlaylist.logged(user);
             }
@@ -108,7 +108,7 @@ public class Frame extends JFrame {
                 pannelloPlaylist.logged(user);
                 objectAreaPanel.pulisciArea();
                 objectAreaPanel.inserisciBrani(playlist.getSongList());
-                objectAreaPanel.isSongOfPlaylist(true);
+                objectAreaPanel.setSongOfPlaylist(true);
             }
 
             @Override
@@ -143,8 +143,8 @@ public class Frame extends JFrame {
                 }
                 objectAreaPanel.pulisciArea();
                 objectAreaPanel.inserisciBrani(tmp);
-                objectAreaPanel.isSongOfPlaylist(false);
-                objectAreaPanel.logged(logged);
+                objectAreaPanel.setSongOfPlaylist(false);
+                objectAreaPanel.setLogged(logged);
             }
         });
 
@@ -173,7 +173,7 @@ public class Frame extends JFrame {
                 pannelloPlaylist.setPlaylist(playlist);
                 objectAreaPanel.pulisciArea();
                 objectAreaPanel.inserisciBrani(tmp);
-                objectAreaPanel.isSongOfPlaylist(true);
+                objectAreaPanel.setSongOfPlaylist(true);
             }
         });
 

@@ -3,6 +3,8 @@ package user;
 import common.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +20,7 @@ public class ObjectAreaPanel extends JPanel {
     private JPanel tasti;
     private JButton bottoneShowFeedback, bottoneAggiungi, bottoneValuta, bottoneTogli;
     private SongListener songListener;
+    private boolean logged, songOfPlatlist;
 
     public ObjectAreaPanel(){
         setLayout(new BorderLayout());
@@ -33,9 +36,30 @@ public class ObjectAreaPanel extends JPanel {
         bottoneAggiungi = new JButton("Aggiungi");
         bottoneValuta = new JButton("Valuta");
         bottoneTogli = new JButton("Togli");
+        bottoneShowFeedback.setVisible(false);
+        bottoneAggiungi.setVisible(false);
+        bottoneValuta.setVisible(false);
+        bottoneTogli.setVisible(false);
 
-        isSongOfPlaylist(false);
-        logged(false);
+        logged = false;
+        songOfPlatlist = false;
+
+        songResultSet.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(songResultSet.isSelectionEmpty()) {
+                    bottoneShowFeedback.setVisible(false);
+                    bottoneAggiungi.setVisible(false);
+                    bottoneTogli.setVisible(false);
+                    bottoneValuta.setVisible(false);
+                } else {
+                    bottoneShowFeedback.setVisible(true);
+                    bottoneAggiungi.setVisible(logged && !songOfPlatlist);
+                    bottoneTogli.setVisible(logged && songOfPlatlist);
+                    bottoneValuta.setVisible(logged && songOfPlatlist);
+                }
+            }
+        });
 
         bottoneShowFeedback.addActionListener(new ActionListener() {
             @Override
@@ -177,23 +201,12 @@ public class ObjectAreaPanel extends JPanel {
 
     }
 
-    public void isSongOfPlaylist(boolean songOfPlaylist) {
-        if(songOfPlaylist){
-            bottoneAggiungi.setVisible(false);
-            bottoneTogli.setVisible(true);
-            bottoneValuta.setVisible(true);
-        } else {
-            bottoneAggiungi.setVisible(true);
-            bottoneTogli.setVisible(false);
-            bottoneValuta.setVisible(false);
-        }
+    public void setSongOfPlaylist(boolean songOfPlaylist) {
+        this.songOfPlatlist = songOfPlaylist;
     }
 
-    public void logged(boolean logged){
-        if(logged)
-            bottoneAggiungi.setVisible(true);
-        else
-            bottoneAggiungi.setVisible(false);
+    public void setLogged(boolean logged){
+        this.logged = logged;
     }
 
     public void inserisciBrani(LinkedList<Song> songs) {

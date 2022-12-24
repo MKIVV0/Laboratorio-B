@@ -1,20 +1,23 @@
 package user;
 
-import common.*;
+import common.AbstractUser;
+import common.LoggedUser;
+import common.Playlist;
+import common.playlistException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.LinkedList;
 
 public class PannelloPlaylist extends JPanel {
 
     private JList listaPlaylist;
-//    private LinkedList<Playlist> playlists;
     private JPanel tasti;
     private JButton bottoneApri, bottoneCrea, bottoneElimina;
     private PlaylistListener playlistListener;
@@ -32,16 +35,30 @@ public class PannelloPlaylist extends JPanel {
 
         setBorder(bordoFinale);
 
-//        playlists = new LinkedList<>();
-
         listaPlaylist = new JList<Playlist>();
         listaPlaylist.setBorder(BorderFactory.createEtchedBorder());
 
         tasti = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         bottoneApri = new JButton("Apri");
+        bottoneApri.setVisible(false);
         bottoneCrea = new JButton("Crea");
         bottoneElimina = new JButton("Elimina");
+        bottoneElimina.setVisible(false);
+
+        listaPlaylist.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(listaPlaylist.isSelectionEmpty()){
+                    bottoneApri.setVisible(false);
+                    bottoneElimina.setVisible(false);
+                }
+                else {
+                    bottoneApri.setVisible(true);
+                    bottoneElimina.setVisible(true);
+                }
+            }
+        });
 
         bottoneCrea.addActionListener(new ActionListener() {
             @Override
@@ -118,14 +135,12 @@ public class PannelloPlaylist extends JPanel {
 
     public void logged(AbstractUser user) {
         if (user instanceof LoggedUser) {
-//            playlists = ((LoggedUser) user).getPlaylistList();
             DefaultListModel modelloPlaylists = new DefaultListModel();
             for (Playlist p : ((LoggedUser) user).getPlaylistList())
                 modelloPlaylists.addElement(p.getPlaylistName());
             listaPlaylist.setModel(modelloPlaylists);
             setVisible(true);
         } else {
-//            playlists = new LinkedList<>();
             listaPlaylist.setModel(new DefaultListModel());
             setVisible(false);
         }
