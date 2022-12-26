@@ -268,7 +268,7 @@ public class dbES {
                 + "\nNotes: " + rs.getString("notes");
     }*/
 
-    public static LinkedList<String> getFeedback(String song_id) throws SQLException {
+    public static Feedback getFeedback(String song_id) throws SQLException {
         String query = "SELECT emotion_name, COUNT(DISTINCT user_id) AS number_of_users, AVG(score) AS score, array_agg(user_id || ': ' || notes) AS note_list\n" +
                        "FROM emotion\n" +
                        "WHERE song_id = '" + song_id + "'\n" +
@@ -294,7 +294,7 @@ public class dbES {
         }
         System.out.println(feedback);
 
-        return null;
+        return feedback;
     }
 
     private static String[] reformatFeedbackComments(String[] comments) {

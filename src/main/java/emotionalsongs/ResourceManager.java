@@ -118,15 +118,13 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         return feedback;//TMCH
     } */
 
-    public synchronized LinkedList<String> getFeedback(Song song) throws SQLException, NoFeedbackException, RemoteException {
+    public synchronized Feedback getFeedback(Song song) throws SQLException, NoFeedbackException, RemoteException {
         if (song == null)
             throw new NullPointerException();
 
-        LinkedList<String> feedback = dbES.getFeedback(song.getId());
+        Feedback feedback = dbES.getFeedback(song.getId());
         if (feedback == null)
             throw new NoFeedbackException("No feedbacks present for this song!");
-        for(String f: feedback)
-            System.out.println(f);
         return feedback;
     }
 

@@ -73,14 +73,14 @@ public class ObjectAreaPanel extends JPanel {
                     Song song = (Song) songResultSet.getSelectedValue();
                     if(songListener != null) {
                         try {
-                            songListener.guardaFeedback(song);
-                            LinkedList<String> feedbacks = songListener.guardaFeedback(song);
+                            Feedback feedbacks = songListener.guardaFeedback(song);
                             JTextArea textArea = new JTextArea();
                             String feedbackString;
-                            for (String s : feedbacks) {
-                                feedbackString = s + "\n";
-                                textArea.append(feedbackString);
-                            }
+//                            for (String s : feedbacks) {
+//                                feedbackString = s + "\n";
+//                                textArea.append(feedbackString);
+//                            }
+                            textArea.append(feedbacks.toString());
                             textArea.setEditable(false);
                             JFrame f = new JFrame(song.getTitle() + "'s feedbacks");
                             f.setSize(500, 400);

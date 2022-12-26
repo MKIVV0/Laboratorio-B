@@ -112,7 +112,7 @@ public class Frame extends JFrame {
         objectAreaPanel = new ObjectAreaPanel();
         objectAreaPanel.setSongListener(new SongListener() {
             @Override
-            public LinkedList<String> guardaFeedback(Song song) throws NoFeedbackException, SQLException, RemoteException {
+            public Feedback guardaFeedback(Song song) throws NoFeedbackException, SQLException, RemoteException {
                 return resourceManager.getFeedback(song);
             }
 
