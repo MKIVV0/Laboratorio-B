@@ -14,17 +14,19 @@ public class BarraStrumenti extends JPanel {
     private JButton bottoneLogin;
     private JButton bottoneLogout;
     private JButton bottoneRegistra;
+    //    private JButton bottoneModifica;
     private LogListener logListener;
     private RegistrazioneListener registrazioneListener;
 
     public BarraStrumenti() {
-
         super(new FlowLayout(FlowLayout.LEFT));
 
-            bottoneLogin = new JButton("Login");
-            bottoneRegistra = new JButton("Registrati");
-            bottoneLogout = new JButton("Logout");
-            bottoneLogout.setVisible(false);
+        bottoneLogin = new JButton("Login");
+        bottoneRegistra = new JButton("Registrati");
+//            bottoneModifica = new JButton("Modifica profilo");
+//            bottoneModifica.setVisible(false);
+        bottoneLogout = new JButton("Logout");
+        bottoneLogout.setVisible(false);
 
         // LOGIN
         bottoneLogin.addActionListener(new ActionListener() {
@@ -76,7 +78,7 @@ public class BarraStrumenti extends JPanel {
         bottoneLogout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(logListener != null)
+                if (logListener != null)
                     try {
                         logListener.logout();
                         JOptionPane.showMessageDialog(null, "Logged out!");
@@ -137,7 +139,6 @@ public class BarraStrumenti extends JPanel {
                         RegistrazioneEvent re = new RegistrazioneEvent(this, fn, ln, FC, addr, em, uid, pw);
                         if (registrazioneListener != null)
                             try {
-//                            frame.resourceManager.registerUser(fn, ln, FC, addr, em, uid, pw);
                                 registrazioneListener.datiForniti(re);
                                 JOptionPane.showMessageDialog(null, "User registered successfully!");
                             } catch (AlreadyRegisteredException ex) {
@@ -156,18 +157,34 @@ public class BarraStrumenti extends JPanel {
         add(bottoneLogin);
         add(bottoneRegistra);
         add(bottoneLogout);
+//        add(bottoneModifica);
+
+        setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
     }
 
-    public void logged(boolean logged){
-        if(logged){
+    public void logged(boolean logged) {
+        if (logged) {
             bottoneLogin.setVisible(false);
             bottoneRegistra.setVisible(false);
             bottoneLogout.setVisible(true);
+//            bottoneModifica.setVisible(true);
         } else {
             bottoneLogin.setVisible(true);
             bottoneRegistra.setVisible(true);
             bottoneLogout.setVisible(false);
+//            bottoneModifica.setVisible(false);
         }
+    }
+
+    public void setColor(Color back, Color compBack, Color compFore){
+        bottoneLogin.setBackground(compBack);
+        bottoneLogin.setForeground(compFore);
+        bottoneRegistra.setBackground(compBack);
+        bottoneRegistra.setForeground(compFore);
+        bottoneLogout.setBackground(compBack);
+        bottoneLogout.setForeground(compFore);
+        setForeground(compFore);
+        setBackground(back);
     }
 
     public void setLogListener(LogListener logListener) {

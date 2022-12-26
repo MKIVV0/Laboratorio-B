@@ -22,6 +22,7 @@ public class PannelloPlaylist extends JPanel {
     private JButton bottoneApri, bottoneCrea, bottoneElimina;
     private PlaylistListener playlistListener;
     private Playlist playlist;
+    private Border bordoInterno, bordoEsterno, bordoFinale;
 
     PannelloPlaylist() {
         setPreferredSize(new Dimension(300, 50));//100
@@ -29,9 +30,15 @@ public class PannelloPlaylist extends JPanel {
         setVisible(false);
 
         // Bordi
-        Border bordoInterno = BorderFactory.createTitledBorder("le tue playlist");
-        Border bordoEsterno = BorderFactory.createEmptyBorder(0, 5, 5, 5);
-        Border bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
+//        bordoInterno = BorderFactory.createTitledBorder("Le tue playlist");
+//        bordoEsterno = BorderFactory.createEmptyBorder(0, 5, 5, 5);
+//        bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
+
+        Border b = BorderFactory.createMatteBorder(1,0,0,0,Color.PINK);
+        bordoInterno = BorderFactory.createTitledBorder(b,"Le tue playlist",0, 2,
+                new Font("Geneva", Font.BOLD, 12),Frame.compForeDark);
+        bordoEsterno = BorderFactory.createEmptyBorder(0, 5, 5, 5);
+        bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
 
         setBorder(bordoFinale);
 
@@ -131,6 +138,8 @@ public class PannelloPlaylist extends JPanel {
         add(new JScrollPane(listaPlaylist), BorderLayout.CENTER);
         add(tasti, BorderLayout.SOUTH);
 
+        setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
+
     }
 
     public void logged(AbstractUser user) {
@@ -152,6 +161,20 @@ public class PannelloPlaylist extends JPanel {
 
     public Playlist getPlaylist() {
         return playlist;
+    }
+
+    public void setColor(Color back, Color compBack, Color compFore){
+        listaPlaylist.setBackground(compBack);
+        listaPlaylist.setForeground(compFore);
+        bottoneApri.setBackground(compBack);
+        bottoneApri.setForeground(compFore);
+        bottoneCrea.setBackground(compBack);
+        bottoneCrea.setForeground(compFore);
+        bottoneElimina.setBackground(compBack);
+        bottoneElimina.setForeground(compFore);
+        tasti.setBackground(back);
+        setBackground(back);
+
     }
 
     public void setPlaylistListener(PlaylistListener playlistListener) {

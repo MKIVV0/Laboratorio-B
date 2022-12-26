@@ -24,10 +24,15 @@ public class ObjectAreaPanel extends JPanel {
 
     public ObjectAreaPanel(){
         setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
         // JLIST
         songResultSet = new JList<Song>();
-        songResultSet.setBorder(BorderFactory.createEtchedBorder());
+        songResultSet.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
+
+        JScrollPane scrollPane = new JScrollPane(songResultSet);
+        scrollPane.setBorder(BorderFactory.createMatteBorder(0,1,0,0,Color.PINK));
+        scrollPane.setVerticalScrollBar(new ScrollBar());
 
         // PANNELLO DEI TASTI
         tasti = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -196,8 +201,10 @@ public class ObjectAreaPanel extends JPanel {
         tasti.add(bottoneValuta);
         tasti.add(bottoneTogli);
 
-        add(new JScrollPane(songResultSet), BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
         add(tasti, BorderLayout.SOUTH);
+
+        setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
 
     }
 
@@ -221,6 +228,20 @@ public class ObjectAreaPanel extends JPanel {
         songResultSet.setModel(new DefaultListModel());
     }
 
+    public void setColor(Color back, Color compBack, Color compFore){
+        songResultSet.setBackground(compBack);
+        songResultSet.setForeground(compFore);
+        bottoneShowFeedback.setBackground(compBack);
+        bottoneShowFeedback.setForeground(compFore);
+        bottoneValuta.setBackground(compBack);
+        bottoneValuta.setForeground(compFore);
+        bottoneTogli.setBackground(compBack);
+        bottoneTogli.setForeground(compFore);
+        bottoneAggiungi.setBackground(compBack);
+        bottoneAggiungi.setForeground(compFore);
+        tasti.setBackground(back);
+        setBackground(back);
+    }
 
     public void setSongListener(SongListener songListener) {
         this.songListener = songListener;

@@ -24,6 +24,13 @@ public class Frame extends JFrame {
     private AbstractUser user;
     private boolean logged;
 
+    static Color backDark = new Color(51,51,51);
+//    static Color backLight = new Color(238,238,238);
+//    static Color compBackLight = new Color(255,255,255);
+    static Color compBackDark = new Color(70,70,70);
+    static Color compForeDark = new Color(245,245,245);
+//    static Color compForeLight = new Color(45,45,45);
+
     public Frame() throws RemoteException, NotBoundException {
         super("Emotional Songs");
         setLayout(new BorderLayout());
@@ -32,9 +39,31 @@ public class Frame extends JFrame {
         resourceManager = (ResourceManagerInterface) r.lookup("Gestore");
         user = new NotLoggedUser();
         logged = false;
+//        isDark = true;
 
         // BARRA STRUMENTI
         barraStrumenti = new BarraStrumenti();
+        /*barraStrumenti.setColorListener(new ColorListener() {
+            @Override
+            public void change() {
+                if(isDark) {
+                    setBackground(backLight);
+                    panel.setBackground(backLight);
+                    barraStrumenti.setColor(backLight, compBackLight, compForeLight);
+                    pannelloCerca.setColor(backLight, compBackLight, compForeLight);
+                    pannelloPlaylist.setColor(backLight, compBackLight, compForeLight);
+                    objectAreaPanel.setColor(backLight, compBackLight, compForeLight);
+                } else {
+                    setBackground(backDark);
+                    panel.setBackground(backDark);
+                    barraStrumenti.setColor(backDark, compBackDark, compForeDark);
+                    pannelloCerca.setColor(backDark, compBackDark, compForeDark);
+                    pannelloPlaylist.setColor(backDark, compBackDark, compForeDark);
+                    objectAreaPanel.setColor(backDark, compBackDark, compForeDark);
+                }
+                isDark = !isDark;
+            }
+        });*/
         barraStrumenti.setLogListener(new LogListener() {
             @Override
             public void credenzialiFornite(LogEvent le) throws AlreadyLoggedException, SQLException, RemoteException, WrongCredentialsException {
@@ -90,7 +119,7 @@ public class Frame extends JFrame {
                 JComboBox listaPlaylists = new JComboBox(opzioni);
                 controls.add(listaPlaylists);
                 panel.add(controls, BorderLayout.CENTER);
-                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "seleziona playlist", JOptionPane.OK_CANCEL_OPTION);
+                int scelta = JOptionPane.showConfirmDialog(java.awt.Frame.getFrames()[0], panel, "seleziona playlist", JOptionPane.OK_CANCEL_OPTION);
                 if(scelta == 0 && listaPlaylists.getSelectedIndex() != -1){
                     String plName = (String)listaPlaylists.getSelectedItem();
                     Playlist p = ((LoggedUser)user).getPlaylist(plName);
@@ -188,12 +217,15 @@ public class Frame extends JFrame {
         add(barraStrumenti, BorderLayout.PAGE_START);
         add(panel, BorderLayout.LINE_START);
 
+        setBackground(backDark);
+        panel.setBackground(backDark);
+
         setSize(800, 500);
         setLocationRelativeTo(null);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], "Continuare?",
+                int scelta = JOptionPane.showConfirmDialog(java.awt.Frame.getFrames()[0], "Continuare?",
                         "Chiusura applicazione", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (scelta == 0) {
                     if (user instanceof LoggedUser)
