@@ -251,6 +251,7 @@ public class dbES {
     }
 
     // Mostra feedback - DONE
+    /*
     public static String getFeedback(String user_id, Emotions emotion_name, String song_id) throws SQLException {
         String query = "SELECT emotion_name, user_id, title, score, notes\n" +
                 "FROM Emotion e JOIN\n" +
@@ -265,7 +266,7 @@ public class dbES {
                 + "Emotion: " + rs.getString("emotion_name")
                 + "\nScore: " + rs.getString("score")
                 + "\nNotes: " + rs.getString("notes");
-    }
+    }*/
 
     public static LinkedList<String> getFeedback(String song_id) throws SQLException {
         String query = "SELECT * " +
@@ -291,6 +292,7 @@ public class dbES {
         return feedback_list;
     }
 
+    /*
     public static LinkedList<String> getFeedback(String song_id, String user_id) throws SQLException {
         String query = "SELECT * " +
                         "FROM Emotion " +
@@ -309,7 +311,7 @@ public class dbES {
         }
 
         return feedback_list;
-    }
+    }*/
 
 
     // DAL CLIENT VERSO IL DB
@@ -343,6 +345,7 @@ public class dbES {
     /* 3) Commenta canzone -> nel caso in cui un utente lasci una valutazione - DONE
      * senza commento, può aggiungerlo anche successivamente */
     // Possono essere modificati score e note
+    /*
     public static boolean modifyFeedback(Emotions emotion, String user_id, String song_id, String param_name, String param_value) throws SQLException {
         String query = "UPDATE emotion\n" +
                 "SET " +  param_name + " = '" + param_value + "'\n"
@@ -351,7 +354,7 @@ public class dbES {
         int count = statement.executeUpdate(query);
         if (count > 0) return true;
         else return false;
-    }
+    } */
 
     // PLAYLIST
     // 1) Crea playlist - DONE

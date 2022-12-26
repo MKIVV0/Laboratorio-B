@@ -15,7 +15,7 @@ public interface ResourceManagerInterface extends Remote {
 
     void evaluateSong(Emotions emotion, AbstractUser user, Song song, String score, String notes) throws RemoteException, NotLoggedException, AlreadyValuedException, SQLException;
 
-    String getFeedback(AbstractUser user, Emotions emotion_name, Song song) throws RemoteException, NoFeedbackException, SQLException;
+    //String getFeedback(AbstractUser user, Emotions emotion_name, Song song) throws RemoteException, NoFeedbackException, SQLException;
 
     AbstractUser logout(AbstractUser u) throws RemoteException, NotLoggedException;
 
@@ -23,11 +23,11 @@ public interface ResourceManagerInterface extends Remote {
 
     LinkedList<String> getFeedback(Song song) throws SQLException, NoFeedbackException, RemoteException;
 
-    LinkedList<String> getFeedback(Song song, AbstractUser user) throws SQLException, NoFeedbackException, RemoteException;
+    //LinkedList<String> getFeedback(Song song, AbstractUser user) throws SQLException, NoFeedbackException, RemoteException;
 
     void deleteFeedback(Emotions emotion, AbstractUser user, Song song) throws SQLException, NoFeedbackException,RemoteException;
 
-    void modifyFeedback(Emotions emotion, AbstractUser user, Song song, String param_name, String param_value) throws SQLException, NoFeedbackException, RemoteException;
+    //void modifyFeedback(Emotions emotion, AbstractUser user, Song song, String param_name, String param_value) throws SQLException, NoFeedbackException, RemoteException;
 
     Playlist createPlaylist(String pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException;
 

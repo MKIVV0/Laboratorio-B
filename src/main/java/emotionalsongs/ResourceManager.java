@@ -98,6 +98,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
     }
 
     // MODIFICATO DA TEO - DA DISCUTERE L'IMPLMENTAZIONE, VISTO L'OVERLOADING DEL METODO getFeedback di dbES
+    /*
     @Override
     public synchronized String getFeedback(AbstractUser user, Emotions emotion_name, Song song) throws RemoteException, NoFeedbackException, SQLException {
         if (song == null)
@@ -115,7 +116,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         //return tmp;
 
         return feedback;//TMCH
-    }
+    } */
 
     public synchronized LinkedList<String> getFeedback(Song song) throws SQLException, NoFeedbackException, RemoteException {
         if (song == null)
@@ -129,6 +130,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         return feedback;
     }
 
+    /*
     public synchronized LinkedList<String> getFeedback(Song song, AbstractUser user) throws SQLException, NoFeedbackException, RemoteException {
         if (song == null)
             throw new NullPointerException();
@@ -138,7 +140,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
             throw new NoFeedbackException("No feedbacks present for this song under the user" + ((LoggedUser) user).getId() + " !");
 
         return feedback;
-    }
+    } */
 
     public synchronized void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws AlreadyRegisteredException, RemoteException {
         if (!dbES.registerUser(fn, ln, FC, addr, email, uid, pwd))
@@ -153,12 +155,13 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
             System.out.println("Thank you for your feedback!");
     }
 
+    /*
     public synchronized void modifyFeedback(Emotions emotion, AbstractUser user, Song song, String param_name, String param_value) throws SQLException, NoFeedbackException, RemoteException {
         if (!dbES.modifyFeedback(emotion, ((LoggedUser) user).getId(), song.getId(), param_name, param_value))
             throw new NoFeedbackException("This song with these parameters doesn't have any feedbacks!");
         else
             System.out.println("Feedback modified successfully!");
-    }
+    } */
 
     // La creazione di una playlist comporta l'inserimento di almeno una canzone
     public synchronized Playlist createPlaylist(String pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException {
