@@ -190,6 +190,43 @@ public class BarraStrumenti extends JPanel {
             }
         });
 
+        bottoneModificaPassword.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel panel = new JPanel(new BorderLayout(5, 5));
+
+                JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+                label.add(new JLabel("Nuova password", SwingConstants.RIGHT));
+
+                panel.add(label, BorderLayout.WEST);
+
+                JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+                JPasswordField password = new JPasswordField();
+                controls.add(password);
+
+                panel.add(controls, BorderLayout.CENTER);
+
+                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "modifica password", JOptionPane.OK_CANCEL_OPTION);
+
+                if (scelta == 0) {
+                    String pw = new String(password.getPassword());
+                    if (pw.equals("")) {
+                        JOptionPane.showMessageDialog(null, "Please insert a new password");
+                    } else {
+                        if (settingsListener != null)
+                            try {
+                                settingsListener.modifyPassword(pw);
+                                JOptionPane.showMessageDialog(null, "Changed!");
+                            } catch (RemoteException ex) {
+                            } catch (SQLException ex) {
+                            } catch (UserException ex) {
+                                JOptionPane.showMessageDialog(null, "user ex");
+                            }
+                    }
+                }
+            }
+        });
+
         bottoneLogin.setFocusable(false);
         bottoneRegistra.setFocusable(false);
         bottoneLogout.setFocusable(false);

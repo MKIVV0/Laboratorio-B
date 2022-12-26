@@ -98,6 +98,11 @@ public class Frame extends JFrame {
                 resourceManager.modifyUserParam(user, "user_id", nuovo);
                 ((LoggedUser)user).setUserID(nuovo);
             }
+            @Override
+            public void modifyPassword(String nuovo) throws SQLException, UserException, RemoteException {
+                resourceManager.modifyUserParam(user, "password", nuovo);
+                ((LoggedUser)user).setPassword(nuovo);
+            }
         });
 
 
