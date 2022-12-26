@@ -199,11 +199,19 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
             System.out.println("Song added successfully!");
     }
 
+    // DA TESTARE!
     public synchronized void modifyUserParam(AbstractUser user, String param_name, String param_value) throws SQLException, UserException, RemoteException {
         if (!dbES.modifyUserParam(((LoggedUser) user).getId(), param_name, param_value))
             throw new UserException("This user doesn't exist!");
-        else
+        else {
             System.out.println("User parameters modified successfully!");
+            LoggedUser tmp = users.remove(((LoggedUser) user).getId());
+            switch (param_name) {
+                case "user_id" -> tmp.setUserID(param_value);
+                case "password" -> tmp.setPassword(param_value);
+            }
+            users.put(tmp.getId(), tmp);
+        }
     }
 
     public synchronized void deleteUser(AbstractUser user) throws SQLException, UserException, RemoteException {
