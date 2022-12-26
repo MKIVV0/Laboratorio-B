@@ -284,13 +284,32 @@ public class dbES {
             Summary tmp = new Summary();
             tmp.setEmotionName(rs.getString("emotion_name").toUpperCase());
             tmp.setNumberOfVotes(rs.getString("number_of_users"));
-            tmp.setAVGscore(rs.getString("score"));
-            tmp.setNoteList(rs.getString("note_list"));
+            tmp.setAVGscore(Double.parseDouble(rs.getString("score").substring(0, 4)));
+
+            String[] notes = rs.getString("note_list").split(",");
+            notes = reformatFeedbackComments(notes);
+
+            tmp.setNoteList(notes);
             feedback.addSummary(tmp);
         }
         System.out.println(feedback);
 
         return null;
+    }
+
+    private static String[] reformatFeedbackComments(String[] comments) {
+        int length = comments.length;
+        int commentLength = 0;
+        int endingIndex = 0;
+        for (int i = 0; i < length; i++) {
+            commentLength = comments[i].length();
+            if (commentLength - 1 > 0) endingIndex = commentLength - 2;
+
+            if (i == 0) comments[i] = comments[i].substring(2, endingIndex);
+            else if (i == comments.length - 1) comments[length - 1] = comments[length - 1].substring(1, endingIndex);
+            else comments[i] = comments[i].substring(1, endingIndex);
+        }
+        return comments;
     }
 
     /*

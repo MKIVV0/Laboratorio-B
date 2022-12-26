@@ -61,6 +61,10 @@ public class Feedback implements Serializable {
     }
 
     public String toString() {
-        return "song id: " + this.songId + "\n" + this.emotionSummaries.toString();
+        String tmp = "song id: " + this.songId + "\n";
+        for (LinkedList<Summary> summaryLinkedList : this.emotionSummaries.values())
+            for (Summary summary : summaryLinkedList)
+                tmp += summary.toString() + "\n";
+        return tmp;
     }
 }

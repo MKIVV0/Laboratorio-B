@@ -1,6 +1,7 @@
 package common;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Summary implements Serializable {
@@ -12,9 +13,9 @@ public class Summary implements Serializable {
     /**
      * Attributo rappresentante lo score cumulativo associato al feedback.
      */
-    private String AVGscore;
+    private double AVGscore;
 
-    private String note_list;
+    private String[] note_list;
 
     public Summary() {}
 
@@ -34,26 +35,29 @@ public class Summary implements Serializable {
         this.numberOfVotes = numberOfVotes;
     }
 
-    public String getAVGscore() {
+    public double getAVGscore() {
         return AVGscore;
     }
 
-    public void setAVGscore(String AVGscore) {
+    public void setAVGscore(double AVGscore) {
         this.AVGscore = AVGscore;
     }
 
-    public String getNoteList() {
+    public String[] getNoteList() {
         return note_list;
     }
 
-    public void setNoteList(String note_list) {
+    public void setNoteList(String[] note_list) {
         this.note_list = note_list;
     }
 
     public String toString() {
-        return "emotion name: " + emotion_name +
+        String tmp = "emotion name: " + emotion_name +
                 "\nnumber of votes: " + numberOfVotes +
                 "\naverage score: " + AVGscore +
-                "\nnote list: " + note_list;
+                "\nnote list:\n";
+        for (String s : this.note_list)
+            tmp += s + "\n";
+        return tmp;
     }
 }
