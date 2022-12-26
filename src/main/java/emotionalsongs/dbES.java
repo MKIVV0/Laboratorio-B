@@ -77,6 +77,8 @@ public class dbES {
      * @param p server's port on which the database service is available.
      * @param user database's userid credential.
      * @param pwd database's password credential.
+     * @throws SQLException
+     * @throws IOException
      */
     private dbES(String server, String p, String user, String pwd) throws SQLException, IOException {
         setCredentials(server, p, user, pwd); // si settano le credenziali per collegarsi al server database
@@ -94,6 +96,8 @@ public class dbES {
      * @param p server's port on which the database service is available.
      * @param user database's userid credential.
      * @param pwd database's password credential.
+     * @throws SQLException
+     * @throws IOException
      */
     public static dbES getInstance(String server, String p, String user, String pwd) throws SQLException, IOException {
 
@@ -120,6 +124,7 @@ public class dbES {
 
     /**
      * ìnitializes the connection to the database.
+     * @throws SQLException
      */
     private void setConnection() throws SQLException {
         connection = DriverManager.getConnection(url, userid, password);
@@ -145,6 +150,8 @@ public class dbES {
      * @param st statement object.
      * @param scriptPath1 first script's path for initializing the database.
      * @param scriptPath2 second script's path for initializing the tables.
+     * @throws SQLException
+     * @throws IOException
      */
     public static void initializeTables(Statement st, String scriptPath1, String scriptPath2) throws SQLException, IOException {
         String script = null;
@@ -179,7 +186,12 @@ public class dbES {
     // Verifica la presenza di una tupla nella tabella registereduser. Ritorna l'oggetto, se l'utente è
     // presente nella tabella, lancia un'eccezione altrimenti.
     /**
-     * gets a LoggedUser object from the
+     * gets a LoggedUser object from the database.
+     * @param user_id the username.
+     * @param pwd the password.
+     * @throws SQLException
+     * @throws WrongCredentialsException
+     * @return a LoggedUser object.
      */
     public static synchronized LoggedUser getLoggedUser(String user_id, String pwd) throws SQLException, WrongCredentialsException {
         String query1 = "SELECT * FROM registereduser WHERE user_id = \'" + user_id + "\' AND password = \'" + pwd + "\'";
@@ -206,6 +218,13 @@ public class dbES {
 
     // Data la query specificata, vengono poi ricostruite tutte le playlist
     // appartenenti all'utente. - DONE
+    /**
+     * gets a LoggedUser object's playlists from the database.
+     * It is used in the getLoggedUser() method.
+     * @param user_id the username.
+     * @throws SQLException
+     * @return the user's playlists.
+     */
     private static LinkedList<Playlist> getPlaylists(String user_id) throws SQLException {
         String query = "SELECT p.playlist_name, s.song_id, s.title,s.author, s.year_released \n" +
                 "FROM playlist p \n" +
@@ -246,9 +265,21 @@ public class dbES {
         return playlists;
     }
 
-    // Registrazione - DONE
-    public static boolean registerUser(String fn, String ln, String FC, String a, String email, String uid, String pwd) {
-            String query = "INSERT INTO RegisteredUser VALUES (\'" + uid + "\', \'" + pwd + "\', \'" + email + "\', \'" + fn + "\', \'" + ln + "\', \'" + a + "\', \'" + FC + "\')";
+
+    /**
+     * gets a LoggedUser object's playlists from the database.
+     * It is used in the getLoggedUser() method.
+     * @param fn the user's first name.
+     * @param ln the user's last name.
+     * @param FC the user's fiscal code.
+     * @param addr the user's address.
+     * @param email the user's email.
+     * @param uid the user's username.
+     * @param pwd the user's password.
+     * @return true if the involved table has been modified, false otherwise.
+     */
+    public static boolean registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) {
+            String query = "INSERT INTO RegisteredUser VALUES (\'" + uid + "\', \'" + pwd + "\', \'" + email + "\', \'" + fn + "\', \'" + ln + "\', \'" + addr + "\', \'" + FC + "\')";
             System.out.println(query);
             int count;
             try{
@@ -279,6 +310,14 @@ public class dbES {
                 + "\nNotes: " + rs.getString("notes");
     }*/
 
+    /**
+     * gets a Feedback object related to a given song.
+     * A feedback represents a summary of the feedbacks given by
+     * the users for each emotion related to the given song.
+     * @param song_id the song's identifier.
+     * @throws SQLException
+     * @return a list of summaries.
+     */
     public static Feedback getFeedback(String song_id) throws SQLException {
         String query = "SELECT emotion_name, COUNT(DISTINCT user_id) AS number_of_users, AVG(score) AS score, array_agg(user_id || ': ' || notes) AS note_list\n" +
                        "FROM emotion\n" +
@@ -308,6 +347,12 @@ public class dbES {
         return feedback;
     }
 
+    /**
+     * It serves to reformat the comment lists retrieved from the database,
+     * in order to allow a better displaying.
+     * @param comments an array of comments.
+     * @return the list of formatted comments.
+     */
     private static String[] reformatFeedbackComments(String[] comments) {
         int length = comments.length;
         int commentLength = 0;
@@ -352,6 +397,17 @@ public class dbES {
     // 1) Aggiungi feedback - DONE
     // VERIFICARE CHE L'AGGIUNTA DI UN FEEDBACK SIA PERMESSA SOLO SE
     // LA CANZONE ESISTE IN UNA DELLE PLAYLIST DELL'UTENTE.
+    /**
+     * adds a user's feedback for a given song and a given emotion to
+     * the database.
+     * @param emotion the emotion involved.
+     * @param user_id the user's username.
+     * @param song_id the song identifier involved.
+     * @param score the score left by the user.
+     * @param notes the notes left by the user.
+     * @throws SQLException
+     * @return true if the involved table has been modified, false otherwise.
+     */
     public static boolean addFeedback(Emotions emotion, String user_id, String song_id, String score, String notes) throws SQLException {
         String query = "INSERT INTO emotion(emotion_name, user_id, song_id, score, notes)\n" +
                 "SELECT '" + emotion.toString().toLowerCase() + "', '" + user_id + "', '" + song_id + "', '" + score + "', '" + notes + "'\n" +
@@ -364,6 +420,15 @@ public class dbES {
     }
 
     // 2) Elimina feedback - DONE
+    /**
+     * deletes a user's feedback for a given song and a given emotion to
+     * the database.
+     * @param emotion the emotion involved.
+     * @param user_id the user's username.
+     * @param song_id the song identifier involved.
+     * @throws SQLException
+     * @return true if the involved table has been modified, false otherwise.
+     */
     public static boolean deleteFeedback(Emotions emotion, String user_id, String song_id) throws SQLException {
         String query = "DELETE FROM emotion" +
                 " WHERE emotion_name = '" + emotion.toString().toLowerCase()
@@ -389,6 +454,13 @@ public class dbES {
 
     // PLAYLIST
     // 1) Crea playlist - DONE
+    /**
+     * creates a new playlist that is added to the database.
+     * @param pl_name the playlist's name.
+     * @param user_id the user's username.
+     * @throws SQLException
+     * @return true if the involved table has been modified, false otherwise.
+     */
     public static boolean createPlaylist(String pl_name, String user_id) throws SQLException {
         String query = "INSERT INTO playlist VALUES ('" + pl_name + "', 'ZZZZZZZZZZZZZZZZZZ', '" + user_id + "')";
         // AGGIORNARE CON INSERT CONDIZIONATA: LA PLAYLIST ESISTE GIA'
@@ -399,6 +471,14 @@ public class dbES {
     }
 
     // 2) Modifica playlist -> togli canzone - DONE
+    /**
+     * removes a song from an existing playlist.
+     * @param pl_name the playlist's name.
+     * @param song_id the song's identifier.
+     * @param user_id the user's username.
+     * @throws SQLException
+     * @return true if the involved table has been modified, false otherwise.
+     */
     public static boolean removeSongFromPlaylist(String pl_name, String song_id, String user_id) throws SQLException {
         // LANCIARE UN MESSAGGIO NEL CASO IN CUI CI SIA SOLO UNA OCCORRENZA DI pl_name
         // LA SUA RIMOZIONE COMPORTA L'ELIMINAZIONE DELLA PLAYLIST STESSA
@@ -412,6 +492,14 @@ public class dbES {
     }
 
     // 3) Rinomina playlist
+    /**
+     * renames a given playlist.
+     * @param curr_pl_name the playlist's old name.
+     * @param new_pl_name the playlist's new name.
+     * @param user_id the user's username.
+     * @throws SQLException
+     * @return true if the involved table has been modified, false otherwise.
+     */
     public static boolean renamePlaylist(String curr_pl_name, String new_pl_name, String user_id) throws SQLException {
         // VERIFICARE CHE LA PLAYLIST ESISTA
         String query = "UPDATE playlist\n" +
@@ -424,6 +512,13 @@ public class dbES {
     }
 
     // 4) Elimina playlist - DONE
+    /**
+     * deletes a given playlist.
+     * @param pl_name the playlist's name.
+     * @param user_id the user's username.
+     * @throws SQLException
+     * @return true if the involved table has been modified, false otherwise.
+     */
     public static boolean deletePlaylist(String pl_name, String user_id) throws SQLException {
         String query = "DELETE FROM playlist\n"
                 + "WHERE playlist_name = '" + pl_name
@@ -435,6 +530,14 @@ public class dbES {
     }
 
     // 5) Aggiungi brani -> sfrutta la hashmap di canzoni presente nel programma - DONE
+    /**
+     * adds a song to a given playlist.
+     * @param pl_name the playlist's old name.
+     * @param song_id the playlist's new name.
+     * @param user_id the user's username.
+     * @throws SQLException
+     * @return true if the involved table has been modified, false otherwise.
+     */
     public static boolean addSongToPlaylist(String pl_name, String song_id, String user_id) throws SQLException {
         String query = "INSERT INTO playlist (playlist_name, song_id, user_id)" +
                 "SELECT '" + pl_name + "', '" + song_id + "', '" + user_id + "'" +
@@ -450,6 +553,14 @@ public class dbES {
     /* 1) Modifica parametri (tutti) -> prima di implementare questa funzione,
      * verificare se i cascade funzionano su db (7 metodi) DA RIVEDERE ->
      * Soluzione terminal != soluzione gui */
+    /**
+     * modifies a user's given data field with a new value.
+     * @param user_id the user's username.
+     * @param param_name the parameter that has to be modified.
+     * @param param_value the new value to assign.
+     * @throws SQLException
+     * @return true if the involved table has been modified, false otherwise.
+     */
     public static boolean modifyUserParam(String user_id, String param_name, String param_value) throws SQLException {
         // UPDATE FROM RegisteredUser SET "nome_parametro" = "parametro_nuovo" WHERE user_id = "utente"
         // PER EVITARE DI IMPLEMENTARE TRE METODI UGUALI
@@ -462,6 +573,12 @@ public class dbES {
     }
 
     // 2) Elimina utente corrente dal sistema
+    /**
+     * deletes a user from the system.
+     * @param user_id the user's username.
+     * @throws SQLException
+     * @return true if the involved table has been modified, false otherwise.
+     */
     public static boolean deleteUser(String user_id) throws SQLException {
         String query = "DELETE FROM registereduser\n" +
                 "WHERE user_id = '" + user_id + "'";
@@ -475,6 +592,11 @@ public class dbES {
 
     // 2) Importa tutte le canzoni e ricostruisci i rispettivi oggetti nella lista nel gestore - DONE*
     // * Gotta adapt it to the real resourceManager
+    /**
+     * it loads all the repository songs from the database.
+     * @throws SQLException
+     * @return a hashmap with all the songs.
+     */
     public static synchronized HashMap<String, Song> importAllSongs() throws SQLException {
         // Aggiunta della richiesta alla coda di query
         String query = "SELECT * FROM Song ORDER BY year_released, author, song_id";
