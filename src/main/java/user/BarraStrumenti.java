@@ -14,17 +14,20 @@ public class BarraStrumenti extends JPanel {
     private JButton bottoneLogin;
     private JButton bottoneLogout;
     private JButton bottoneRegistra;
-    //    private JButton bottoneModifica;
+    private JButton bottoneModificaUsername, bottoneModificaPassword;
     private LogListener logListener;
     private RegistrazioneListener registrazioneListener;
+    private SettingsListener settingsListener;
 
     public BarraStrumenti() {
         super(new FlowLayout(FlowLayout.LEFT));
-
+//setOpaque(false);
         bottoneLogin = new JButton("Login");
         bottoneRegistra = new JButton("Registrati");
-//            bottoneModifica = new JButton("Modifica profilo");
-//            bottoneModifica.setVisible(false);
+        bottoneModificaUsername = new JButton("Modifica username");
+        bottoneModificaUsername.setVisible(false);
+        bottoneModificaPassword = new JButton("Modifica password");
+        bottoneModificaPassword.setVisible(false);
         bottoneLogout = new JButton("Logout");
         bottoneLogout.setVisible(false);
 
@@ -150,14 +153,54 @@ public class BarraStrumenti extends JPanel {
             }
         });
 
+        bottoneModificaUsername.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel panel = new JPanel(new BorderLayout(5, 5));
+
+                JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+                label.add(new JLabel("Nuovo username", SwingConstants.RIGHT));
+
+                panel.add(label, BorderLayout.WEST);
+
+                JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+                JTextField username = new JTextField();
+                controls.add(username);
+
+                panel.add(controls, BorderLayout.CENTER);
+
+                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "modifica username", JOptionPane.OK_CANCEL_OPTION);
+
+                if (scelta == 0) {
+                    String uid = username.getText();
+                    if (uid.equals("")) {
+                        JOptionPane.showMessageDialog(null, "Please insert Username");
+                    } else {
+                        if (settingsListener != null)
+                            try {
+                                settingsListener.modifyUsername(uid);
+                                JOptionPane.showMessageDialog(null, "Changed!");
+                            } catch (RemoteException ex) {
+                            } catch (SQLException ex) {
+                            } catch (UserException ex) {
+                                JOptionPane.showMessageDialog(null, "user ex");
+                            }
+                    }
+                }
+            }
+        });
+
         bottoneLogin.setFocusable(false);
         bottoneRegistra.setFocusable(false);
         bottoneLogout.setFocusable(false);
+        bottoneModificaUsername.setFocusable(false);
+        bottoneModificaPassword.setFocusable(false);
 
         add(bottoneLogin);
         add(bottoneRegistra);
         add(bottoneLogout);
-//        add(bottoneModifica);
+        add(bottoneModificaUsername);
+        add(bottoneModificaPassword);
 
         setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
     }
@@ -167,12 +210,14 @@ public class BarraStrumenti extends JPanel {
             bottoneLogin.setVisible(false);
             bottoneRegistra.setVisible(false);
             bottoneLogout.setVisible(true);
-//            bottoneModifica.setVisible(true);
+            bottoneModificaUsername.setVisible(true);
+            bottoneModificaPassword.setVisible(true);
         } else {
             bottoneLogin.setVisible(true);
             bottoneRegistra.setVisible(true);
             bottoneLogout.setVisible(false);
-//            bottoneModifica.setVisible(false);
+            bottoneModificaUsername.setVisible(false);
+            bottoneModificaPassword.setVisible(false);
         }
     }
 
@@ -183,6 +228,10 @@ public class BarraStrumenti extends JPanel {
         bottoneRegistra.setForeground(compFore);
         bottoneLogout.setBackground(compBack);
         bottoneLogout.setForeground(compFore);
+        bottoneModificaUsername.setBackground(compBack);
+        bottoneModificaUsername.setForeground(compFore);
+        bottoneModificaPassword.setBackground(compBack);
+        bottoneModificaPassword.setForeground(compFore);
         setForeground(compFore);
         setBackground(back);
     }
@@ -195,4 +244,30 @@ public class BarraStrumenti extends JPanel {
         this.registrazioneListener = registrazioneListener;
     }
 
+    public void setSettingsListener(SettingsListener settingsListener) {
+        this.settingsListener = settingsListener;
+    }
+
+    /*@Override
+    protected void paintComponent(Graphics grphcs) {
+        Graphics2D g2 = (Graphics2D) grphcs;
+        g2.setColor(getBackground());
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+        g2.fillRect(0, getHeight() - 25, getWidth(), getHeight());
+        super.paintComponent(grphcs);
+    }*/
+
+//    @Override
+//    protected void paintComponent(Graphics grphcs) {
+//        Graphics2D g2 = (Graphics2D) grphcs;
+//        g2.setColor(getBackground());
+//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//        GradientPaint gp = new GradientPaint(0, 0, Color.decode("#4568dc"), 0, getHeight(), Color.decode("#b06ab3"));
+//        g2.setPaint(gp);
+//        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+//        g2.fillRect(getWidth() - 25, 0, getWidth(), getHeight());
+//        g2.fillRect(0, getHeight() - 25, getWidth(), getHeight());
+//        super.paintComponent(grphcs);
+//    }
 }

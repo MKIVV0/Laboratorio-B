@@ -92,6 +92,13 @@ public class Frame extends JFrame {
                 resourceManager.registerUser(re.fn, re.ln, re.FC, re.addr, re.em, re.uid, re.pw);
             }
         });
+        barraStrumenti.setSettingsListener(new SettingsListener() {
+            @Override
+            public void modifyUsername(String nuovo) throws SQLException, UserException, RemoteException {
+                resourceManager.modifyUserParam(user, "user_id", nuovo);
+                ((LoggedUser)user).setUserID(nuovo);
+            }
+        });
 
 
 
