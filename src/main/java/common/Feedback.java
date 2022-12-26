@@ -7,6 +7,8 @@ package common;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.LinkedList;
+
 /**
  * Classe rappresentante la valutazione di una canzone.
  * Ogni feedback è distinto dalla coppia songId ed emotion.
@@ -16,23 +18,11 @@ public class Feedback implements Serializable {
      * Attributo rappresentate l'identificativo della canzone alla quale
      * è associato il feedback.
      */
-    private String user;
-    /**
-    * Attributo rappresentante l'emozione associata al feedback.
-    */
-    private String emotion;
-   /**
-    * Attributo rappresentante lo score cumulativo associato al feedback.
-    */
-    private String score;
+    private String songId;
     /**
      * Attributo rappresentante il numero totale di votanti associato al feedback.
      */
-    private int totalNumberOfScores;
-    /**
-     * Attributo rappresentante la lista i commenti al feedback.
-     */
-    private String notes;
+    private HashMap<Emotions, LinkedList<Summary>> emotionSummaries;
 
    /**
     * Costruttore per istanziare un oggetto di tipo Feedback che è già
@@ -43,60 +33,34 @@ public class Feedback implements Serializable {
     * @param n numero di utenti totali che ha votato il feedback.
     * @param notes lista di commenti associata al feedback.
     */
-    public Feedback(String emotion, String user, String score, String notes) {
-        this.user = user;
-        this.emotion = emotion;
-        this.score = score;
-        this.notes = notes;
+
+    public Feedback() {
+        this.emotionSummaries = new HashMap<>();
     }
 
-    public Feedback() {}
-
-    /**
-     * Aggiunge cumulativamente uno score al feedback.
-     * @param score lo score da aggiungere.
-     */
-    public void addScore(int score) {
-        this.score += score;
-        this.totalNumberOfScores++;
+    public String getSongId() {
+        return songId;
     }
 
-    public String getUser() {
-        return user;
+    public void setSongId(String songId) {
+        this.songId = songId;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+
+    public HashMap<Emotions, LinkedList<Summary>> getEmotionProspects() {
+        return emotionSummaries;
     }
 
-    public String getEmotion() {
-        return emotion;
-    }
 
-    public void setEmotion(String emotion) {
-        this.emotion = emotion;
-    }
-
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void addSummary(Summary summary) {
+        Emotions emotion = Emotions.valueOf(summary.getEmotion_name());
+        if (this.emotionSummaries.get(emotion) == null) {
+            this.emotionSummaries.put(emotion, new LinkedList<>());
+        }
+        this.emotionSummaries.get(emotion).add(summary);
     }
 
     public String toString() {
-        return "emotion: " + this.emotion +
-                "\nuser: " + this.user +
-                "\nscore: " + this.score +
-                "\nnotes: " + this.notes;
+        return "song id: " + this.songId + "\n" + this.emotionSummaries.toString();
     }
 }

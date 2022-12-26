@@ -268,28 +268,29 @@ public class dbES {
                 + "\nNotes: " + rs.getString("notes");
     }*/
 
-    public static LinkedList<String> getFeedback(String song_id) throws SQLException {
-        String query = "SELECT * " +
-                        "FROM Emotion " +
-                        "WHERE song_id = '" + song_id + "'";
+    public static Feedback getFeedback(String song_id) throws SQLException {
+        String query = "SELECT emotion_name, COUNT(DISTINCT user_id) AS number_of_users, AVG(score) AS score, array_agg(user_id || ': ' || notes) AS note_list\n" +
+                       "FROM emotion\n" +
+                       "WHERE song_id = '" + song_id + "'\n" +
+                       "GROUP BY emotion_name;";
         ResultSet rs = statement.executeQuery(query);
         if (!rs.next()) return null;
         rs.beforeFirst();
 
-        LinkedList<String> feedback_list = new LinkedList<>();
-        Feedback feedback = null;
+        Feedback feedback = new Feedback();
+        feedback.setSongId(song_id);
 
         while (rs.next()) {
-            feedback = new Feedback();
-            feedback.setEmotion(rs.getString("emotion_name"));
-            feedback.setUser(rs.getString("user_id"));
-            feedback.setScore(rs.getString("score"));
-            feedback.setNotes(rs.getString("notes"));
-            System.out.println(feedback);
-            feedback_list.add(feedback.toString());
+            Summary tmp = new Summary();
+            tmp.setEmotionName(rs.getString("emotion_name").toUpperCase());
+            tmp.setNumberOfVotes(rs.getString("number_of_users"));
+            tmp.setAVGscore(rs.getString("score"));
+            tmp.setNoteList(rs.getString("note_list"));
+            feedback.addSummary(tmp);
         }
+        System.out.println(feedback);
 
-        return feedback_list;
+        return feedback;
     }
 
     /*
