@@ -14,9 +14,9 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
     private static HashMap<String, Song> songRepo;
     private static HashMap<String, LoggedUser> users;
 
-    public ResourceManager(String server, String database, String port, String user, String password) throws IOException, SQLException {
+    public ResourceManager(String server, String port, String user, String password) throws IOException, SQLException {
         super();
-        dbES.getInstance(server, database, port, user, password);
+        dbES.getInstance(server, port, user, password);
         songRepo = dbES.importAllSongs();
         users = new HashMap<>();
     }

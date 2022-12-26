@@ -90,8 +90,12 @@ public class dbES {
     /**
      * gets the single dbES instance.
      * A singleton pattern is used, in order to maintain a centralized communication structure.
+     * @param server server's name.
+     * @param p server's port on which the database service is available.
+     * @param user database's userid credential.
+     * @param pwd database's password credential.
      */
-    public static dbES getInstance(String server, String db, String p, String user, String pwd) throws SQLException, IOException {
+    public static dbES getInstance(String server, String p, String user, String pwd) throws SQLException, IOException {
 
         if (database == null) {
             database = new dbES(server, p, user, pwd);
@@ -102,6 +106,10 @@ public class dbES {
 
     /**
      * sets the object's field for accessing the database, in case a user has other URL specifications.
+     * @param server server's name.
+     * @param p server's port on which the database service is available.
+     * @param user database's userid credential.
+     * @param pwd database's password credential.
      */
     private void setCredentials(String server, String p, String user, String pwd) {
         if (!server.equals("")) host = server + ':';
@@ -134,6 +142,9 @@ public class dbES {
 
     /**
      * initializes the database tables.
+     * @param st statement object.
+     * @param scriptPath1 first script's path for initializing the database.
+     * @param scriptPath2 second script's path for initializing the tables.
      */
     public static void initializeTables(Statement st, String scriptPath1, String scriptPath2) throws SQLException, IOException {
         String script = null;
