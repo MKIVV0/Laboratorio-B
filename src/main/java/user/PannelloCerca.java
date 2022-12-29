@@ -25,10 +25,6 @@ public class PannelloCerca extends JPanel {
         setLayout(new GridBagLayout());
 
         // Bordi
-//        bordoInterno = BorderFactory.createTitledBorder("Home");
-//        bordoEsterno = BorderFactory.createEmptyBorder(0, 5, 5, 5);
-//        bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
-//        setBorder(bordoFinale);
         Border b = BorderFactory.createMatteBorder(1,0,0,0,Color.PINK);
         bordoInterno = BorderFactory.createTitledBorder(b,"Home",TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.TOP,
                 new Font("Geneva", Font.BOLD, 12),Frame.compForeDark);
@@ -45,7 +41,7 @@ public class PannelloCerca extends JPanel {
         labelYear.setEnabled(false);
         fieldYear.setEnabled(false);
 
-        labelCercaPer = new JLabel("CercaPer: ");
+        labelCercaPer = new JLabel("search by: ");
 
         radioCercaPerTitolo = new JRadioButton("Titolo");
         radioCercaPerTitolo.setActionCommand("titolo");
@@ -78,7 +74,6 @@ public class PannelloCerca extends JPanel {
         gruppoRadioCercaPer.add(radioCercaPerAutore);
 
         bottoneCerca = new JButton("Cerca!");
-        bottoneCerca.setFocusable(false);
 
         bottoneCerca.addActionListener(new ActionListener() {
             @Override
@@ -214,40 +209,24 @@ public class PannelloCerca extends JPanel {
         add(bottoneCerca, gbc);
 
         setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
-
     }
 
     public void setColor(Color back, Color compBack, Color compFore){
-       /* radioCercaPerAutore.setBackground(back);
-        radioCercaPerAutore.setForeground(compFore);
-        radioCercaPerTitolo.setBackground(back);
-        radioCercaPerTitolo.setForeground(compFore);
-        fieldCercaBrano.setBackground(compBack);
-        fieldCercaBrano.setForeground(compFore);
-        fieldYear.setBackground(compBack);
-        fieldYear.setForeground(compFore);
-        bottoneCerca.setBackground(compBack);
-        bottoneCerca.setForeground(compFore);*/
         for(Component c: getComponents())
             if(c instanceof JRadioButton) {
                 c.setBackground(back);
                 c.setForeground(compFore);
+                c.setFocusable(false);
             } else {
                 c.setBackground(compBack);
                 c.setForeground(compFore);
+                c.setFocusable(false);
             }
         setBackground(back);
-//        bordoInterno = BorderFactory.createTitledBorder(null,"Home",0, 2,
-//                new Font("Geneva", Font.BOLD, 12),compFore);
-//        bordoEsterno = BorderFactory.createEmptyBorder(0, 5, 5, 5);
-//        bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
-
     }
 
     public void setCercaListener(CercaListener cercaListener) {
-
         this.cercaListener = cercaListener;
-
     }
 
 }

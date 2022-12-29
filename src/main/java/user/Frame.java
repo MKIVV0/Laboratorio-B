@@ -25,11 +25,8 @@ public class Frame extends JFrame {
     private boolean logged;
 
     static Color backDark = new Color(51,51,51);
-//    static Color backLight = new Color(238,238,238);
-//    static Color compBackLight = new Color(255,255,255);
     static Color compBackDark = new Color(70,70,70);
     static Color compForeDark = new Color(245,245,245);
-//    static Color compForeLight = new Color(45,45,45);
 
     public Frame() throws RemoteException, NotBoundException {
         super("Emotional Songs");
@@ -39,31 +36,9 @@ public class Frame extends JFrame {
         resourceManager = (ResourceManagerInterface) r.lookup("Gestore");
         user = new NotLoggedUser();
         logged = false;
-//        isDark = true;
 
         // BARRA STRUMENTI
         barraStrumenti = new BarraStrumenti();
-        /*barraStrumenti.setColorListener(new ColorListener() {
-            @Override
-            public void change() {
-                if(isDark) {
-                    setBackground(backLight);
-                    panel.setBackground(backLight);
-                    barraStrumenti.setColor(backLight, compBackLight, compForeLight);
-                    pannelloCerca.setColor(backLight, compBackLight, compForeLight);
-                    pannelloPlaylist.setColor(backLight, compBackLight, compForeLight);
-                    objectAreaPanel.setColor(backLight, compBackLight, compForeLight);
-                } else {
-                    setBackground(backDark);
-                    panel.setBackground(backDark);
-                    barraStrumenti.setColor(backDark, compBackDark, compForeDark);
-                    pannelloCerca.setColor(backDark, compBackDark, compForeDark);
-                    pannelloPlaylist.setColor(backDark, compBackDark, compForeDark);
-                    objectAreaPanel.setColor(backDark, compBackDark, compForeDark);
-                }
-                isDark = !isDark;
-            }
-        });*/
         barraStrumenti.setLogListener(new LogListener() {
             @Override
             public void credenzialiFornite(LogEvent le) throws AlreadyLoggedException, SQLException, RemoteException, WrongCredentialsException {
@@ -115,7 +90,6 @@ public class Frame extends JFrame {
             public Feedback guardaFeedback(Song song) throws NoFeedbackException, SQLException, RemoteException {
                 return resourceManager.getFeedback(song);
             }
-
             @Override
             public void addSong(Song song) throws SQLException, playlistException, RemoteException {
                 LinkedList<Playlist> userPlaylists = ((LoggedUser)user).getPlaylistList();
@@ -140,7 +114,6 @@ public class Frame extends JFrame {
                     pannelloPlaylist.logged(user);
                 }
             }
-
             @Override
             public void removeSong(Song song) throws SQLException, playlistException, RemoteException {
                 Playlist playlist = pannelloPlaylist.getPlaylist();
@@ -151,7 +124,6 @@ public class Frame extends JFrame {
                 objectAreaPanel.inserisciBrani(playlist.getSongList());
                 objectAreaPanel.setSongOfPlaylist(true);
             }
-
             @Override
             public void valutaSong(FeedbackForm ff) throws NotLoggedException, SQLException, AlreadyValuedException, RemoteException {
                 resourceManager.evaluateSong(ff.emotions, user, ff.song, String.valueOf(ff.score), ff.notes);
@@ -198,7 +170,6 @@ public class Frame extends JFrame {
                 ((LoggedUser)user).addPlaylist(nuova);
                 pannelloPlaylist.logged(user);
             }
-
             @Override
             public void eliminaPlaylist(String plName) throws SQLException, playlistException, RemoteException {
                 resourceManager.deletePlaylist(plName, user);
@@ -206,7 +177,6 @@ public class Frame extends JFrame {
                 objectAreaPanel.pulisciArea();
                 pannelloPlaylist.logged(user);
             }
-
             @Override
             public void apriPlaylist(String plName) {
                 Playlist playlist = ((LoggedUser) user).getPlaylist(plName);
@@ -216,7 +186,6 @@ public class Frame extends JFrame {
                 objectAreaPanel.inserisciBrani(tmp);
                 objectAreaPanel.setSongOfPlaylist(true);
             }
-
             @Override
             public void rinominaPlaylist(String vecchioNome, String nuovoNome) throws SQLException, playlistException, RemoteException {
                 resourceManager.renamePlaylist(vecchioNome, nuovoNome, user);
@@ -227,7 +196,6 @@ public class Frame extends JFrame {
 
         // PANNELLO
         panel = new JPanel(new BorderLayout());
-//        panel.setPreferredSize(new Dimension(320, 100));
 
         panel.add(pannelloCerca, BorderLayout.PAGE_START);
         panel.add(pannelloPlaylist, BorderLayout.CENTER);

@@ -25,14 +25,8 @@ public class PannelloPlaylist extends JPanel {
     private Border bordoInterno, bordoEsterno, bordoFinale;
 
     PannelloPlaylist() {
-//        setPreferredSize(new Dimension(320, 50));//100
         setLayout(new BorderLayout());
         setVisible(false);
-
-        // Bordi
-//        bordoInterno = BorderFactory.createTitledBorder("Le tue playlist");
-//        bordoEsterno = BorderFactory.createEmptyBorder(0, 5, 5, 5);
-//        bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
 
         Border b = BorderFactory.createMatteBorder(1,0,0,0,Color.PINK);
         bordoInterno = BorderFactory.createTitledBorder(b,"Le tue playlist",0, 2,
@@ -203,23 +197,21 @@ public class PannelloPlaylist extends JPanel {
     public void setColor(Color back, Color compBack, Color compFore){
         listaPlaylist.setBackground(compBack);
         listaPlaylist.setForeground(compFore);
-        bottoneApri.setBackground(compBack);
-        bottoneApri.setForeground(compFore);
-        bottoneCrea.setBackground(compBack);
-        bottoneCrea.setForeground(compFore);
-        bottoneElimina.setBackground(compBack);
-        bottoneElimina.setForeground(compFore);
-        bottoneRinomina.setBackground(compBack);
-        bottoneRinomina.setForeground(compFore);
+        for(Component c: getComponents()){
+            c.setBackground(compBack);
+            c.setForeground(compFore);
+        }
+        for(Component c: tasti.getComponents()){
+            c.setBackground(compBack);
+            c.setForeground(compFore);
+            c.setFocusable(false);
+        }
         tasti.setBackground(back);
         setBackground(back);
-
     }
 
     public void setPlaylistListener(PlaylistListener playlistListener) {
-
         this.playlistListener = playlistListener;
-
     }
 
 }

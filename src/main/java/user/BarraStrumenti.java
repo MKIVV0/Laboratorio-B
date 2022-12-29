@@ -21,7 +21,7 @@ public class BarraStrumenti extends JPanel {
 
     public BarraStrumenti() {
         super(new FlowLayout(FlowLayout.LEFT));
-//setOpaque(false);
+
         bottoneLogin = new JButton("Login");
         bottoneRegistra = new JButton("Registrati");
         bottoneModificaUsername = new JButton("Modifica username");
@@ -227,12 +227,6 @@ public class BarraStrumenti extends JPanel {
             }
         });
 
-        bottoneLogin.setFocusable(false);
-        bottoneRegistra.setFocusable(false);
-        bottoneLogout.setFocusable(false);
-        bottoneModificaUsername.setFocusable(false);
-        bottoneModificaPassword.setFocusable(false);
-
         add(bottoneLogin);
         add(bottoneRegistra);
         add(bottoneLogout);
@@ -259,16 +253,11 @@ public class BarraStrumenti extends JPanel {
     }
 
     public void setColor(Color back, Color compBack, Color compFore){
-        bottoneLogin.setBackground(compBack);
-        bottoneLogin.setForeground(compFore);
-        bottoneRegistra.setBackground(compBack);
-        bottoneRegistra.setForeground(compFore);
-        bottoneLogout.setBackground(compBack);
-        bottoneLogout.setForeground(compFore);
-        bottoneModificaUsername.setBackground(compBack);
-        bottoneModificaUsername.setForeground(compFore);
-        bottoneModificaPassword.setBackground(compBack);
-        bottoneModificaPassword.setForeground(compFore);
+        for(Component c: getComponents()){
+            c.setBackground(compBack);
+            c.setForeground(compFore);
+            c.setFocusable(false);
+        }
         setForeground(compFore);
         setBackground(back);
     }

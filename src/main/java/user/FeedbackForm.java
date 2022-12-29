@@ -17,19 +17,8 @@ public class FeedbackForm {
         this.notes = notes;
     }
 
-    public Emotions getEmotions() {
-        return emotions;
-    }
-
     public Song getSong() {
         return song;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
 }

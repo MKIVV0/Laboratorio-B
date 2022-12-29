@@ -75,11 +75,6 @@ public class ObjectAreaPanel extends JPanel {
                         try {
                             Feedback feedbacks = songListener.guardaFeedback(song);
                             JTextArea textArea = new JTextArea();
-                            String feedbackString;
-//                            for (String s : feedbacks) {
-//                                feedbackString = s + "\n";
-//                                textArea.append(feedbackString);
-//                            }
                             textArea.append(feedbacks.toString());
                             textArea.setEditable(false);
                             JFrame f = new JFrame(song.getTitle() + "'s feedbacks");
@@ -231,14 +226,15 @@ public class ObjectAreaPanel extends JPanel {
     public void setColor(Color back, Color compBack, Color compFore){
         songResultSet.setBackground(compBack);
         songResultSet.setForeground(compFore);
-        bottoneShowFeedback.setBackground(compBack);
-        bottoneShowFeedback.setForeground(compFore);
-        bottoneValuta.setBackground(compBack);
-        bottoneValuta.setForeground(compFore);
-        bottoneTogli.setBackground(compBack);
-        bottoneTogli.setForeground(compFore);
-        bottoneAggiungi.setBackground(compBack);
-        bottoneAggiungi.setForeground(compFore);
+        for(Component c: getComponents()){
+            c.setBackground(compBack);
+            c.setForeground(compFore);
+        }
+        for(Component c: tasti.getComponents()){
+            c.setBackground(compBack);
+            c.setForeground(compFore);
+            c.setFocusable(false);
+        }
         tasti.setBackground(back);
         setBackground(back);
     }
