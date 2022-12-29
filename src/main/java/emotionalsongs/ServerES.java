@@ -31,7 +31,6 @@ public class ServerES {
         user = sc.nextLine();
         System.out.println("Password [Enter for default]:");
         password = sc.nextLine();
-        // Sets the connection to the database and initializes it
 
         ResourceManager g = new ResourceManager(server,port,user,password);
         Registry r = LocateRegistry.createRegistry(11000);
