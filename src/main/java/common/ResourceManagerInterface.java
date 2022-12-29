@@ -35,11 +35,10 @@ public interface ResourceManagerInterface extends Remote {
      * @param uid the username.
      * @param pw the password.
      * @throws RemoteException
-     * @throws AlreadyLoggedException
+     * @throws UserException
      * @throws SQLException
-     * @throws WrongCredentialsException
      */
-    LoggedUser login(LoggedUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, WrongCredentialsException, SQLException;
+    LoggedUser login(LoggedUser u, String uid, String pw) throws RemoteException, UserException, SQLException;
 
     /**
      * adds a user's feedback for a given song and a given emotion to
@@ -51,18 +50,17 @@ public interface ResourceManagerInterface extends Remote {
      * @param notes the notes left by the user.
      * @throws SQLException
      * @throws RemoteException
-     * @throws NotLoggedException
-     * @throws AlreadyLoggedException
+     * @throws UserException
      */
-    void evaluateSong(Emotions emotion, LoggedUser user, Song song, String score, String notes) throws RemoteException, NotLoggedException, AlreadyValuedException, SQLException;
+    void evaluateSong(Emotions emotion, LoggedUser user, Song song, String score, String notes) throws RemoteException, UserException, AlreadyValuedException, SQLException;
 
     /**
      * it logs the user out by returning a NotLoggedUser object.
      * @param u the singleton AbstractUser object present in each client.
      * @throws RemoteException
-     * @throws NotLoggedException
+     * @throws UserException
      */
-    LoggedUser logout(LoggedUser u) throws RemoteException, NotLoggedException;
+    LoggedUser logout(LoggedUser u) throws RemoteException, UserException;
 
     /**
      * gets a LoggedUser object's playlists from the database.
@@ -74,10 +72,10 @@ public interface ResourceManagerInterface extends Remote {
      * @param email the user's email.
      * @param uid the user's username.
      * @param pwd the user's password.
-     * @throws AlreadyLoggedException
+     * @throws UserException
      * @throws RemoteException
      */
-    void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws AlreadyRegisteredException, RemoteException;
+    void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws UserException, RemoteException;
 
     /**
      * gets a Feedback object related to a given song.

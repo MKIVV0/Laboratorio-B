@@ -88,20 +88,19 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @param uid the username.
      * @param pw the password.
      * @throws RemoteException
-     * @throws AlreadyLoggedException
+     * @throws UserException
      * @throws SQLException
-     * @throws WrongCredentialsException
      * @return an instance of a LoggedUser.
      */
     @Override
-    public synchronized LoggedUser login(LoggedUser user, String uid, String pw) throws RemoteException, AlreadyLoggedException, SQLException, WrongCredentialsException {
+    public synchronized LoggedUser login(LoggedUser user, String uid, String pw) throws RemoteException, UserException, SQLException {
         if (user != null)
-            throw new AlreadyLoggedException();
+            throw new UserException("already logged!");
 
         LoggedUser u = dbES.getLoggedUser(uid, pw);
 
         if(users.containsKey(u.getId()))
-            throw new AlreadyLoggedException();
+            throw new UserException("already logged!");
         else
             users.put(u.getId(), u);
 
@@ -112,13 +111,13 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * it logs the user out by returning a NotLoggedUser object.
      * @param user the singleton AbstractUser object present in each client.
      * @throws RemoteException
-     * @throws NotLoggedException
+     * @throws UserException
      * @return null, which stands for a not logged user.
      */
     @Override
-    public synchronized LoggedUser logout(LoggedUser user) throws RemoteException, NotLoggedException {
+    public synchronized LoggedUser logout(LoggedUser user) throws RemoteException, UserException {
         if (user == null)
-            throw new NotLoggedException();
+            throw new UserException("already NOT logged!");
 
         users.remove(user.getId());
 
@@ -135,13 +134,12 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @param notes the notes left by the user.
      * @throws SQLException
      * @throws RemoteException
-     * @throws NotLoggedException
-     * @throws AlreadyLoggedException
+     * @throws UserException
      */
     @Override
-    public synchronized void evaluateSong(Emotions emotion, LoggedUser user, Song song, String score, String notes) throws RemoteException, NotLoggedException, AlreadyValuedException, SQLException {
+    public synchronized void evaluateSong(Emotions emotion, LoggedUser user, Song song, String score, String notes) throws RemoteException, UserException, AlreadyValuedException, SQLException {
         if (user == null)
-            throw new NotLoggedException();
+            throw new UserException("NOT logged!");
 
         boolean feedbackAdded = dbES.addFeedback(emotion, user.getId(), song.getId(), score, notes);
         if (!feedbackAdded)
@@ -182,12 +180,12 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @param email the user's email.
      * @param uid the user's username.
      * @param pwd the user's password.
-     * @throws AlreadyLoggedException
+     * @throws UserException
      * @throws RemoteException
      */
-    public synchronized void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws AlreadyRegisteredException, RemoteException {
+    public synchronized void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws UserException, RemoteException {
         if (!dbES.registerUser(fn, ln, FC, addr, email, uid, pwd))
-            throw new AlreadyRegisteredException("The user with these data already exists!");
+            throw new UserException("The user with these data already exists!");
     }
 
     /**

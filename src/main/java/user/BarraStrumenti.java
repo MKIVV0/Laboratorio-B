@@ -66,10 +66,9 @@ public class BarraStrumenti extends JPanel {
                                 logListener.credenzialiFornite(le);
                                 JOptionPane.showMessageDialog(null, "Logged in!");
                             } catch (RemoteException ex) {
-                            } catch (AlreadyLoggedException ex) {
                             } catch (SQLException ex) {
-                            } catch (WrongCredentialsException ex) {
-                                JOptionPane.showMessageDialog(null, "Wrong Username / Password");
+                            } catch (UserException ex) {
+                                JOptionPane.showMessageDialog(null, "Wrong Username / Password OR Already logged");
                             }
                     }
                 }
@@ -85,7 +84,7 @@ public class BarraStrumenti extends JPanel {
                     try {
                         logListener.logout();
                         JOptionPane.showMessageDialog(null, "Logged out!");
-                    } catch (NotLoggedException ex) {
+                    } catch (UserException ex) {
                     } catch (RemoteException ex) {
                     }
             }
@@ -144,7 +143,7 @@ public class BarraStrumenti extends JPanel {
                             try {
                                 registrazioneListener.datiForniti(re);
                                 JOptionPane.showMessageDialog(null, "User registered successfully!");
-                            } catch (AlreadyRegisteredException ex) {
+                            } catch (UserException ex) {
                                 JOptionPane.showMessageDialog(null, "The user with these data already exists!");
                             } catch (RemoteException ex) {
                             }

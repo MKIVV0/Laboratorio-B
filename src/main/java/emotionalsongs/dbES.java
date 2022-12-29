@@ -190,16 +190,16 @@ public class dbES {
      * @param user_id the username.
      * @param pwd the password.
      * @throws SQLException
-     * @throws WrongCredentialsException
+     * @throws UserException
      * @return a LoggedUser object.
      */
-    public static synchronized LoggedUser getLoggedUser(String user_id, String pwd) throws SQLException, WrongCredentialsException {
+    public static synchronized LoggedUser getLoggedUser(String user_id, String pwd) throws SQLException, UserException {
         String query1 = "SELECT * FROM registereduser WHERE user_id = \'" + user_id + "\' AND password = \'" + pwd + "\'";
         ResultSet rs = statement.executeQuery(query1);
         LoggedUser tmp;
 
         if (!rs.next()) {
-            throw new WrongCredentialsException("Wrong username or wrong password");
+            throw new UserException("Wrong username or wrong password");
         } else {
             rs.first();
             tmp = new LoggedUser();

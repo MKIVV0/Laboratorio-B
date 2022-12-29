@@ -41,7 +41,7 @@ public class Frame extends JFrame {
         barraStrumenti = new BarraStrumenti();
         barraStrumenti.setLogListener(new LogListener() {
             @Override
-            public void credenzialiFornite(LogEvent le) throws AlreadyLoggedException, SQLException, RemoteException, WrongCredentialsException {
+            public void credenzialiFornite(LogEvent le) throws UserException, SQLException, RemoteException {
                 String username = le.getUsername();
                 String password = le.getPassword();
                 user = resourceManager.login(user, username, password);
@@ -51,7 +51,7 @@ public class Frame extends JFrame {
                 pannelloPlaylist.logged(user);
             }
             @Override
-            public void logout() throws NotLoggedException, RemoteException {
+            public void logout() throws UserException, RemoteException {
                 user = resourceManager.logout(user);
                 logged = user != null;
                 barraStrumenti.logged(logged);
@@ -63,7 +63,7 @@ public class Frame extends JFrame {
         });
         barraStrumenti.setRegistrazioneListener(new RegistrazioneListener() {
             @Override
-            public void datiForniti(RegistrazioneEvent re) throws AlreadyRegisteredException, RemoteException {
+            public void datiForniti(RegistrazioneEvent re) throws UserException, RemoteException {
                 resourceManager.registerUser(re.fn, re.ln, re.FC, re.addr, re.em, re.uid, re.pw);
             }
         });
@@ -125,7 +125,7 @@ public class Frame extends JFrame {
                 objectAreaPanel.setSongOfPlaylist(true);
             }
             @Override
-            public void valutaSong(FeedbackForm ff) throws NotLoggedException, SQLException, AlreadyValuedException, RemoteException {
+            public void valutaSong(FeedbackForm ff) throws UserException, SQLException, AlreadyValuedException, RemoteException {
                 resourceManager.evaluateSong(ff.emotions, user, ff.song, String.valueOf(ff.score), ff.notes);
             }
         });
@@ -218,7 +218,7 @@ public class Frame extends JFrame {
                     if (user instanceof LoggedUser)
                         try {
                             user = resourceManager.logout(user);
-                        } catch (NotLoggedException ex) {
+                        } catch (UserException ex) {
                         } catch (RemoteException ex) {
                         }
                     System.exit(0);
