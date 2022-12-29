@@ -322,7 +322,6 @@ public class dbES {
             tmp.setNoteList(notes);
             feedback.addSummary(tmp);
         }
-        System.out.println(feedback);
 
         return feedback;
     }
@@ -364,7 +363,6 @@ public class dbES {
                 "SELECT '" + emotion.toString().toLowerCase() + "', '" + user_id + "', '" + song_id + "', '" + score + "', '" + notes + "'\n" +
                 "WHERE " +
                 "EXISTS (SELECT * FROM Playlist WHERE song_id = '" + song_id + "')";
-        System.err.println(query);
         int count = statement.executeUpdate(query);
         if (count > 0) return true;
         else return false;
@@ -397,7 +395,6 @@ public class dbES {
      */
     public static boolean createPlaylist(String pl_name, String user_id) throws SQLException {
         String query = "INSERT INTO playlist VALUES ('" + pl_name + "', 'ZZZZZZZZZZZZZZZZZZ', '" + user_id + "')";
-        System.out.println(query);
         int count = statement.executeUpdate(query);
         if (count > 0) return true;
         else return false;
