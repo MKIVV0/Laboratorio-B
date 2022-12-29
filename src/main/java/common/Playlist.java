@@ -1,65 +1,79 @@
+/**
+ * @author Zhang Ying Huang, Matricola 746483, CO
+ * @author Alessandro Di Lorenzo, Matricola 733052, CO
+ */
 package common;
 
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+/**
+ * This class represents a playlist, which is retrieved from
+ * the database.
+ */
 public class Playlist implements Serializable {
-
-    private String userId;
+	/**
+	 * playlist's name.
+	 */
 	private String playlistName;
+	/**
+	 * playlist's songs.
+	 */
 	private LinkedList<Song> songList = new LinkedList<>();
 
-	public Playlist(String userId, String pName) {
-		this.userId = userId;
+	/**
+	 * Playlist constructor.
+	 * @param pName playlist's name.
+	 */
+	public Playlist(String pName) {
 		this.playlistName = pName;
 	}
 
-	public Playlist(String userId, String pName, LinkedList<Song> l) {
-        this.userId = userId;
-		this.playlistName = pName;
-		this.songList = l;
-	}
-
-	public Playlist(){}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
+	/**
+	 * playlist name setter.
+	 * @param playlistName
+	 */
 	public void setPlaylistName(String playlistName) {
 		this.playlistName = playlistName;
 	}
 
-	public void setSongList(LinkedList<Song> songList) {
-		this.songList = songList;
-	}
-
+	/**
+	 * adds a song to the playlist.
+	 * @param song the song to be added.
+	 */
 	public void addSong(Song song){
-		/*for (Song s: this.songList)
-			if (s.equals(song)) {
-				System.out.println("\nCanzone già presente nella playlist!");
-				return;
-			}*/
 		this.songList.add(song);
 	}
 
+	/**
+	 * song list getter.
+	 */
 	public LinkedList<Song> getSongList() { 
 		return this.songList;
 	}
 
-	public boolean isEmpty(){
-		return this.songList.isEmpty();
-	}
-
+	/**
+	 * removes a song from the playlist.
+	 * @param song
+	 */
 	public void removeSong(Song song){
 		songList.remove(song);
 	}
 
+	/**
+	 * playlist name getter.
+	 */
 	public String getPlaylistName() {
 		return this.playlistName;
 	}
 
+	/**
+	 * overrides the toString() method by
+	 * giving a format to the printing of
+	 * the playlist's info.
+	 * @return playlist's info.
+	 */
 	@Override
     public String toString() {
         String tmp = "";

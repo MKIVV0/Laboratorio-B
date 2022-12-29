@@ -221,7 +221,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         if (!dbES.createPlaylist(pl_name, ((LoggedUser) user).getId()))
             throw new playlistException("This playlist already exists!");
         else
-            return new Playlist(((LoggedUser) user).getId(), pl_name);
+            return new Playlist(pl_name);
     }
 
     /**

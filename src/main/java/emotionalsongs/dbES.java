@@ -239,17 +239,16 @@ public class dbES {
             plName = rs.getString("playlist_name");
             rs.beforeFirst();
         } else {
-//            return null;
             return playlists;
         }
 
-        Playlist pl = new Playlist(user_id, plName);
+        Playlist pl = new Playlist(plName);
 
         while (rs.next()) {
             if (!pl.getPlaylistName().equals(rs.getString("playlist_name"))) {
                 playlists.add(pl);
                 plName = rs.getString("playlist_name");
-                pl = new Playlist(user_id, plName);
+                pl = new Playlist(plName);
             }
             Song song = new Song();
             song.setId(rs.getString("song_id"));
