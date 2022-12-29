@@ -1,3 +1,8 @@
+/**
+ * @author Zhang Ying Huang, Matricola 746483, CO
+ * @author Alessandro Di Lorenzo, Matricola 733052, CO
+ */
+
 package emotionalsongs;
 
 import common.*;
@@ -9,7 +14,10 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.LinkedList;
-
+/**
+ * it represents the class that the program interfaces with for
+ * interacting with the database.
+ */
 public class dbES {
     /**
      * database's URL.
