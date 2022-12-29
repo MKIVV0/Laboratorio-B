@@ -35,25 +35,18 @@ public class BarraStrumenti extends JPanel {
         bottoneLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
-
                 JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
                 label.add(new JLabel("Username", SwingConstants.RIGHT));
                 label.add(new JLabel("Password", SwingConstants.RIGHT));
-
                 panel.add(label, BorderLayout.WEST);
-
                 JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
                 JTextField username = new JTextField();
                 JPasswordField password = new JPasswordField();
                 controls.add(username);
                 controls.add(password);
-
                 panel.add(controls, BorderLayout.CENTER);
-
                 int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "login", JOptionPane.OK_CANCEL_OPTION);
-
                 if (scelta == 0) {
                     String uid = username.getText();
                     String pw = new String(password.getPassword());
@@ -64,7 +57,6 @@ public class BarraStrumenti extends JPanel {
                         if (logListener != null)
                             try {
                                 logListener.credenzialiFornite(le);
-                                JOptionPane.showMessageDialog(null, "Logged in!");
                             } catch (RemoteException ex) {
                             } catch (SQLException ex) {
                             } catch (UserException ex) {
@@ -72,7 +64,6 @@ public class BarraStrumenti extends JPanel {
                             }
                     }
                 }
-
             }
         });
 
@@ -95,7 +86,6 @@ public class BarraStrumenti extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
-
                 JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
                 label.add(new JLabel("First name", SwingConstants.RIGHT));
                 label.add(new JLabel("Last name", SwingConstants.RIGHT));
@@ -104,9 +94,7 @@ public class BarraStrumenti extends JPanel {
                 label.add(new JLabel("E-Mail", SwingConstants.RIGHT));
                 label.add(new JLabel("Username", SwingConstants.RIGHT));
                 label.add(new JLabel("Password", SwingConstants.RIGHT));
-
                 panel.add(label, BorderLayout.WEST);
-
                 JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
                 JTextField firstname = new JTextField();
                 JTextField lastname = new JTextField();
@@ -115,7 +103,6 @@ public class BarraStrumenti extends JPanel {
                 JTextField email = new JTextField();
                 JTextField username = new JTextField();
                 JPasswordField password = new JPasswordField();
-
                 controls.add(firstname);
                 controls.add(lastname);
                 controls.add(fiscalcode);
@@ -123,9 +110,7 @@ public class BarraStrumenti extends JPanel {
                 controls.add(email);
                 controls.add(username);
                 controls.add(password);
-
                 panel.add(controls, BorderLayout.CENTER);
-
                 int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "registration", JOptionPane.OK_CANCEL_OPTION);
                 if (scelta == 0) {
                     String fn = firstname.getText();
@@ -156,20 +141,14 @@ public class BarraStrumenti extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
-
                 JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
                 label.add(new JLabel("New username", SwingConstants.RIGHT));
-
                 panel.add(label, BorderLayout.WEST);
-
                 JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
                 JTextField username = new JTextField();
                 controls.add(username);
-
                 panel.add(controls, BorderLayout.CENTER);
-
                 int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "modify username", JOptionPane.OK_CANCEL_OPTION);
-
                 if (scelta == 0) {
                     String uid = username.getText();
                     if (uid.equals("")) {
@@ -182,7 +161,6 @@ public class BarraStrumenti extends JPanel {
                             } catch (RemoteException ex) {
                             } catch (SQLException ex) {
                             } catch (UserException ex) {
-                                JOptionPane.showMessageDialog(null, "user ex");
                             }
                     }
                 }
@@ -193,20 +171,14 @@ public class BarraStrumenti extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
-
                 JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
                 label.add(new JLabel("New password", SwingConstants.RIGHT));
-
                 panel.add(label, BorderLayout.WEST);
-
                 JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
                 JPasswordField password = new JPasswordField();
                 controls.add(password);
-
                 panel.add(controls, BorderLayout.CENTER);
-
                 int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "modify password", JOptionPane.OK_CANCEL_OPTION);
-
                 if (scelta == 0) {
                     String pw = new String(password.getPassword());
                     if (pw.equals("")) {
@@ -219,7 +191,6 @@ public class BarraStrumenti extends JPanel {
                             } catch (RemoteException ex) {
                             } catch (SQLException ex) {
                             } catch (UserException ex) {
-                                JOptionPane.showMessageDialog(null, "user ex");
                             }
                     }
                 }
