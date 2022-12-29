@@ -216,6 +216,11 @@ public class Frame extends JFrame {
                 objectAreaPanel.inserisciBrani(tmp);
                 objectAreaPanel.setSongOfPlaylist(true);
             }
+
+            @Override
+            public void rinominaPlaylist(String vecchioNome, String nuovoNome) throws SQLException, playlistException, RemoteException {
+                resourceManager.renamePlaylist(vecchioNome, nuovoNome, user);
+            }
         });
 
         // PANNELLO
