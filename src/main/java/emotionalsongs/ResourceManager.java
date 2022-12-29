@@ -125,7 +125,6 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         return new NotLoggedUser();
     }
 
-    // MODIFICATA IMPLEMENTAZIONE DA TEO
     /**
      * adds a user's feedback for a given song and a given emotion to
      * the database.
@@ -144,44 +143,13 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         if (user instanceof NotLoggedUser)
             throw new NotLoggedException();
 
-        //Feedback tmp = new FeedBack(u, s, e, score)
-
-        //IF (TMP ESISTE GIA SU DB)
-        //throw new AlreadyValuedException("Errore: hai gia lasciato un feedback per questo brano!");
         boolean feedbackAdded = dbES.addFeedback(emotion, ((LoggedUser) user).getId(), song.getId(), score, notes);
         if (!feedbackAdded)
             throw new AlreadyValuedException("Error! You already left a feedback for this song.");
         else
             System.out.println("Thank you for your feedback!");
-        //ELSE{
-        //SALVA TMP SU DB
-        //System.out.println("Grazie per il feedback!");
-        //}
-
-        //debug
-        System.out.println("Evaluated " + song + " \nsong: " + emotion + " " + score + " " + notes + "\n");
     }
 
-    // MODIFICATO DA TEO - DA DISCUTERE L'IMPLMENTAZIONE, VISTO L'OVERLOADING DEL METODO getFeedback di dbES
-    /*
-    @Override
-    public synchronized String getFeedback(AbstractUser user, Emotions emotion_name, Song song) throws RemoteException, NoFeedbackException, SQLException {
-        if (song == null)
-            throw new NullPointerException();
-
-        //Feedback tmp = dbES.GET_FEEDBACK_OF_THE_SONG(s);
-
-        //if(tmp == null)
-        //throw new NoFeedbackException("Ancora nessun feedback per questo brano!");
-
-        String feedback = dbES.getFeedback(((LoggedUser)user).getId(), emotion_name, song.getId());
-        if (feedback == null)
-            throw new NoFeedbackException("You haven't left any feedback for this song for the parameter you inserted!");
-
-        //return tmp;
-
-        return feedback;//TMCH
-    } */
 
     /**
      * gets a Feedback object related to a given song.
@@ -203,17 +171,6 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         return feedback;
     }
 
-    /*
-    public synchronized LinkedList<String> getFeedback(Song song, AbstractUser user) throws SQLException, NoFeedbackException, RemoteException {
-        if (song == null)
-            throw new NullPointerException();
-
-        LinkedList<String> feedback = dbES.getFeedback(song.getId(), ((LoggedUser) user).getId());
-        if (feedback == null)
-            throw new NoFeedbackException("No feedbacks present for this song under the user" + ((LoggedUser) user).getId() + " !");
-
-        return feedback;
-    } */
 
     /**
      * gets a LoggedUser object's playlists from the database.
@@ -231,7 +188,6 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
     public synchronized void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws AlreadyRegisteredException, RemoteException {
         if (!dbES.registerUser(fn, ln, FC, addr, email, uid, pwd))
             throw new AlreadyRegisteredException("The user with these data already exists!");
-//        else System.out.println("User registered successfully!");
     }
 
     /**
@@ -252,15 +208,15 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
             System.out.println("Thank you for your feedback!");
     }
 
-    /*
-    public synchronized void modifyFeedback(Emotions emotion, AbstractUser user, Song song, String param_name, String param_value) throws SQLException, NoFeedbackException, RemoteException {
-        if (!dbES.modifyFeedback(emotion, ((LoggedUser) user).getId(), song.getId(), param_name, param_value))
-            throw new NoFeedbackException("This song with these parameters doesn't have any feedbacks!");
-        else
-            System.out.println("Feedback modified successfully!");
-    } */
-
-    // La creazione di una playlist comporta l'inserimento di almeno una canzone
+    /**
+     * creates an empty playlist for a user.
+     * @param pl_name the playlist's name.
+     * @param user the user.
+     * @throws SQLException
+     * @throws playlistException
+     * @throws RemoteException
+     * @return the newly created playlist.
+     */
     public synchronized Playlist createPlaylist(String pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException {
         if (!dbES.createPlaylist(pl_name, ((LoggedUser) user).getId()))
             throw new playlistException("This playlist already exists!");
@@ -268,6 +224,15 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
             return new Playlist(((LoggedUser) user).getId(), pl_name);
     }
 
+    /**
+     * removes a song from a given playlist of the user.
+     * @param pl_name the playlist's name.
+     * @param user the user.
+     * @param song the song involved.
+     * @throws SQLException
+     * @throws playlistException
+     * @throws RemoteException
+     */
     public synchronized void removeSongFromPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException {
         if (!dbES.removeSongFromPlaylist(pl_name, song.getId(), ((LoggedUser) user).getId()))
             throw new playlistException("This playlist doesn't exist!");
@@ -275,6 +240,15 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
             System.out.println("Song removed successfully!");
     }
 
+    /**
+     * renames a given playlist of the user.
+     * @param curr_pl_name the playlist's current name.
+     * @param new_pl_name the playlist's new name.
+     * @param user the user.
+     * @throws SQLException
+     * @throws playlistException
+     * @throws RemoteException
+     */
     public synchronized void renamePlaylist(String curr_pl_name, String new_pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException {
         if (!dbES.renamePlaylist(curr_pl_name, new_pl_name, ((LoggedUser) user).getId()))
             throw new playlistException("This playlist doesn't exist!");
@@ -282,6 +256,14 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
             System.out.println("Playlist renamed successfully!");
     }
 
+    /**
+     * deletes a given playlist.
+     * @param pl_name the playlist's name.
+     * @param user the user.
+     * @throws SQLException
+     * @throws playlistException
+     * @throws RemoteException
+     */
     public synchronized void deletePlaylist(String pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException {
         if (!dbES.deletePlaylist(pl_name, ((LoggedUser) user).getId()))
             throw new playlistException("This playlist doesn't exist!");
@@ -289,6 +271,15 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
             System.out.println("Playlist deleted successfully!");
     }
 
+    /**
+     * adds a song to a given playlist.
+     * @param pl_name the playlist's name.
+     * @param song the song involved.
+     * @param user the user.
+     * @throws SQLException
+     * @throws playlistException
+     * @throws RemoteException
+     */
     public synchronized void addSongToPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException {
         if (!dbES.addSongToPlaylist(pl_name, song.getId(), ((LoggedUser) user).getId()))
             throw new playlistException("This playlist doesn't exist!");
@@ -296,7 +287,15 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
             System.out.println("Song added successfully!");
     }
 
-    // DA TESTARE!
+    /**
+     * modifies a user's given data field with a new value.
+     * @param user the user.
+     * @param param_name the parameter that has to be modified.
+     * @param param_value the new value to assign.
+     * @throws SQLException
+     * @throws UserException
+     * @throws RemoteException
+     */
     public synchronized void modifyUserParam(AbstractUser user, String param_name, String param_value) throws SQLException, UserException, RemoteException {
         if (!dbES.modifyUserParam(((LoggedUser) user).getId(), param_name, param_value))
             throw new UserException("This user doesn't exist!");
@@ -311,6 +310,13 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         }
     }
 
+    /**
+     * deletes a user from the system.
+     * @param user the user.
+     * @throws SQLException
+     * @throws UserException
+     * @throws RemoteException
+     */
     public synchronized void deleteUser(AbstractUser user) throws SQLException, UserException, RemoteException {
         if (!dbES.deleteUser(((LoggedUser) user).getId()))
             throw new UserException("This user doesn't exist!");
