@@ -23,10 +23,10 @@ public class BarraStrumenti extends JPanel {
         super(new FlowLayout(FlowLayout.LEFT));
 
         bottoneLogin = new JButton("Login");
-        bottoneRegistra = new JButton("Registrati");
-        bottoneModificaUsername = new JButton("Modifica username");
+        bottoneRegistra = new JButton("Sign_up");
+        bottoneModificaUsername = new JButton("Modify username");
         bottoneModificaUsername.setVisible(false);
-        bottoneModificaPassword = new JButton("Modifica password");
+        bottoneModificaPassword = new JButton("Modify password");
         bottoneModificaPassword.setVisible(false);
         bottoneLogout = new JButton("Logout");
         bottoneLogout.setVisible(false);
@@ -126,7 +126,7 @@ public class BarraStrumenti extends JPanel {
 
                 panel.add(controls, BorderLayout.CENTER);
 
-                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "registrazione", JOptionPane.OK_CANCEL_OPTION);
+                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "registration", JOptionPane.OK_CANCEL_OPTION);
                 if (scelta == 0) {
                     String fn = firstname.getText();
                     String ln = lastname.getText();
@@ -158,7 +158,7 @@ public class BarraStrumenti extends JPanel {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
 
                 JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
-                label.add(new JLabel("Nuovo username", SwingConstants.RIGHT));
+                label.add(new JLabel("New username", SwingConstants.RIGHT));
 
                 panel.add(label, BorderLayout.WEST);
 
@@ -168,7 +168,7 @@ public class BarraStrumenti extends JPanel {
 
                 panel.add(controls, BorderLayout.CENTER);
 
-                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "modifica username", JOptionPane.OK_CANCEL_OPTION);
+                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "modify username", JOptionPane.OK_CANCEL_OPTION);
 
                 if (scelta == 0) {
                     String uid = username.getText();
@@ -195,7 +195,7 @@ public class BarraStrumenti extends JPanel {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
 
                 JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
-                label.add(new JLabel("Nuova password", SwingConstants.RIGHT));
+                label.add(new JLabel("New password", SwingConstants.RIGHT));
 
                 panel.add(label, BorderLayout.WEST);
 
@@ -205,7 +205,7 @@ public class BarraStrumenti extends JPanel {
 
                 panel.add(controls, BorderLayout.CENTER);
 
-                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "modifica password", JOptionPane.OK_CANCEL_OPTION);
+                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "modify password", JOptionPane.OK_CANCEL_OPTION);
 
                 if (scelta == 0) {
                     String pw = new String(password.getPassword());

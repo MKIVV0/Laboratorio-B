@@ -38,9 +38,9 @@ public class ObjectAreaPanel extends JPanel {
         tasti = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         bottoneShowFeedback = new JButton("Feedbacks");
-        bottoneAggiungi = new JButton("Aggiungi");
-        bottoneValuta = new JButton("Valuta");
-        bottoneTogli = new JButton("Togli");
+        bottoneAggiungi = new JButton("Add");
+        bottoneValuta = new JButton("Evaluate");
+        bottoneTogli = new JButton("Remove");
         bottoneShowFeedback.setVisible(false);
         bottoneAggiungi.setVisible(false);
         bottoneValuta.setVisible(false);
@@ -110,7 +110,7 @@ public class ObjectAreaPanel extends JPanel {
                         try {
                             songListener.addSong(song);
                         } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(null, "Brano gia presente");
+                            JOptionPane.showMessageDialog(null, "You alrready have this song");
                         } catch (playlistException ex) {
                             throw new RuntimeException(ex);
                         } catch (RemoteException ex) {
@@ -167,7 +167,7 @@ public class ObjectAreaPanel extends JPanel {
 
                     panel.add(controls, BorderLayout.CENTER);
 
-                    int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "valutazione", JOptionPane.OK_CANCEL_OPTION);
+                    int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "evaluation", JOptionPane.OK_CANCEL_OPTION);
                     if(scelta == 0){
                         Emotions em = (Emotions) listaEmotions.getSelectedItem();
                         Song song = (Song) songResultSet.getSelectedValue();

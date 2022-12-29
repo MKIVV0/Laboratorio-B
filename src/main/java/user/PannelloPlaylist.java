@@ -28,7 +28,7 @@ public class PannelloPlaylist extends JPanel {
         setVisible(false);
 
         Border b = BorderFactory.createMatteBorder(1,0,0,0,Color.PINK);
-        bordoInterno = BorderFactory.createTitledBorder(b,"Le tue playlist",0, 2,
+        bordoInterno = BorderFactory.createTitledBorder(b,"Your playlists",0, 2,
                 new Font("Geneva", Font.BOLD, 12),Frame.compForeDark);
         bordoEsterno = BorderFactory.createEmptyBorder(0, 5, 5, 5);
         bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
@@ -36,16 +36,19 @@ public class PannelloPlaylist extends JPanel {
         setBorder(bordoFinale);
 
         listaPlaylist = new JList<Playlist>();
-        listaPlaylist.setBorder(BorderFactory.createEtchedBorder());
+        listaPlaylist.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
+        JScrollPane scrollPane = new JScrollPane(listaPlaylist);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.setVerticalScrollBar(new ScrollBar());
 
         tasti = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        bottoneApri = new JButton("Apri");
+        bottoneApri = new JButton("Open");
         bottoneApri.setVisible(false);
-        bottoneCrea = new JButton("Crea");
-        bottoneElimina = new JButton("Elimina");
+        bottoneCrea = new JButton("New");
+        bottoneElimina = new JButton("Delete");
         bottoneElimina.setVisible(false);
-        bottoneRinomina = new JButton("Rinomina");
+        bottoneRinomina = new JButton("Rename");
         bottoneRinomina.setVisible(false);
 
         listaPlaylist.addListSelectionListener(new ListSelectionListener() {
@@ -69,13 +72,13 @@ public class PannelloPlaylist extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
                 JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
-                label.add(new JLabel("Nome", SwingConstants.RIGHT));
+                label.add(new JLabel("Name", SwingConstants.RIGHT));
                 panel.add(label, BorderLayout.WEST);
                 JPanel controls = new JPanel(new GridLayout());
                 JTextField playlistName = new JTextField();
                 controls.add(playlistName);
                 panel.add(controls, BorderLayout.CENTER);
-                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "nuova playlist", JOptionPane.OK_CANCEL_OPTION);
+                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "new playlist", JOptionPane.OK_CANCEL_OPTION);
                 if (scelta == 0) {
                     String plName = playlistName.getText();
                     if (plName.equals("")) {
@@ -84,11 +87,11 @@ public class PannelloPlaylist extends JPanel {
                         if (playlistListener != null)
                             try {
                                 playlistListener.creaPlaylist(plName);
-                                JOptionPane.showMessageDialog(null, "Playlist " + plName + " creata");
+                                JOptionPane.showMessageDialog(null, "Playlist " + plName + " created");
                             } catch (RemoteException ex) {
                                 JOptionPane.showMessageDialog(null, "remote");
                             } catch (playlistException ex){
-                                JOptionPane.showMessageDialog(null, "Playlist esistente");
+                                JOptionPane.showMessageDialog(null, "Playlist already exists");
                             } catch (SQLException ex){
                                 JOptionPane.showMessageDialog(null, "sql");
                             }
@@ -101,8 +104,8 @@ public class PannelloPlaylist extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if(!listaPlaylist.isSelectionEmpty()){
                     String nomePlaylist = (String)listaPlaylist.getSelectedValue();
-                    String domanda = "Eliminare " + nomePlaylist + " ?";
-                    int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], domanda, "elimina playlist", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    String domanda = "Delete " + nomePlaylist + " ?";
+                    int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], domanda, "delete playlist", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (scelta == 0) {
                         if(playlistListener != null)
                             try{
@@ -133,13 +136,13 @@ public class PannelloPlaylist extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
                 JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
-                label.add(new JLabel("Nome", SwingConstants.RIGHT));
+                label.add(new JLabel("Name", SwingConstants.RIGHT));
                 panel.add(label, BorderLayout.WEST);
                 JPanel controls = new JPanel(new GridLayout());
                 JTextField playlistName = new JTextField();
                 controls.add(playlistName);
                 panel.add(controls, BorderLayout.CENTER);
-                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "rinomina playlist", JOptionPane.OK_CANCEL_OPTION);
+                int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "rename playlist", JOptionPane.OK_CANCEL_OPTION);
                 if (scelta == 0) {
                     String nuovoNome = playlistName.getText();
                     String vecchioNome = (String)listaPlaylist.getSelectedValue();
@@ -148,7 +151,7 @@ public class PannelloPlaylist extends JPanel {
                     } else if (playlistListener != null)
                         try {
                             playlistListener.rinominaPlaylist(vecchioNome, nuovoNome);
-                            JOptionPane.showMessageDialog(null, "Playlist rinominata");
+                            JOptionPane.showMessageDialog(null, "Playlist renamed");
                         } catch (RemoteException ex) {
                             JOptionPane.showMessageDialog(null, "remote");
                         } catch (playlistException ex) {
@@ -160,12 +163,12 @@ public class PannelloPlaylist extends JPanel {
             }
         });
 
-        tasti.add(bottoneCrea);
         tasti.add(bottoneApri);
+        tasti.add(bottoneCrea);
         tasti.add(bottoneRinomina);
         tasti.add(bottoneElimina);
 
-        add(new JScrollPane(listaPlaylist), BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
         add(tasti, BorderLayout.SOUTH);
 
         setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
@@ -175,7 +178,7 @@ public class PannelloPlaylist extends JPanel {
     public void logged(LoggedUser user) {
         if (user != null) {
             DefaultListModel modelloPlaylists = new DefaultListModel();
-            for (Playlist p : ((LoggedUser) user).getPlaylistList())
+            for (Playlist p : user.getPlaylistList())
                 modelloPlaylists.addElement(p.getPlaylistName());
             listaPlaylist.setModel(modelloPlaylists);
             setVisible(true);

@@ -33,38 +33,38 @@ public class PannelloCerca extends JPanel {
 
         setBorder(bordoFinale);
 
-        labelCercaBrano = new JLabel("Brano: ");
+        labelCercaBrano = new JLabel("Song: ");
         fieldCercaBrano = new JTextField(15);
         fieldCercaBrano.setCaretColor(Frame.compForeDark);
 
-        labelYear = new JLabel("Anno: ");
+        labelYear = new JLabel("Year: ");
         fieldYear = new JTextField(15);
         fieldYear.setCaretColor(Frame.compForeDark);
         labelYear.setEnabled(false);
         fieldYear.setEnabled(false);
 
-        labelCercaPer = new JLabel("CercaPer: ");
+        labelCercaPer = new JLabel("Search by: ");
 
-        radioCercaPerTitolo = new JRadioButton("Titolo");
-        radioCercaPerTitolo.setActionCommand("titolo");
+        radioCercaPerTitolo = new JRadioButton("Title");
+        radioCercaPerTitolo.setActionCommand("title");
         radioCercaPerTitolo.setSelected(true);
         radioCercaPerTitolo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(radioCercaPerTitolo.isSelected()){
-                    labelCercaBrano.setText("Brano: ");
+                    labelCercaBrano.setText("Song: ");
                     labelYear.setEnabled(false);
                     fieldYear.setEnabled(false);
                 }
             }
         });
-        radioCercaPerAutore = new JRadioButton("Autore");
-        radioCercaPerAutore.setActionCommand("autore");
+        radioCercaPerAutore = new JRadioButton("Author");
+        radioCercaPerAutore.setActionCommand("author");
         radioCercaPerAutore.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(radioCercaPerAutore.isSelected()){
-                    labelCercaBrano.setText("Autore: ");
+                    labelCercaBrano.setText("Author: ");
                     labelYear.setEnabled(true);
                     fieldYear.setEnabled(true);
                 }
@@ -75,7 +75,7 @@ public class PannelloCerca extends JPanel {
         gruppoRadioCercaPer.add(radioCercaPerTitolo);
         gruppoRadioCercaPer.add(radioCercaPerAutore);
 
-        bottoneCerca = new JButton("Cerca!");
+        bottoneCerca = new JButton("Find!");
         bottoneCerca.setFocusable(false);
 
         bottoneCerca.addActionListener(new ActionListener() {

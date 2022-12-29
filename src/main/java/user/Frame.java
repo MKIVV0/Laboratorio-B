@@ -141,7 +141,7 @@ public class Frame extends JFrame {
                 String testo = ce.getTesto();
                 String tipoRicerca = ce.getTipoRicerca();
                 LinkedList<Song> tmp;
-                if (tipoRicerca.equals("titolo")) {
+                if (tipoRicerca.equals("title")) {
                     try {
                         tmp = resourceManager.findSong(testo);
                     } catch (RemoteException e) {
