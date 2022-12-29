@@ -8,58 +8,57 @@ package common;
 import java.io.Serializable;
 
 /**
- * Classe contenente costanti enumerative che rappresentano
- * le emozioni contenute nella tabella delle emozioni associata
- * ad ogni singola canzone.
- * <p>Ogni costante enumerativa che rappresenta un emozione ha la sua relativa descrizione.</p>
+ * this class contains enumerative constants that represents
+ * each single emotion that can be associated to a single song.
+ * <p>each constant has its own description.</p>
  */
 public enum Emotions implements Serializable {
     /**
-     * Emozione stupore
+     * Amazement emotion.
      */
     AMAZEMENT("Feeling of wonder or happiness"),
     /**
-     * Emozione meraviglia
+     * Solemnity emotion.
      */
     SOLEMNITY("Feeling of transcendence, inspiration. Thrills."),
     /**
-     * Emozione tenerezza
+     * Tenderness emotion.
      */
     TENDERNESS("Sensuality, affect, feeling of love"),
     /**
-     * Emozione nostalgia
+     * Nostalgia emotion.
      */
     NOSTALGIA("Dreamy, melancholic, sentimental feelings"),
     /**
-     * Emozione calma
+     * Calmness emotion.
      */
     CALMNESS("Relaxation, serenity, meditativeness"),
     /**
-     * Emozione forza
+     * Power emotion.
      */
     POWER("Feeling strong, heroic, triumphant, energetic"),
     /**
-     * Emozione gioia
+     * Joy emotion.
      */
     JOY("Feels like dancing, bouncy feeling, animated, amused"),
     /**
-     * Emozione tensione
+     * Tension emotion.
      */
     TENSION("Feeling Nervous, impatient, irritated"),
     /**
-     * Emozione tristezza
+     * Sadness emotion.
      */
     SADNESS("Feeling Depressed, sorrowful");
 
     /**
-     * Variabile che contiente la descrizione dell'emozione
+     * emotion descriptor.
     */
     private String explanation;
 
 
     /**
-     * Costruttore enum
-     * @param expl descrizione della rispettiva emozione
+     * Enum constructor.
+     * @param expl emotion descriptor.
      */
     Emotions(String expl){
         this.explanation = expl;
@@ -67,20 +66,10 @@ public enum Emotions implements Serializable {
 
 
     /**
-     * Getter della descrizione delle varie costanti
-     * @return una stringa con la descrizione dell'emozione
-     */
-    public String getEXplanation(){
-        return this.explanation;
-    }
-
-
-
-    /**
-     * Override del metodo toString(). Ritorna una determinata
-     * stringa, in base al valore della variabile enumerativa che
-     * deve essere trasformata in stringa.
-     * @return la stringa corrispondente all'emozione.
+     * overrides the toString() method by
+     * giving a format to the printing of
+     * the emotion's name.
+     * @return emotion's name.
      */
     @Override
     public String toString() {
