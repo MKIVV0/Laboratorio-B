@@ -1,62 +1,85 @@
+/**
+ * @author Zhang Ying Huang, Matricola 746483, CO
+ * @author Alessandro Di Lorenzo, Matricola 733052, CO
+ */
+
 package common;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.LinkedList;
 
+/**
+ * This class contains the statistics for a given emotion for a
+ * given song.
+ */
 public class Summary implements Serializable {
-    private String emotion_name;
     /**
-     * Attributo rappresentante l'emozione associata al feedback.
+     * It represents the name of the emotion.
+     */
+    private String emotionName;
+    /**
+     * It represents the number of users that left a feedback
+     * for a given emotion.
      */
     private String numberOfVotes;
     /**
-     * Attributo rappresentante lo score cumulativo associato al feedback.
+     * It represents the average score.
      */
     private double AVGscore;
-
-    private String[] note_list;
-
+    /**
+     * It represents the list of comments left by the users.
+     */
+    private String[] noteList;
+    /**
+     * Empty constructor.
+     */
     public Summary() {}
-
-    public String getEmotion_name() {
-        return emotion_name;
+    /**
+     * songId attribute setter.
+     * @return emotionName
+     */
+    public String getEmotionName() {
+        return this.emotionName;
     }
-
+    /**
+     * songId attribute setter.
+     * @param emotion_name
+     */
     public void setEmotionName(String emotion_name) {
-        this.emotion_name = emotion_name;
+        this.emotionName = emotion_name;
     }
-
-    public String getNumberOfVotes() {
-        return numberOfVotes;
-    }
-
+    /**
+     * numberOfVotes attribute setter.
+     * @param numberOfVotes
+     */
     public void setNumberOfVotes(String numberOfVotes) {
         this.numberOfVotes = numberOfVotes;
     }
-
-    public double getAVGscore() {
-        return AVGscore;
-    }
-
+    /**
+     * AVGScore attribute setter.
+     * @param AVGscore
+     */
     public void setAVGscore(double AVGscore) {
         this.AVGscore = AVGscore;
     }
-
-    public String[] getNoteList() {
-        return note_list;
-    }
-
+    /**
+     * noteList attribute setter.
+     * @param note_list
+     */
     public void setNoteList(String[] note_list) {
-        this.note_list = note_list;
+        this.noteList = note_list;
     }
 
+    /**
+     * Overrides the default toString() method, by giving a
+     * format to the current object data.
+     * @return the current object info.
+     */
     public String toString() {
-        String tmp = "emotion name: " + emotion_name +
-                "\nnumber of votes: " + numberOfVotes +
-                "\naverage score: " + AVGscore +
+        String tmp = "emotion name: " + this.emotionName +
+                "\nnumber of votes: " + this.numberOfVotes +
+                "\naverage score: " + this.AVGscore +
                 "\nnote list:\n";
-        for (String s : this.note_list)
+        for (String s : this.noteList)
             tmp += s + "\n";
         return tmp;
     }

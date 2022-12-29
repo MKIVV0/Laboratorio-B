@@ -10,56 +10,53 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * Classe rappresentante la valutazione di una canzone.
- * Ogni feedback è distinto dalla coppia songId ed emotion.
+ * This class represents a summary of the feedbacks, for each emotion,
+ * given by the users for a given song.
  */
 public class Feedback implements Serializable {
     /**
-     * Attributo rappresentate l'identificativo della canzone alla quale
-     * è associato il feedback.
+     * Identifier of a given song.
      */
     private String songId;
     /**
-     * Attributo rappresentante il numero totale di votanti associato al feedback.
+     * It represents the list of a given song's summaries, each of which
+     * is an object of type Summary.
      */
     private HashMap<Emotions, LinkedList<Summary>> emotionSummaries;
 
    /**
-    * Costruttore per istanziare un oggetto di tipo Feedback che è già
-    * tato scritto su file.
-    * @param sid l'identificativo della canzone.
-    * @param e l'emozione associata.
-    * @param s score cumulativo associato al feedback.
-    * @param n numero di utenti totali che ha votato il feedback.
-    * @param notes lista di commenti associata al feedback.
+    * Constructor for instantiating an object of type Feedback.
     */
-
     public Feedback() {
         this.emotionSummaries = new HashMap<>();
     }
 
-    public String getSongId() {
-        return songId;
-    }
-
+    /**
+     * songId attribute setter.
+     * @param songId a song id.
+     */
     public void setSongId(String songId) {
         this.songId = songId;
     }
 
-
-    public HashMap<Emotions, LinkedList<Summary>> getEmotionProspects() {
-        return emotionSummaries;
-    }
-
-
+    /**
+     * Adds an object of type Summary to the list of summaries, which is
+     * a summarized list of data that belongs to a given song.
+     * @param summary Summary object.
+     */
     public void addSummary(Summary summary) {
-        Emotions emotion = Emotions.valueOf(summary.getEmotion_name());
+        Emotions emotion = Emotions.valueOf(summary.getEmotionName());
         if (this.emotionSummaries.get(emotion) == null) {
             this.emotionSummaries.put(emotion, new LinkedList<>());
         }
         this.emotionSummaries.get(emotion).add(summary);
     }
 
+    /**
+     * Overrides the default toString() method, by giving a
+     * format to the current object data.
+     * @return the current object info.
+     */
     public String toString() {
         String tmp = "";
         for (LinkedList<Summary> summaryLinkedList : this.emotionSummaries.values())
