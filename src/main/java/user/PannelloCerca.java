@@ -35,9 +35,11 @@ public class PannelloCerca extends JPanel {
 
         labelCercaBrano = new JLabel("Brano: ");
         fieldCercaBrano = new JTextField(15);
+        fieldCercaBrano.setCaretColor(Frame.compForeDark);
 
         labelYear = new JLabel("Anno: ");
         fieldYear = new JTextField(15);
+        fieldYear.setCaretColor(Frame.compForeDark);
         labelYear.setEnabled(false);
         fieldYear.setEnabled(false);
 
