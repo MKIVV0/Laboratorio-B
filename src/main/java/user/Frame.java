@@ -220,12 +220,14 @@ public class Frame extends JFrame {
             @Override
             public void rinominaPlaylist(String vecchioNome, String nuovoNome) throws SQLException, playlistException, RemoteException {
                 resourceManager.renamePlaylist(vecchioNome, nuovoNome, user);
+                ((LoggedUser)user).getPlaylist(vecchioNome).setPlaylistName(nuovoNome);
+                pannelloPlaylist.logged(user);
             }
         });
 
         // PANNELLO
         panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(300, 100));
+//        panel.setPreferredSize(new Dimension(320, 100));
 
         panel.add(pannelloCerca, BorderLayout.PAGE_START);
         panel.add(pannelloPlaylist, BorderLayout.CENTER);

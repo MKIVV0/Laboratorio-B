@@ -25,7 +25,7 @@ public class PannelloPlaylist extends JPanel {
     private Border bordoInterno, bordoEsterno, bordoFinale;
 
     PannelloPlaylist() {
-        setPreferredSize(new Dimension(300, 50));//100
+//        setPreferredSize(new Dimension(320, 50));//100
         setLayout(new BorderLayout());
         setVisible(false);
 
@@ -61,10 +61,12 @@ public class PannelloPlaylist extends JPanel {
                 if(listaPlaylist.isSelectionEmpty()){
                     bottoneApri.setVisible(false);
                     bottoneElimina.setVisible(false);
+                    bottoneRinomina.setVisible(false);
                 }
                 else {
                     bottoneApri.setVisible(true);
                     bottoneElimina.setVisible(true);
+                    bottoneRinomina.setVisible(true);
                 }
             }
         });
@@ -165,10 +167,10 @@ public class PannelloPlaylist extends JPanel {
             }
         });
 
-        tasti.add(bottoneApri);
         tasti.add(bottoneCrea);
-        tasti.add(bottoneElimina);
+        tasti.add(bottoneApri);
         tasti.add(bottoneRinomina);
+        tasti.add(bottoneElimina);
 
         add(new JScrollPane(listaPlaylist), BorderLayout.CENTER);
         add(tasti, BorderLayout.SOUTH);
