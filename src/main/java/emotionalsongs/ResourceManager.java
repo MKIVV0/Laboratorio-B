@@ -94,8 +94,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @return an instance of a LoggedUser.
      */
     @Override
-    public synchronized AbstractUser login(AbstractUser user, String uid, String pw) throws RemoteException, AlreadyLoggedException, SQLException, WrongCredentialsException {
-        if (user instanceof LoggedUser)
+    public synchronized LoggedUser login(LoggedUser user, String uid, String pw) throws RemoteException, AlreadyLoggedException, SQLException, WrongCredentialsException {
+        if (user != null)
             throw new AlreadyLoggedException();
 
         LoggedUser u = dbES.getLoggedUser(uid, pw);
@@ -116,13 +116,13 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @return an instance of NotLoggedUser.
      */
     @Override
-    public synchronized AbstractUser logout(AbstractUser user) throws RemoteException, NotLoggedException {
-        if (user instanceof NotLoggedUser)
+    public synchronized LoggedUser logout(LoggedUser user) throws RemoteException, NotLoggedException {
+        if (user == null)
             throw new NotLoggedException();
 
-        users.remove(((LoggedUser)user).getId());
+        users.remove(user.getId());
 
-        return new NotLoggedUser();
+        return null;
     }
 
     /**
@@ -139,11 +139,11 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @throws AlreadyLoggedException
      */
     @Override
-    public synchronized void evaluateSong(Emotions emotion, AbstractUser user, Song song, String score, String notes) throws RemoteException, NotLoggedException, AlreadyValuedException, SQLException {
-        if (user instanceof NotLoggedUser)
+    public synchronized void evaluateSong(Emotions emotion, LoggedUser user, Song song, String score, String notes) throws RemoteException, NotLoggedException, AlreadyValuedException, SQLException {
+        if (user == null)
             throw new NotLoggedException();
 
-        boolean feedbackAdded = dbES.addFeedback(emotion, ((LoggedUser) user).getId(), song.getId(), score, notes);
+        boolean feedbackAdded = dbES.addFeedback(emotion, user.getId(), song.getId(), score, notes);
         if (!feedbackAdded)
             throw new AlreadyValuedException("Error! You already left a feedback for this song.");
         else
@@ -201,8 +201,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @throws RemoteException
      * @return true if the involved table has been modified, false otherwise.
      */
-    public synchronized void deleteFeedback(Emotions emotion, AbstractUser user, Song song) throws SQLException, NoFeedbackException, RemoteException {
-        if (!dbES.deleteFeedback(emotion, ((LoggedUser) user).getId(), song.getId()))
+    public synchronized void deleteFeedback(Emotions emotion, LoggedUser user, Song song) throws SQLException, NoFeedbackException, RemoteException {
+        if (!dbES.deleteFeedback(emotion, user.getId(), song.getId()))
             throw new NoFeedbackException("This song with these parameters doesn't have any feedbacks!");
         else
             System.out.println("Thank you for your feedback!");
@@ -217,8 +217,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @throws RemoteException
      * @return the newly created playlist.
      */
-    public synchronized Playlist createPlaylist(String pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException {
-        if (!dbES.createPlaylist(pl_name, ((LoggedUser) user).getId()))
+    public synchronized Playlist createPlaylist(String pl_name, LoggedUser user) throws SQLException, playlistException, RemoteException {
+        if (!dbES.createPlaylist(pl_name, user.getId()))
             throw new playlistException("This playlist already exists!");
         else
             return new Playlist(pl_name);
@@ -233,8 +233,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @throws playlistException
      * @throws RemoteException
      */
-    public synchronized void removeSongFromPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException {
-        if (!dbES.removeSongFromPlaylist(pl_name, song.getId(), ((LoggedUser) user).getId()))
+    public synchronized void removeSongFromPlaylist(String pl_name, Song song, LoggedUser user) throws SQLException, playlistException, RemoteException {
+        if (!dbES.removeSongFromPlaylist(pl_name, song.getId(), user.getId()))
             throw new playlistException("This playlist doesn't exist!");
         else
             System.out.println("Song removed successfully!");
@@ -249,8 +249,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @throws playlistException
      * @throws RemoteException
      */
-    public synchronized void renamePlaylist(String curr_pl_name, String new_pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException {
-        if (!dbES.renamePlaylist(curr_pl_name, new_pl_name, ((LoggedUser) user).getId()))
+    public synchronized void renamePlaylist(String curr_pl_name, String new_pl_name, LoggedUser user) throws SQLException, playlistException, RemoteException {
+        if (!dbES.renamePlaylist(curr_pl_name, new_pl_name, user.getId()))
             throw new playlistException("This playlist doesn't exist!");
         else
             System.out.println("Playlist renamed successfully!");
@@ -264,8 +264,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @throws playlistException
      * @throws RemoteException
      */
-    public synchronized void deletePlaylist(String pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException {
-        if (!dbES.deletePlaylist(pl_name, ((LoggedUser) user).getId()))
+    public synchronized void deletePlaylist(String pl_name, LoggedUser user) throws SQLException, playlistException, RemoteException {
+        if (!dbES.deletePlaylist(pl_name, user.getId()))
             throw new playlistException("This playlist doesn't exist!");
         else
             System.out.println("Playlist deleted successfully!");
@@ -280,8 +280,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @throws playlistException
      * @throws RemoteException
      */
-    public synchronized void addSongToPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException {
-        if (!dbES.addSongToPlaylist(pl_name, song.getId(), ((LoggedUser) user).getId()))
+    public synchronized void addSongToPlaylist(String pl_name, Song song, LoggedUser user) throws SQLException, playlistException, RemoteException {
+        if (!dbES.addSongToPlaylist(pl_name, song.getId(), user.getId()))
             throw new playlistException("This playlist doesn't exist!");
         else
             System.out.println("Song added successfully!");
@@ -296,12 +296,12 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @throws UserException
      * @throws RemoteException
      */
-    public synchronized void modifyUserParam(AbstractUser user, String param_name, String param_value) throws SQLException, UserException, RemoteException {
-        if (!dbES.modifyUserParam(((LoggedUser) user).getId(), param_name, param_value))
+    public synchronized void modifyUserParam(LoggedUser user, String param_name, String param_value) throws SQLException, UserException, RemoteException {
+        if (!dbES.modifyUserParam(user.getId(), param_name, param_value))
             throw new UserException("This user doesn't exist!");
         else {
             System.out.println("User parameters modified successfully!");
-            LoggedUser tmp = users.remove(((LoggedUser) user).getId());
+            LoggedUser tmp = users.remove(user.getId());
             switch (param_name) {
                 case "user_id" -> tmp.setUserID(param_value);
                 case "password" -> tmp.setPassword(param_value);
@@ -317,8 +317,8 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @throws UserException
      * @throws RemoteException
      */
-    public synchronized void deleteUser(AbstractUser user) throws SQLException, UserException, RemoteException {
-        if (!dbES.deleteUser(((LoggedUser) user).getId()))
+    public synchronized void deleteUser(LoggedUser user) throws SQLException, UserException, RemoteException {
+        if (!dbES.deleteUser(user.getId()))
             throw new UserException("This user doesn't exist!");
         else
             System.out.println("User deleted successfully!");

@@ -4,12 +4,13 @@
  */
 package common;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  * it represents an authenticated user.
  */
-public class LoggedUser extends AbstractUser {
+public class LoggedUser implements Serializable {
     /**
      * user's first name.
      */

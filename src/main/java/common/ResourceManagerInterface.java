@@ -42,7 +42,7 @@ public interface ResourceManagerInterface extends Remote {
      * @throws WrongCredentialsException
      * @return an instance of a LoggedUser.
      */
-    AbstractUser login(AbstractUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, WrongCredentialsException, SQLException;
+    LoggedUser login(LoggedUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, WrongCredentialsException, SQLException;
 
     /**
      * adds a user's feedback for a given song and a given emotion to
@@ -57,7 +57,7 @@ public interface ResourceManagerInterface extends Remote {
      * @throws NotLoggedException
      * @throws AlreadyLoggedException
      */
-    void evaluateSong(Emotions emotion, AbstractUser user, Song song, String score, String notes) throws RemoteException, NotLoggedException, AlreadyValuedException, SQLException;
+    void evaluateSong(Emotions emotion, LoggedUser user, Song song, String score, String notes) throws RemoteException, NotLoggedException, AlreadyValuedException, SQLException;
 
     /**
      * it logs the user out by returning a NotLoggedUser object.
@@ -66,7 +66,7 @@ public interface ResourceManagerInterface extends Remote {
      * @throws NotLoggedException
      * @return an instance of NotLoggedUser.
      */
-    AbstractUser logout(AbstractUser u) throws RemoteException, NotLoggedException;
+    LoggedUser logout(LoggedUser u) throws RemoteException, NotLoggedException;
 
     /**
      * gets a LoggedUser object's playlists from the database.
@@ -106,7 +106,7 @@ public interface ResourceManagerInterface extends Remote {
      * @throws RemoteException
      * @return true if the involved table has been modified, false otherwise.
      */
-    void deleteFeedback(Emotions emotion, AbstractUser user, Song song) throws SQLException, NoFeedbackException, RemoteException;
+    void deleteFeedback(Emotions emotion, LoggedUser user, Song song) throws SQLException, NoFeedbackException, RemoteException;
 
     /**
      * creates an empty playlist for a user.
@@ -117,7 +117,7 @@ public interface ResourceManagerInterface extends Remote {
      * @throws RemoteException
      * @return the newly created playlist.
      */
-    Playlist createPlaylist(String pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException;
+    Playlist createPlaylist(String pl_name, LoggedUser user) throws SQLException, playlistException, RemoteException;
 
     /**
      * removes a song from a given playlist of the user.
@@ -128,7 +128,7 @@ public interface ResourceManagerInterface extends Remote {
      * @throws playlistException
      * @throws RemoteException
      */
-    void removeSongFromPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException;
+    void removeSongFromPlaylist(String pl_name, Song song, LoggedUser user) throws SQLException, playlistException, RemoteException;
 
     /**
      * renames a given playlist of the user.
@@ -139,7 +139,7 @@ public interface ResourceManagerInterface extends Remote {
      * @throws playlistException
      * @throws RemoteException
      */
-    void renamePlaylist(String curr_pl_name, String new_pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException;
+    void renamePlaylist(String curr_pl_name, String new_pl_name, LoggedUser user) throws SQLException, playlistException, RemoteException;
 
     /**
      * deletes a given playlist.
@@ -149,7 +149,7 @@ public interface ResourceManagerInterface extends Remote {
      * @throws playlistException
      * @throws RemoteException
      */
-    void deletePlaylist(String pl_name, AbstractUser user) throws SQLException, playlistException, RemoteException;
+    void deletePlaylist(String pl_name, LoggedUser user) throws SQLException, playlistException, RemoteException;
 
     /**
      * adds a song to a given playlist.
@@ -160,7 +160,7 @@ public interface ResourceManagerInterface extends Remote {
      * @throws playlistException
      * @throws RemoteException
      */
-    void addSongToPlaylist(String pl_name, Song song, AbstractUser user) throws SQLException, playlistException, RemoteException;
+    void addSongToPlaylist(String pl_name, Song song, LoggedUser user) throws SQLException, playlistException, RemoteException;
 
     /**
      * modifies a user's given data field with a new value.
@@ -171,7 +171,7 @@ public interface ResourceManagerInterface extends Remote {
      * @throws UserException
      * @throws RemoteException
      */
-    void modifyUserParam(AbstractUser user, String param_name, String param_value) throws SQLException, UserException, RemoteException;
+    void modifyUserParam(LoggedUser user, String param_name, String param_value) throws SQLException, UserException, RemoteException;
 
     /**
      * deletes a user from the system.
@@ -180,5 +180,5 @@ public interface ResourceManagerInterface extends Remote {
      * @throws UserException
      * @throws RemoteException
      */
-    void deleteUser(AbstractUser user) throws SQLException, UserException, RemoteException;
+    void deleteUser(LoggedUser user) throws SQLException, UserException, RemoteException;
 }

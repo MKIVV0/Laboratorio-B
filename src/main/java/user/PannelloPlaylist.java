@@ -1,6 +1,5 @@
 package user;
 
-import common.AbstractUser;
 import common.LoggedUser;
 import common.Playlist;
 import common.playlistException;
@@ -173,8 +172,8 @@ public class PannelloPlaylist extends JPanel {
 
     }
 
-    public void logged(AbstractUser user) {
-        if (user instanceof LoggedUser) {
+    public void logged(LoggedUser user) {
+        if (user != null) {
             DefaultListModel modelloPlaylists = new DefaultListModel();
             for (Playlist p : ((LoggedUser) user).getPlaylistList())
                 modelloPlaylists.addElement(p.getPlaylistName());

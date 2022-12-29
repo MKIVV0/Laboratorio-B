@@ -21,7 +21,7 @@ public class Frame extends JFrame {
     private PannelloPlaylist pannelloPlaylist;
     private ObjectAreaPanel objectAreaPanel;
     private ResourceManagerInterface resourceManager;
-    private AbstractUser user;
+    private LoggedUser user;
     private boolean logged;
 
     static Color backDark = new Color(51,51,51);
@@ -34,7 +34,7 @@ public class Frame extends JFrame {
 
         Registry r = LocateRegistry.getRegistry(11000);
         resourceManager = (ResourceManagerInterface) r.lookup("Gestore");
-        user = new NotLoggedUser();
+        user = null;
         logged = false;
 
         // BARRA STRUMENTI
@@ -45,7 +45,7 @@ public class Frame extends JFrame {
                 String username = le.getUsername();
                 String password = le.getPassword();
                 user = resourceManager.login(user, username, password);
-                logged = user instanceof LoggedUser;
+                logged = user != null;
                 barraStrumenti.logged(logged);
                 objectAreaPanel.setLogged(logged);
                 pannelloPlaylist.logged(user);
@@ -53,7 +53,7 @@ public class Frame extends JFrame {
             @Override
             public void logout() throws NotLoggedException, RemoteException {
                 user = resourceManager.logout(user);
-                logged = user instanceof LoggedUser;
+                logged = user != null;
                 barraStrumenti.logged(logged);
                 objectAreaPanel.setSongOfPlaylist(false);
                 objectAreaPanel.setLogged(logged);
@@ -71,12 +71,12 @@ public class Frame extends JFrame {
             @Override
             public void modifyUsername(String nuovo) throws SQLException, UserException, RemoteException {
                 resourceManager.modifyUserParam(user, "user_id", nuovo);
-                ((LoggedUser)user).setUserID(nuovo);
+                user.setUserID(nuovo);
             }
             @Override
             public void modifyPassword(String nuovo) throws SQLException, UserException, RemoteException {
                 resourceManager.modifyUserParam(user, "password", nuovo);
-                ((LoggedUser)user).setPassword(nuovo);
+                user.setPassword(nuovo);
             }
         });
 
@@ -92,7 +92,7 @@ public class Frame extends JFrame {
             }
             @Override
             public void addSong(Song song) throws SQLException, playlistException, RemoteException {
-                LinkedList<Playlist> userPlaylists = ((LoggedUser)user).getPlaylistList();
+                LinkedList<Playlist> userPlaylists = user.getPlaylistList();
                 String[] opzioni = new String[userPlaylists.size()];
                 int i = 0;
                 for(Playlist p: userPlaylists)
@@ -108,7 +108,7 @@ public class Frame extends JFrame {
                 int scelta = JOptionPane.showConfirmDialog(java.awt.Frame.getFrames()[0], panel, "seleziona playlist", JOptionPane.OK_CANCEL_OPTION);
                 if(scelta == 0 && listaPlaylists.getSelectedIndex() != -1){
                     String plName = (String)listaPlaylists.getSelectedItem();
-                    Playlist p = ((LoggedUser)user).getPlaylist(plName);
+                    Playlist p = user.getPlaylist(plName);
                     resourceManager.addSongToPlaylist(plName, song, user);
                     p.addSong(song);
                     pannelloPlaylist.logged(user);
@@ -167,19 +167,19 @@ public class Frame extends JFrame {
             @Override
             public void creaPlaylist(String plName) throws SQLException, playlistException, RemoteException {
                 Playlist nuova = resourceManager.createPlaylist(plName, user);
-                ((LoggedUser)user).addPlaylist(nuova);
+                user.addPlaylist(nuova);
                 pannelloPlaylist.logged(user);
             }
             @Override
             public void eliminaPlaylist(String plName) throws SQLException, playlistException, RemoteException {
                 resourceManager.deletePlaylist(plName, user);
-                ((LoggedUser)user).deletePlaylist(plName);
+                user.deletePlaylist(plName);
                 objectAreaPanel.pulisciArea();
                 pannelloPlaylist.logged(user);
             }
             @Override
             public void apriPlaylist(String plName) {
-                Playlist playlist = ((LoggedUser) user).getPlaylist(plName);
+                Playlist playlist = user.getPlaylist(plName);
                 LinkedList<Song> tmp = playlist.getSongList();
                 pannelloPlaylist.setPlaylist(playlist);
                 objectAreaPanel.pulisciArea();
@@ -189,7 +189,7 @@ public class Frame extends JFrame {
             @Override
             public void rinominaPlaylist(String vecchioNome, String nuovoNome) throws SQLException, playlistException, RemoteException {
                 resourceManager.renamePlaylist(vecchioNome, nuovoNome, user);
-                ((LoggedUser)user).getPlaylist(vecchioNome).setPlaylistName(nuovoNome);
+                user.getPlaylist(vecchioNome).setPlaylistName(nuovoNome);
                 pannelloPlaylist.logged(user);
             }
         });
