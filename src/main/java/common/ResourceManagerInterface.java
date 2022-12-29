@@ -18,7 +18,6 @@ public interface ResourceManagerInterface extends Remote {
      * finds all the songs that contains a given string in
      * the title.
      * @param s the string or substring of a song title.
-     * @return a list of all the songs that are found.
      */
     LinkedList<Song> findSong(String s) throws RemoteException;
     /**
@@ -27,20 +26,18 @@ public interface ResourceManagerInterface extends Remote {
      * (e.g: 2004, not 4).
      * @param author the song's author
      * @param year the song's year
-     * @return a list of all the songs that are found.
      */
     LinkedList<Song> findSong(String author, int year) throws RemoteException;
     /**
      * it returns a LoggedUser only and only if the user is not already logged and the creaentials are
      * correct.
-     * @param user the singleton AbstractUser object present in each client.
+     * @param u the singleton AbstractUser object present in each client.
      * @param uid the username.
      * @param pw the password.
      * @throws RemoteException
      * @throws AlreadyLoggedException
      * @throws SQLException
      * @throws WrongCredentialsException
-     * @return an instance of a LoggedUser.
      */
     LoggedUser login(LoggedUser u, String uid, String pw) throws RemoteException, AlreadyLoggedException, WrongCredentialsException, SQLException;
 
@@ -64,7 +61,6 @@ public interface ResourceManagerInterface extends Remote {
      * @param u the singleton AbstractUser object present in each client.
      * @throws RemoteException
      * @throws NotLoggedException
-     * @return an instance of NotLoggedUser.
      */
     LoggedUser logout(LoggedUser u) throws RemoteException, NotLoggedException;
 
@@ -104,7 +100,6 @@ public interface ResourceManagerInterface extends Remote {
      * @throws SQLException
      * @throws NoFeedbackException
      * @throws RemoteException
-     * @return true if the involved table has been modified, false otherwise.
      */
     void deleteFeedback(Emotions emotion, LoggedUser user, Song song) throws SQLException, NoFeedbackException, RemoteException;
 
@@ -115,7 +110,6 @@ public interface ResourceManagerInterface extends Remote {
      * @throws SQLException
      * @throws playlistException
      * @throws RemoteException
-     * @return the newly created playlist.
      */
     Playlist createPlaylist(String pl_name, LoggedUser user) throws SQLException, playlistException, RemoteException;
 

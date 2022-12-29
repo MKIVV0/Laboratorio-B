@@ -113,7 +113,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @param user the singleton AbstractUser object present in each client.
      * @throws RemoteException
      * @throws NotLoggedException
-     * @return an instance of NotLoggedUser.
+     * @return null, which stands for a not logged user.
      */
     @Override
     public synchronized LoggedUser logout(LoggedUser user) throws RemoteException, NotLoggedException {
