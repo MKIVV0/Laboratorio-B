@@ -41,7 +41,7 @@ public class PannelloCerca extends JPanel {
         labelYear.setEnabled(false);
         fieldYear.setEnabled(false);
 
-        labelCercaPer = new JLabel("search by: ");
+        labelCercaPer = new JLabel("CercaPer: ");
 
         radioCercaPerTitolo = new JRadioButton("Titolo");
         radioCercaPerTitolo.setActionCommand("titolo");
@@ -74,6 +74,7 @@ public class PannelloCerca extends JPanel {
         gruppoRadioCercaPer.add(radioCercaPerAutore);
 
         bottoneCerca = new JButton("Cerca!");
+        bottoneCerca.setFocusable(false);
 
         bottoneCerca.addActionListener(new ActionListener() {
             @Override
@@ -220,7 +221,6 @@ public class PannelloCerca extends JPanel {
             } else {
                 c.setBackground(compBack);
                 c.setForeground(compFore);
-                c.setFocusable(false);
             }
         setBackground(back);
     }
