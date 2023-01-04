@@ -277,7 +277,6 @@ public class dbES {
      */
     public static boolean registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) {
             String query = "INSERT INTO RegisteredUser VALUES (\'" + uid + "\', \'" + pwd + "\', \'" + email + "\', \'" + fn + "\', \'" + ln + "\', \'" + addr + "\', \'" + FC + "\')";
-            System.out.println(query);
             int count;
             try{
                count = statement.executeUpdate(query);
