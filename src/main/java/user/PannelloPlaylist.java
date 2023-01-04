@@ -37,6 +37,11 @@ public class PannelloPlaylist extends JPanel {
 
         listaPlaylist = new JList<Playlist>();
         listaPlaylist.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
+
+        listaPlaylist.setSelectionForeground(Color.PINK);
+        listaPlaylist.setSelectionBackground(Frame.backDark);
+        listaPlaylist.setFocusable(false);
+
         JScrollPane scrollPane = new JScrollPane(listaPlaylist);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setVerticalScrollBar(new ScrollBar());

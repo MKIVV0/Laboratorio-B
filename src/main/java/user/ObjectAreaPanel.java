@@ -29,6 +29,9 @@ public class ObjectAreaPanel extends JPanel {
         // JLIST
         songResultSet = new JList<Song>();
         songResultSet.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
+        songResultSet.setSelectionForeground(Color.PINK);
+        songResultSet.setSelectionBackground(Frame.backDark);
+        songResultSet.setFocusable(false);
 
         JScrollPane scrollPane = new JScrollPane(songResultSet);
         scrollPane.setBorder(BorderFactory.createMatteBorder(0,1,0,0,Color.PINK));
@@ -229,4 +232,5 @@ public class ObjectAreaPanel extends JPanel {
     public void setSongListener(SongListener songListener) {
         this.songListener = songListener;
     }
+
 }
