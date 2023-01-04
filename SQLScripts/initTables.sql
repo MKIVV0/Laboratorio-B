@@ -121,3 +121,7 @@ INSERT INTO Song VALUES ('TRSGHLU128F421DF83','Don''t Pan Me','Alberta Hunter', 
 ('ZZZZZZZZZZZZZZZZZZ','','', 1111);
 
 INSERT INTO registereduser VALUES('mattpl', 'ciao12345', 'mattpl20@live.it', 'matt', 'huang', 'Via Roma, 30', 'HNGMTT00S02F205B');
+
+INSERT INTO playlist VALUES('playlist_1', 'TRKPLJM128F9338ED1', 'mattpl'), ('playlist_1', 'TRLMHPJ12903D021C7', 'mattpl'),
+                            ('playlist_2', 'TRETLWS12903CEB483', 'mattpl'), ('playlist_2', 'TRUAHEX12903D021C1', 'mattpl'),
+                            ('playlist_2', 'TRCMCHR12903CB5A9D', 'mattpl');

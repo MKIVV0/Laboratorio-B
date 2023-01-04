@@ -70,7 +70,7 @@ public class dbES {
     /**
      * path of the file that initializes the repository and gives a default user.
      */
-    public static final String scriptPath2 = SCRIPTS_PATH + "initTableSong.sql";
+    public static final String scriptPath2 = SCRIPTS_PATH + "initTables.sql";
 
     /**
      * dbES constructor.
