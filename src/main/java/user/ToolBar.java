@@ -19,14 +19,39 @@ import java.sql.SQLException;
  */
 public class ToolBar extends JPanel {
 
+    /**
+     * this attribute represents the login button
+     */
     private JButton bottoneLogin;
+    /**
+     * this attribute represents the logout button
+     */
     private JButton bottoneLogout;
+    /**
+     * this attribute represents the sign-up button
+     */
     private JButton bottoneRegistra;
+    /**
+     * these attribute represent the modify username and modify password buttons
+     */
     private JButton bottoneModificaUsername, bottoneModificaPassword;
+    /**
+     * this attribute represents an entity that waits for some user interaction with the login or logout buttons
+     */
     private LogListener logListener;
+    /**
+     * this attribute represents an entity that waits for some user interaction with the sign-up button
+     */
     private RegistrationListener registrationListener;
+    /**
+     * this attribute represents an entity that waits for some user interaction with the buttons which purpose
+     * is to modify fields, such as modify password or modify username
+     */
     private SettingsListener settingsListener;
 
+    /**
+     * ToolBar constructor
+     * */
     public ToolBar() {
         super(new FlowLayout(FlowLayout.LEFT));
 
@@ -75,8 +100,14 @@ public class ToolBar extends JPanel {
             }
         });
 
-        // LOGOUT
+        /**
+         * This listener is responsible for listening for actions performed on the logout button
+         * */
         bottoneLogout.addActionListener(new ActionListener() {
+            /**
+             * manages the action performed on the logout button
+             * @param  e the click on the button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (logListener != null)
@@ -89,8 +120,14 @@ public class ToolBar extends JPanel {
             }
         });
 
-        // REGISTRAZIONE
+        /**
+         * This listener is responsible for listening for actions performed on the sign-up button
+         * */
         bottoneRegistra.addActionListener(new ActionListener() {
+            /**
+             * manages the action performed on the sign-up button
+             * @param  e the click on the button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
@@ -145,7 +182,14 @@ public class ToolBar extends JPanel {
             }
         });
 
+        /**
+         * This listener is responsible for listening for actions performed on the modify username button
+         * */
         bottoneModificaUsername.addActionListener(new ActionListener() {
+            /**
+             * manages the action performed on the modify username button
+             * @param  e the click on the button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
@@ -175,7 +219,14 @@ public class ToolBar extends JPanel {
             }
         });
 
+        /**
+         * This listener is responsible for listening for actions performed on the modify password button
+         * */
         bottoneModificaPassword.addActionListener(new ActionListener() {
+            /**
+             * manages the action performed on the modify password button
+             * @param  e the click on the button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
