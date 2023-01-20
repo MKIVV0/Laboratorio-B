@@ -16,18 +16,23 @@ import java.sql.SQLException;
 public interface PlaylistListener {
     /**
      * Create a new playlist with the name given.
+     * @param plName playlist's name
      */
     void creaPlaylist(String plName) throws SQLException, playlistException, RemoteException;
     /**
      * Delete the playlist specified by the name given.
+     * @param plName playlist's name
      */
     void eliminaPlaylist(String plName) throws SQLException, playlistException, RemoteException;
     /**
      * Open the palylist specified by the name given.
+     * @param plName playlist's name
      */
     void apriPlaylist(String plName);
     /**
      * Rename the playlist specified by the first argument with the name passed with the second one.
+     * @param vecchioNome playlist's old name
+     * @param nuovoNome playlist's new name
      */
     void rinominaPlaylist(String vecchioNome, String nuovoNome) throws SQLException, playlistException, RemoteException;
 }

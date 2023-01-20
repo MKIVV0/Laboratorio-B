@@ -16,10 +16,18 @@ import java.sql.SQLException;
 public interface SettingsListener {
     /**
      * Change the username of the logged user.
+     * @param nuovo new username
+     * @throws SQLException
+     * @throws UserException
+     * @throws RemoteException
      */
     void modifyUsername(String nuovo) throws SQLException, UserException, RemoteException;
     /**
      * Change the password of the logged user.
+     * @param nuovo new password
+     * @throws SQLException
+     * @throws UserException
+     * @throws RemoteException
      */
     void modifyPassword(String nuovo) throws SQLException, UserException, RemoteException;
 }

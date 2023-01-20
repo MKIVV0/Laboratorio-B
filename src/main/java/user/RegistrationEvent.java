@@ -16,7 +16,15 @@ public class RegistrationEvent extends EventObject {
      */
     String fn, ln, FC, addr, em, uid, pw;
     /**
-     * Constructor.
+     * RegistrationEvent constructor
+     * @param source
+     * @param fn the user's first name.
+     * @param ln the user's last name.
+     * @param FC the user's fiscal code.
+     * @param addr the user's address.
+     * @param em the user's email.
+     * @param uid the user's username.
+     * @param pw the user's password.
      */
     public RegistrationEvent(Object source, String fn, String ln, String FC, String addr, String em, String uid, String pw) {
         super(source);

@@ -30,7 +30,11 @@ public class FeedbackForm {
     String notes;
 
     /**
-     * Constrctor.
+     * Feedback form Constructor
+     * @param emotions emotion regarding the song
+     * @param song the song considered
+     * @param score the score given to the song
+     * @param notes the notes left on the song
      */
     public FeedbackForm(Emotions emotions, Song song, int score, String notes) {
         this.emotions = emotions;
@@ -39,7 +43,8 @@ public class FeedbackForm {
         this.notes = notes;
     }
     /**
-     * Getter
+     * Song getter
+     * @return song's title
      */
     public Song getSong() {
         return song;

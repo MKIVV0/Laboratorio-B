@@ -13,6 +13,7 @@ import java.util.EventListener;
 public interface SearchListener extends EventListener {
     /**
      * Search a song in the repository.
+     * @param ce Search event
      */
     void cercaEventListener(SearchEvent ce);
 }
