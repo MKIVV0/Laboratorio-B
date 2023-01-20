@@ -13,6 +13,9 @@ import java.rmi.RemoteException;
  */
 public class ClientES { // CLIENTES
 
+    /**
+     * The main method.
+     */
     public static void main(String[] args) throws NotBoundException, RemoteException {
 
         new Frame();

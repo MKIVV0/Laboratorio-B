@@ -56,15 +56,15 @@ public class Frame extends JFrame {
      */
     private boolean logged;
     /**
-     * The user's tool bar.
+     * The GUI background color.
      */
     static Color backDark = new Color(51,51,51);
     /**
-     * The user's tool bar.
+     * The component's background color.
      */
     static Color compBackDark = new Color(70,70,70);
     /**
-     * The user's tool bar.
+     * The component's foreground color.
      */
     static Color compForeDark = new Color(245,245,245);
 

@@ -176,6 +176,7 @@ public class ObjectAreaPanel extends JPanel {
                         if(songListener != null)
                             try{
                                 songListener.valutaSong(ff);
+                                JOptionPane.showMessageDialog(null, "Thanks for your feedback!");
                             } catch (UserException ex) {
                                 throw new RuntimeException(ex);
                             } catch (SQLException ex) {
