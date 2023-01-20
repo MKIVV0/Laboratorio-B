@@ -16,6 +16,9 @@ import java.util.EventListener;
 public interface RegistrationListener extends EventListener {
     /**
      * Register a new user on database.
+     * @param re registration listener
+     * @throws UserException
+     * @throws RemoteException
      */
     void datiForniti(RegistrationEvent re) throws UserException, RemoteException;
 }

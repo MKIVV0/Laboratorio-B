@@ -25,7 +25,11 @@ public class SearchEvent extends EventObject {
     private String tipoRicerca;
 
     /**
-     * Constructor.
+     * SearchEvent constructor
+     * @param source
+     * @param testo
+     * @param year
+     * @param tipoRicerca
      */
     public SearchEvent(Object source, String testo, int year, String tipoRicerca) {
         super(source);
@@ -35,19 +39,19 @@ public class SearchEvent extends EventObject {
     }
 
     /**
-     * Getter
+     * ResearchType getter
      */
     public String getTipoRicerca() {
         return tipoRicerca;
     }
     /**
-     * Getter
+     * Text getter
      */
     public String getTesto() {
         return testo;
     }
     /**
-     * Getter
+     * Year getter
      */
     public int getYear() {
         return year;

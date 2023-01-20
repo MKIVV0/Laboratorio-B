@@ -17,10 +17,16 @@ import java.util.EventListener;
 public interface LogListener extends EventListener {
     /**
      * Method for the user's login.
+     * @param le log event
+     * @throws UserException
+     * @throws SQLException
+     * @throws RemoteException
      */
     void credenzialiFornite(LogEvent le) throws UserException, SQLException, RemoteException;
     /**
      * Logout method.
+     * @throws UserException
+     * @throws RemoteException
      */
     void logout() throws UserException, RemoteException;
 }

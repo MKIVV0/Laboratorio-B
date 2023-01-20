@@ -13,7 +13,7 @@ import java.awt.*;
  */
 public class ScrollBar extends JScrollBar {
     /**
-     * Empty constructor.
+     * ScrollBar constructor
      */
     public ScrollBar() {
         setUI(new ModernScrollBarUI());

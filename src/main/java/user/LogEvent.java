@@ -21,7 +21,10 @@ public class LogEvent extends EventObject {
     private String password;
 
     /**
-     * Constructor.
+     * LogEvent Constructor
+     * @param source
+     * @param username
+     * @param password
      */
     public LogEvent(Object source, String username, String password) {
         super(source);
@@ -29,7 +32,7 @@ public class LogEvent extends EventObject {
         this.password = password;
     }
     /**
-     * Getter
+     * Username getter
      */
     public String getUsername() {
         return username;

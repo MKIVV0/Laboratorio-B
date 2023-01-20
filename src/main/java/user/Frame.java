@@ -69,7 +69,9 @@ public class Frame extends JFrame {
     static Color compForeDark = new Color(245,245,245);
 
     /**
-     * Empty constructor, initializes its fields
+     * Frame constructor.
+     * @throws RemoteException
+     * @throws NotBoundException
      */
     public Frame() throws RemoteException, NotBoundException {
         super("Emotional Songs");
@@ -128,6 +130,7 @@ public class Frame extends JFrame {
 
         // OBJECT AREA PANEL
         objectAreaPanel = new ObjectAreaPanel();
+
         objectAreaPanel.setSongListener(new SongListener() {
             @Override
             public Feedback guardaFeedback(Song song) throws NoFeedbackException, SQLException, RemoteException {
