@@ -121,7 +121,7 @@ public class dbES {
      * @param user database's userid credential.
      * @param pwd database's password credential.
      */
-    private void setCredentials(String server, String p, String user, String pwd) {
+    private static void setCredentials(String server, String p, String user, String pwd) {
         if (!server.equals("")) host = server + ':';
         if (!p.equals("")) port = p + "/";
         if (!user.equals("")) userid = user;
@@ -132,7 +132,7 @@ public class dbES {
      * ìnitializes the connection to the database.
      * @throws SQLException
      */
-    private void setConnection() throws SQLException {
+    private static void setConnection() throws SQLException {
         connection = DriverManager.getConnection(url, userid, password);
         statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         System.out.println("Connection successfully established.");
