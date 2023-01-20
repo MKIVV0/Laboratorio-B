@@ -10,6 +10,6 @@ import java.util.EventListener;
 /**
  * Interface for Frame - SearchPanel comunication
  */
-public interface CercaListener extends EventListener {
-    void cercaEventListener(CercaEvent ce);
+public interface SearchListener extends EventListener {
+    void cercaEventListener(SearchEvent ce);
 }

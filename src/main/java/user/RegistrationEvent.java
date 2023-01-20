@@ -10,11 +10,11 @@ import java.util.EventObject;
 /**
  * This class is used to provide the user's registration data to the resource manager
  */
-public class RegistrazioneEvent extends EventObject {
+public class RegistrationEvent extends EventObject {
 
     String fn, ln, FC, addr, em, uid, pw;
 
-    public RegistrazioneEvent(Object source, String fn, String ln, String FC, String addr, String em, String uid, String pw) {
+    public RegistrationEvent(Object source, String fn, String ln, String FC, String addr, String em, String uid, String pw) {
         super(source);
         this.fn = fn;
         this.ln = ln;

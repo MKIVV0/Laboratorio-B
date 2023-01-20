@@ -10,12 +10,12 @@ import java.util.EventObject;
 /**
  * This class is used to complete the search functions
  */
-public class CercaEvent extends EventObject {
+public class SearchEvent extends EventObject {
     private String testo;
     private int year;
     private String tipoRicerca;
 
-    public CercaEvent(Object source, String testo, int year, String tipoRicerca) {
+    public SearchEvent(Object source, String testo, int year, String tipoRicerca) {
         super(source);
         this.testo = testo;
         this.tipoRicerca = tipoRicerca;

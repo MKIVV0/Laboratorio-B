@@ -13,6 +13,6 @@ import java.util.EventListener;
 /**
  * Interface for Frame - ToolBar comunication
  */
-public interface RegistrazioneListener extends EventListener {
-    void datiForniti(RegistrazioneEvent re) throws UserException, RemoteException;
+public interface RegistrationListener extends EventListener {
+    void datiForniti(RegistrationEvent re) throws UserException, RemoteException;
 }

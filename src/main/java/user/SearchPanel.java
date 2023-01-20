@@ -26,7 +26,7 @@ public class SearchPanel extends JPanel {
     private JRadioButton radioCercaPerAutore;
     private ButtonGroup gruppoRadioCercaPer;
     private JButton bottoneCerca;
-    private CercaListener cercaListener;
+    private SearchListener searchListener;
     private Border bordoInterno, bordoEsterno, bordoFinale;
 
     SearchPanel() {
@@ -91,20 +91,20 @@ public class SearchPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String tipoRicerca = gruppoRadioCercaPer.getSelection().getActionCommand();
                 String testo = fieldCercaBrano.getText();
-                CercaEvent cercaEvent;
+                SearchEvent searchEvent;
                 if (radioCercaPerAutore.isSelected()) {
                     try {
                         int year = Integer.parseInt(fieldYear.getText());
-                        cercaEvent = new CercaEvent(this, testo, year, tipoRicerca);
+                        searchEvent = new SearchEvent(this, testo, year, tipoRicerca);
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(null, "Please insert a valid year");
                         return;
                     }
                 } else {
-                    cercaEvent = new CercaEvent(this, testo, -1, tipoRicerca);
+                    searchEvent = new SearchEvent(this, testo, -1, tipoRicerca);
                 }
-                if (cercaListener != null) {
-                    cercaListener.cercaEventListener(cercaEvent);
+                if (searchListener != null) {
+                    searchListener.cercaEventListener(searchEvent);
                 }
             }
         });
@@ -235,8 +235,8 @@ public class SearchPanel extends JPanel {
         setBackground(back);
     }
 
-    public void setCercaListener(CercaListener cercaListener) {
-        this.cercaListener = cercaListener;
+    public void setCercaListener(SearchListener searchListener) {
+        this.searchListener = searchListener;
     }
 
 }

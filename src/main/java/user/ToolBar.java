@@ -24,7 +24,7 @@ public class ToolBar extends JPanel {
     private JButton bottoneRegistra;
     private JButton bottoneModificaUsername, bottoneModificaPassword;
     private LogListener logListener;
-    private RegistrazioneListener registrazioneListener;
+    private RegistrationListener registrationListener;
     private SettingsListener settingsListener;
 
     public ToolBar() {
@@ -131,10 +131,10 @@ public class ToolBar extends JPanel {
                     if (fn.equals("") || ln.equals("") || FC.equals("") || addr.equals("") || em.equals("") || uid.equals("") || pw.equals(""))
                         JOptionPane.showMessageDialog(null, "Please insert all info");
                     else {
-                        RegistrazioneEvent re = new RegistrazioneEvent(this, fn, ln, FC, addr, em, uid, pw);
-                        if (registrazioneListener != null)
+                        RegistrationEvent re = new RegistrationEvent(this, fn, ln, FC, addr, em, uid, pw);
+                        if (registrationListener != null)
                             try {
-                                registrazioneListener.datiForniti(re);
+                                registrationListener.datiForniti(re);
                                 JOptionPane.showMessageDialog(null, "User registered successfully!");
                             } catch (UserException ex) {
                                 JOptionPane.showMessageDialog(null, "The user with these data already exists!");
@@ -244,8 +244,8 @@ public class ToolBar extends JPanel {
         this.logListener = logListener;
     }
 
-    public void setRegistrazioneListener(RegistrazioneListener registrazioneListener) {
-        this.registrazioneListener = registrazioneListener;
+    public void setRegistrazioneListener(RegistrationListener registrationListener) {
+        this.registrationListener = registrationListener;
     }
 
     public void setSettingsListener(SettingsListener settingsListener) {

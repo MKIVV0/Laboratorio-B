@@ -69,9 +69,9 @@ public class Frame extends JFrame {
                 playlistPanel.logged(user);
             }
         });
-        toolBar.setRegistrazioneListener(new RegistrazioneListener() {
+        toolBar.setRegistrazioneListener(new RegistrationListener() {
             @Override
-            public void datiForniti(RegistrazioneEvent re) throws UserException, RemoteException {
+            public void datiForniti(RegistrationEvent re) throws UserException, RemoteException {
                 resourceManager.registerUser(re.fn, re.ln, re.FC, re.addr, re.em, re.uid, re.pw);
             }
         });
@@ -143,9 +143,9 @@ public class Frame extends JFrame {
 
         // PANNELLO CERCA
         searchPanel = new SearchPanel();
-        searchPanel.setCercaListener(new CercaListener() {
+        searchPanel.setCercaListener(new SearchListener() {
             @Override
-            public void cercaEventListener(CercaEvent ce) {
+            public void cercaEventListener(SearchEvent ce) {
                 String testo = ce.getTesto();
                 String tipoRicerca = ce.getTipoRicerca();
                 LinkedList<Song> tmp;
