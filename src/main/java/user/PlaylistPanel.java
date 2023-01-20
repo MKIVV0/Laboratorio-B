@@ -209,6 +209,12 @@ public class PlaylistPanel extends JPanel {
         return playlist;
     }
 
+    /**
+     * Set the background color and the component's background and foreground.
+     * @param back
+     * @param compBack
+     * @param compFore
+     */
     public void setColor(Color back, Color compBack, Color compFore){
         listaPlaylist.setBackground(compBack);
         listaPlaylist.setForeground(compFore);

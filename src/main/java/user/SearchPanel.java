@@ -222,6 +222,12 @@ public class SearchPanel extends JPanel {
         setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
     }
 
+    /**
+     * Set the background color and the component's background and foreground.
+     * @param back
+     * @param compBack
+     * @param compFore
+     */
     public void setColor(Color back, Color compBack, Color compFore){
         for(Component c: getComponents())
             if(c instanceof JRadioButton) {

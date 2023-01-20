@@ -100,14 +100,7 @@ public class ToolBar extends JPanel {
             }
         });
 
-        /**
-         * This listener is responsible for listening for actions performed on the logout button
-         * */
         bottoneLogout.addActionListener(new ActionListener() {
-            /**
-             * manages the action performed on the logout button
-             * @param  e the click on the button
-             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (logListener != null)
@@ -120,14 +113,7 @@ public class ToolBar extends JPanel {
             }
         });
 
-        /**
-         * This listener is responsible for listening for actions performed on the sign-up button
-         * */
         bottoneRegistra.addActionListener(new ActionListener() {
-            /**
-             * manages the action performed on the sign-up button
-             * @param  e the click on the button
-             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
@@ -182,14 +168,7 @@ public class ToolBar extends JPanel {
             }
         });
 
-        /**
-         * This listener is responsible for listening for actions performed on the modify username button
-         * */
         bottoneModificaUsername.addActionListener(new ActionListener() {
-            /**
-             * manages the action performed on the modify username button
-             * @param  e the click on the button
-             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
@@ -219,14 +198,7 @@ public class ToolBar extends JPanel {
             }
         });
 
-        /**
-         * This listener is responsible for listening for actions performed on the modify password button
-         * */
         bottoneModificaPassword.addActionListener(new ActionListener() {
-            /**
-             * manages the action performed on the modify password button
-             * @param  e the click on the button
-             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
@@ -265,6 +237,10 @@ public class ToolBar extends JPanel {
         setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
     }
 
+    /**
+     * Set the button's visibility based on the parameter.
+     * @param logged
+     */
     public void logged(boolean logged) {
         if (logged) {
             bottoneLogin.setVisible(false);
@@ -281,6 +257,12 @@ public class ToolBar extends JPanel {
         }
     }
 
+    /**
+     * Set the background color and the component's background and foreground.
+     * @param back
+     * @param compBack
+     * @param compFore
+     */
     public void setColor(Color back, Color compBack, Color compFore){
         for(Component c: getComponents()){
             c.setBackground(compBack);
@@ -291,14 +273,26 @@ public class ToolBar extends JPanel {
         setBackground(back);
     }
 
+    /**
+     * logListener setter.
+     * @param logListener
+     */
     public void setLogListener(LogListener logListener) {
         this.logListener = logListener;
     }
 
+    /**
+     * registrationListener setter.
+     * @param registrationListener
+     */
     public void setRegistrazioneListener(RegistrationListener registrationListener) {
         this.registrationListener = registrationListener;
     }
 
+    /**
+     * settingsListener setter.
+     * @param settingsListener
+     */
     public void setSettingsListener(SettingsListener settingsListener) {
         this.settingsListener = settingsListener;
     }
