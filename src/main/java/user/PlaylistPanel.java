@@ -24,13 +24,46 @@ import java.sql.SQLException;
  */
 public class PlaylistPanel extends JPanel {
 
+    /**
+     * This attribute represents the song list that has to be shown on the screen
+     */
     private JList listaPlaylist;
+    /**
+     * this attribute contains the buttons of the class
+     */
     private JPanel tasti;
-    private JButton bottoneApri, bottoneCrea, bottoneElimina, bottoneRinomina;
+    /**
+     * this attribute represents the openPlaylist button
+     */
+    private JButton bottoneApri;
+    /**
+     * this attribute represents the createPlaylist button
+     */
+    private JButton bottoneCrea;
+    /**
+     * this attribute represents the deletePlaylist button
+     */
+    private JButton bottoneElimina;
+    /**
+     * this attribute represents the renamePlaylist button
+     */
+    private JButton bottoneRinomina;
+    /**
+     * this attribute represents an entity that waits for some user interaction with the class buttons
+     */
     private PlaylistListener playlistListener;
+    /**
+     * this attribute represents the interested user's playlist
+     */
     private Playlist playlist;
+    /**
+     * these attributes represent the JPanel's borders
+     */
     private Border bordoInterno, bordoEsterno, bordoFinale;
 
+    /**
+     * Empty constructor, initializes its components.
+     */
     PlaylistPanel() {
         setLayout(new BorderLayout());
         setVisible(false);
@@ -188,6 +221,10 @@ public class PlaylistPanel extends JPanel {
 
     }
 
+    /**
+     * Set the visibility based on the parameter.
+     * @param user
+     */
     public void logged(LoggedUser user) {
         if (user != null) {
             DefaultListModel modelloPlaylists = new DefaultListModel();
@@ -201,10 +238,18 @@ public class PlaylistPanel extends JPanel {
         }
     }
 
+    /**
+     * playlist setter.
+     * @param playlist
+     */
     public void setPlaylist(Playlist playlist) {
         this.playlist = playlist;
     }
 
+    /**
+     * playlist getter.
+     * @return  playlist
+     */
     public Playlist getPlaylist() {
         return playlist;
     }
@@ -231,6 +276,10 @@ public class PlaylistPanel extends JPanel {
         setBackground(back);
     }
 
+    /**
+     * playlistListener setter.
+     * @param playlistListener
+     */
     public void setPlaylistListener(PlaylistListener playlistListener) {
         this.playlistListener = playlistListener;
     }

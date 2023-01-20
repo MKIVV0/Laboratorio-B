@@ -24,11 +24,42 @@ import java.util.LinkedList;
  */
 public class ObjectAreaPanel extends JPanel {
 
+    /**
+     * This attribute represents the song list that has to be shown on the screen
+     */
     private JList songResultSet;
+    /**
+     * this attribute contains the buttons of the class
+     */
     private JPanel tasti;
-    private JButton bottoneShowFeedback, bottoneAggiungi, bottoneValuta, bottoneTogli;
+    /**
+     * this attribute represents the showFeedback button
+     */
+    private JButton bottoneShowFeedback;
+    /**
+     * this attribute represents the addToPlaylist button
+     */
+    private JButton bottoneAggiungi;
+    /**
+     * this attribute represents the evaluate button
+     */
+    private JButton bottoneValuta;
+    /**
+     * this attribute represents the removeSong button
+     */
+    private JButton bottoneTogli;
+    /**
+     * this attribute represents an entity that waits for some user interaction with the class buttons
+     */
     private SongListener songListener;
-    private boolean logged, songOfPlatlist;
+    /**
+     * this attribute represents the user's state
+     */
+    private boolean logged;
+    /**
+     * this attribute tells if the song list is the content of a playlist
+     */
+    private boolean songOfPlatlist;
 
     /**
      * Empty constructor, initializes its components.
@@ -222,6 +253,10 @@ public class ObjectAreaPanel extends JPanel {
         this.logged = logged;
     }
 
+    /**
+     * Add the song list in the songResultSet's model.
+     * @param songs
+     */
     public void inserisciBrani(LinkedList<Song> songs) {
         DefaultListModel modelloSongs = new DefaultListModel<Song>();
         for (Song s : songs)
@@ -230,6 +265,9 @@ public class ObjectAreaPanel extends JPanel {
         songResultSet.setModel(modelloSongs);
     }
 
+    /**
+     * Clear the songResultSet's model
+     */
     public void pulisciArea() {
         songResultSet.setModel(new DefaultListModel());
     }
@@ -257,8 +295,8 @@ public class ObjectAreaPanel extends JPanel {
     }
 
     /**
-     * songOfPlaylist setter.
-     * @param songOfPlaylist
+     * songListener setter.
+     * @param songListener
      */
     public void setSongListener(SongListener songListener) {
         this.songListener = songListener;

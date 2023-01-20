@@ -17,18 +17,54 @@ import java.awt.event.ActionListener;
  */
 public class SearchPanel extends JPanel {
 
+    /**
+     * song or author label
+     */
     private JLabel labelCercaBrano;
+    /**
+     * text field for user's input
+     */
     private JTextField fieldCercaBrano;
+    /**
+     * year label
+     */
     private JLabel labelYear;
+    /**
+     * text field for user's input
+     */
     private JTextField fieldYear;
+    /**
+     * "search by" label
+     */
     private JLabel labelCercaPer;
+    /**
+     * search by title radio button
+     */
     private JRadioButton radioCercaPerTitolo;
+    /**
+     * search by author radio button
+     */
     private JRadioButton radioCercaPerAutore;
+    /**
+     * binds the JRadioButton
+     */
     private ButtonGroup gruppoRadioCercaPer;
-    private JButton bottoneCerca;
+    /**
+     * this attribute represents the find button
+     */
+    private JButton bottoneFind;
+    /**
+     * this attribute represents an entity that waits for some user interaction with the find button
+     */
     private SearchListener searchListener;
+    /**
+     * these attributes represent the JPanel's borders
+     */
     private Border bordoInterno, bordoEsterno, bordoFinale;
 
+    /**
+     * Empty constructor, initializes its components.
+     */
     SearchPanel() {
         setLayout(new GridBagLayout());
 
@@ -83,10 +119,10 @@ public class SearchPanel extends JPanel {
         gruppoRadioCercaPer.add(radioCercaPerTitolo);
         gruppoRadioCercaPer.add(radioCercaPerAutore);
 
-        bottoneCerca = new JButton("Find!");
-        bottoneCerca.setFocusable(false);
+        bottoneFind = new JButton("Find!");
+        bottoneFind.setFocusable(false);
 
-        bottoneCerca.addActionListener(new ActionListener() {
+        bottoneFind.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String tipoRicerca = gruppoRadioCercaPer.getSelection().getActionCommand();
@@ -217,7 +253,7 @@ public class SearchPanel extends JPanel {
 
         gbc.insets = new Insets(0, 0, 0, 0);
 
-        add(bottoneCerca, gbc);
+        add(bottoneFind, gbc);
 
         setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
     }
@@ -241,6 +277,10 @@ public class SearchPanel extends JPanel {
         setBackground(back);
     }
 
+    /**
+     * searchListener setter.
+     * @param searchListener
+     */
     public void setCercaListener(SearchListener searchListener) {
         this.searchListener = searchListener;
     }
