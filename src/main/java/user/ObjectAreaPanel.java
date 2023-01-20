@@ -30,6 +30,9 @@ public class ObjectAreaPanel extends JPanel {
     private SongListener songListener;
     private boolean logged, songOfPlatlist;
 
+    /**
+     * Empty constructor, initializes its components.
+     */
     public ObjectAreaPanel(){
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
@@ -203,10 +206,18 @@ public class ObjectAreaPanel extends JPanel {
 
     }
 
+    /**
+     * songOfPlaylist setter.
+     * @param songOfPlaylist
+     */
     public void setSongOfPlaylist(boolean songOfPlaylist) {
         this.songOfPlatlist = songOfPlaylist;
     }
 
+    /**
+     * logged setter.
+     * @param logged
+     */
     public void setLogged(boolean logged){
         this.logged = logged;
     }
@@ -223,6 +234,12 @@ public class ObjectAreaPanel extends JPanel {
         songResultSet.setModel(new DefaultListModel());
     }
 
+    /**
+     * Set the background color and the component's background and foreground.
+     * @param back
+     * @param compBack
+     * @param compFore
+     */
     public void setColor(Color back, Color compBack, Color compFore){
         songResultSet.setBackground(compBack);
         songResultSet.setForeground(compFore);
@@ -239,6 +256,10 @@ public class ObjectAreaPanel extends JPanel {
         setBackground(back);
     }
 
+    /**
+     * songOfPlaylist setter.
+     * @param songOfPlaylist
+     */
     public void setSongListener(SongListener songListener) {
         this.songListener = songListener;
     }
