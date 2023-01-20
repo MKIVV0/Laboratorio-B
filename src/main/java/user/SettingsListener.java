@@ -14,6 +14,12 @@ import java.sql.SQLException;
  * Interface for Frame - ToolBar comunication
  */
 public interface SettingsListener {
+    /**
+     * Change the username of the logged user.
+     */
     void modifyUsername(String nuovo) throws SQLException, UserException, RemoteException;
+    /**
+     * Change the password of the logged user.
+     */
     void modifyPassword(String nuovo) throws SQLException, UserException, RemoteException;
 }

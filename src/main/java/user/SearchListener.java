@@ -11,5 +11,8 @@ import java.util.EventListener;
  * Interface for Frame - SearchPanel comunication
  */
 public interface SearchListener extends EventListener {
+    /**
+     * Search a song in the repository.
+     */
     void cercaEventListener(SearchEvent ce);
 }

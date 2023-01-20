@@ -14,5 +14,8 @@ import java.util.EventListener;
  * Interface for Frame - ToolBar comunication
  */
 public interface RegistrationListener extends EventListener {
+    /**
+     * Register a new user on database.
+     */
     void datiForniti(RegistrationEvent re) throws UserException, RemoteException;
 }
