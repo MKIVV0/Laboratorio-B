@@ -12,7 +12,9 @@ import java.awt.*;
  * This class is just a new kind of scroll bar
  */
 public class ScrollBar extends JScrollBar {
-
+    /**
+     * Empty constructor.
+     */
     public ScrollBar() {
         setUI(new ModernScrollBarUI());
         setPreferredSize(new Dimension(10, 5));

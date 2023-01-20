@@ -11,10 +11,22 @@ import java.util.EventObject;
  * This class is used to complete the search functions
  */
 public class SearchEvent extends EventObject {
+    /**
+     * The song's or author's name given.
+     */
     private String testo;
+    /**
+     * The year given in search by author case.
+     */
     private int year;
+    /**
+     * Name or Author.
+     */
     private String tipoRicerca;
 
+    /**
+     * Constructor.
+     */
     public SearchEvent(Object source, String testo, int year, String tipoRicerca) {
         super(source);
         this.testo = testo;
@@ -22,14 +34,21 @@ public class SearchEvent extends EventObject {
         this.year = year;
     }
 
+    /**
+     * Getter
+     */
     public String getTipoRicerca() {
         return tipoRicerca;
     }
-
+    /**
+     * Getter
+     */
     public String getTesto() {
         return testo;
     }
-
+    /**
+     * Getter
+     */
     public int getYear() {
         return year;
     }

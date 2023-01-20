@@ -11,20 +11,32 @@ import java.util.EventObject;
  * This class is used to provide the user's login data to the resource manager
  */
 public class LogEvent extends EventObject {
-
+    /**
+     * The username given
+     */
     private String username;
+    /**
+     * The password given.
+     */
     private String password;
 
+    /**
+     * Constructor.
+     */
     public LogEvent(Object source, String username, String password) {
         super(source);
         this.username = username;
         this.password = password;
     }
-
+    /**
+     * Getter
+     */
     public String getUsername() {
         return username;
     }
-
+    /**
+     * Getter
+     */
     public String getPassword() {
         return password;
     }
