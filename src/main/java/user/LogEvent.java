@@ -1,7 +1,15 @@
+/**
+ * @author Zhang Ying Huang, Matricola 746483, CO
+ * @author Alessandro Di Lorenzo, Matricola 733052, CO
+ */
+
 package user;
 
 import java.util.EventObject;
 
+/**
+ * This class is used to provide the user's login data to the resource manager
+ */
 public class LogEvent extends EventObject {
 
     private String username;

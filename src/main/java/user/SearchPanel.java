@@ -1,3 +1,8 @@
+/**
+ * @author Zhang Ying Huang, Matricola 746483, CO
+ * @author Alessandro Di Lorenzo, Matricola 733052, CO
+ */
+
 package user;
 
 import javax.swing.*;
@@ -7,7 +12,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PannelloCerca extends JPanel {
+/**
+ * Provides the search functions
+ */
+public class SearchPanel extends JPanel {
 
     private JLabel labelCercaBrano;
     private JTextField fieldCercaBrano;
@@ -21,7 +29,7 @@ public class PannelloCerca extends JPanel {
     private CercaListener cercaListener;
     private Border bordoInterno, bordoEsterno, bordoFinale;
 
-    PannelloCerca() {
+    SearchPanel() {
         setLayout(new GridBagLayout());
 
         // Bordi

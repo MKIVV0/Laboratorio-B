@@ -1,3 +1,8 @@
+/**
+ * @author Zhang Ying Huang, Matricola 746483, CO
+ * @author Alessandro Di Lorenzo, Matricola 733052, CO
+ */
+
 package user;
 
 import common.*;
@@ -9,7 +14,10 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 
-public class BarraStrumenti extends JPanel {
+/**
+ * This class contains the general user actions
+ */
+public class ToolBar extends JPanel {
 
     private JButton bottoneLogin;
     private JButton bottoneLogout;
@@ -19,7 +27,7 @@ public class BarraStrumenti extends JPanel {
     private RegistrazioneListener registrazioneListener;
     private SettingsListener settingsListener;
 
-    public BarraStrumenti() {
+    public ToolBar() {
         super(new FlowLayout(FlowLayout.LEFT));
 
         bottoneLogin = new JButton("Login");

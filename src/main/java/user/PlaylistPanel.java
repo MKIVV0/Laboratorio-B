@@ -1,3 +1,8 @@
+/**
+ * @author Zhang Ying Huang, Matricola 746483, CO
+ * @author Alessandro Di Lorenzo, Matricola 733052, CO
+ */
+
 package user;
 
 import common.LoggedUser;
@@ -14,7 +19,10 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 
-public class PannelloPlaylist extends JPanel {
+/**
+ * This class provides the user's playlists management funtions
+ */
+public class PlaylistPanel extends JPanel {
 
     private JList listaPlaylist;
     private JPanel tasti;
@@ -23,7 +31,7 @@ public class PannelloPlaylist extends JPanel {
     private Playlist playlist;
     private Border bordoInterno, bordoEsterno, bordoFinale;
 
-    PannelloPlaylist() {
+    PlaylistPanel() {
         setLayout(new BorderLayout());
         setVisible(false);
 

@@ -1,3 +1,8 @@
+/**
+ * @author Zhang Ying Huang, Matricola 746483, CO
+ * @author Alessandro Di Lorenzo, Matricola 733052, CO
+ */
+
 package user;
 
 import common.*;
@@ -14,6 +19,9 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+/**
+ * This class purpose is to print the songs on screen
+ */
 public class ObjectAreaPanel extends JPanel {
 
     private JList songResultSet;

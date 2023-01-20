@@ -1,9 +1,17 @@
+/**
+ * @author Zhang Ying Huang, Matricola 746483, CO
+ * @author Alessandro Di Lorenzo, Matricola 733052, CO
+ */
+
 package user;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 
+/**
+ * This class provides the scroll bar's new graphics
+ */
 public class ModernScrollBarUI extends BasicScrollBarUI {
 
     private static final int SCROLL_BAR_ALPHA_ROLLOVER = 100;

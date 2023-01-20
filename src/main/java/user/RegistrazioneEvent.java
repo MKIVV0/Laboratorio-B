@@ -1,7 +1,15 @@
+/**
+ * @author Zhang Ying Huang, Matricola 746483, CO
+ * @author Alessandro Di Lorenzo, Matricola 733052, CO
+ */
+
 package user;
 
 import java.util.EventObject;
 
+/**
+ * This class is used to provide the user's registration data to the resource manager
+ */
 public class RegistrazioneEvent extends EventObject {
 
     String fn, ln, FC, addr, em, uid, pw;

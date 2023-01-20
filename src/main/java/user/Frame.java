@@ -1,3 +1,8 @@
+/**
+ * @author Zhang Ying Huang, Matricola 746483, CO
+ * @author Alessandro Di Lorenzo, Matricola 733052, CO
+ */
+
 package user;
 
 import common.*;
@@ -13,12 +18,15 @@ import java.rmi.registry.Registry;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+/**
+ * This class represents the GUI main window
+ */
 public class Frame extends JFrame {
 
-    private BarraStrumenti barraStrumenti;
+    private ToolBar toolBar;
     private JPanel panel;
-    private PannelloCerca pannelloCerca;
-    private PannelloPlaylist pannelloPlaylist;
+    private SearchPanel searchPanel;
+    private PlaylistPanel playlistPanel;
     private ObjectAreaPanel objectAreaPanel;
     private ResourceManagerInterface resourceManager;
     private LoggedUser user;
@@ -38,36 +46,36 @@ public class Frame extends JFrame {
         logged = false;
 
         // BARRA STRUMENTI
-        barraStrumenti = new BarraStrumenti();
-        barraStrumenti.setLogListener(new LogListener() {
+        toolBar = new ToolBar();
+        toolBar.setLogListener(new LogListener() {
             @Override
             public void credenzialiFornite(LogEvent le) throws UserException, SQLException, RemoteException {
                 String username = le.getUsername();
                 String password = le.getPassword();
                 user = resourceManager.login(user, username, password);
                 logged = user != null;
-                barraStrumenti.logged(logged);
+                toolBar.logged(logged);
                 objectAreaPanel.setLogged(logged);
-                pannelloPlaylist.logged(user);
+                playlistPanel.logged(user);
             }
             @Override
             public void logout() throws UserException, RemoteException {
                 user = resourceManager.logout(user);
                 logged = user != null;
-                barraStrumenti.logged(logged);
+                toolBar.logged(logged);
                 objectAreaPanel.setSongOfPlaylist(false);
                 objectAreaPanel.setLogged(logged);
                 objectAreaPanel.pulisciArea();
-                pannelloPlaylist.logged(user);
+                playlistPanel.logged(user);
             }
         });
-        barraStrumenti.setRegistrazioneListener(new RegistrazioneListener() {
+        toolBar.setRegistrazioneListener(new RegistrazioneListener() {
             @Override
             public void datiForniti(RegistrazioneEvent re) throws UserException, RemoteException {
                 resourceManager.registerUser(re.fn, re.ln, re.FC, re.addr, re.em, re.uid, re.pw);
             }
         });
-        barraStrumenti.setSettingsListener(new SettingsListener() {
+        toolBar.setSettingsListener(new SettingsListener() {
             @Override
             public void modifyUsername(String nuovo) throws SQLException, UserException, RemoteException {
                 resourceManager.modifyUserParam(user, "user_id", nuovo);
@@ -111,15 +119,15 @@ public class Frame extends JFrame {
                     Playlist p = user.getPlaylist(plName);
                     resourceManager.addSongToPlaylist(plName, song, user);
                     p.addSong(song);
-                    pannelloPlaylist.logged(user);
+                    playlistPanel.logged(user);
                 }
             }
             @Override
             public void removeSong(Song song) throws SQLException, playlistException, RemoteException {
-                Playlist playlist = pannelloPlaylist.getPlaylist();
+                Playlist playlist = playlistPanel.getPlaylist();
                 resourceManager.removeSongFromPlaylist(playlist.getPlaylistName(), song, user);
                 playlist.removeSong(song);
-                pannelloPlaylist.logged(user);
+                playlistPanel.logged(user);
                 objectAreaPanel.pulisciArea();
                 objectAreaPanel.inserisciBrani(playlist.getSongList());
                 objectAreaPanel.setSongOfPlaylist(true);
@@ -134,8 +142,8 @@ public class Frame extends JFrame {
 
 
         // PANNELLO CERCA
-        pannelloCerca = new PannelloCerca();
-        pannelloCerca.setCercaListener(new CercaListener() {
+        searchPanel = new SearchPanel();
+        searchPanel.setCercaListener(new CercaListener() {
             @Override
             public void cercaEventListener(CercaEvent ce) {
                 String testo = ce.getTesto();
@@ -162,26 +170,26 @@ public class Frame extends JFrame {
         });
 
         // PANNELLO PLAYLIST
-        pannelloPlaylist = new PannelloPlaylist();
-        pannelloPlaylist.setPlaylistListener(new PlaylistListener() {
+        playlistPanel = new PlaylistPanel();
+        playlistPanel.setPlaylistListener(new PlaylistListener() {
             @Override
             public void creaPlaylist(String plName) throws SQLException, playlistException, RemoteException {
                 Playlist nuova = resourceManager.createPlaylist(plName, user);
                 user.addPlaylist(nuova);
-                pannelloPlaylist.logged(user);
+                playlistPanel.logged(user);
             }
             @Override
             public void eliminaPlaylist(String plName) throws SQLException, playlistException, RemoteException {
                 resourceManager.deletePlaylist(plName, user);
                 user.deletePlaylist(plName);
                 objectAreaPanel.pulisciArea();
-                pannelloPlaylist.logged(user);
+                playlistPanel.logged(user);
             }
             @Override
             public void apriPlaylist(String plName) {
                 Playlist playlist = user.getPlaylist(plName);
                 LinkedList<Song> tmp = playlist.getSongList();
-                pannelloPlaylist.setPlaylist(playlist);
+                playlistPanel.setPlaylist(playlist);
                 objectAreaPanel.pulisciArea();
                 objectAreaPanel.inserisciBrani(tmp);
                 objectAreaPanel.setSongOfPlaylist(true);
@@ -190,18 +198,18 @@ public class Frame extends JFrame {
             public void rinominaPlaylist(String vecchioNome, String nuovoNome) throws SQLException, playlistException, RemoteException {
                 resourceManager.renamePlaylist(vecchioNome, nuovoNome, user);
                 user.getPlaylist(vecchioNome).setPlaylistName(nuovoNome);
-                pannelloPlaylist.logged(user);
+                playlistPanel.logged(user);
             }
         });
 
         // PANNELLO
         panel = new JPanel(new BorderLayout());
 
-        panel.add(pannelloCerca, BorderLayout.PAGE_START);
-        panel.add(pannelloPlaylist, BorderLayout.CENTER);
+        panel.add(searchPanel, BorderLayout.PAGE_START);
+        panel.add(playlistPanel, BorderLayout.CENTER);
 
         add(objectAreaPanel, BorderLayout.CENTER);
-        add(barraStrumenti, BorderLayout.PAGE_START);
+        add(toolBar, BorderLayout.PAGE_START);
         add(panel, BorderLayout.LINE_START);
 
         setBackground(backDark);
