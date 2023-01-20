@@ -19,23 +19,58 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 /**
- * This class represents the GUI main window
+ * This class represents the GUI main window.
  */
 public class Frame extends JFrame {
 
+    /**
+     * The user's tool bar.
+     */
     private ToolBar toolBar;
+    /**
+     * JPanel which contains both searchPanel and playlistPanel.
+     */
     private JPanel panel;
+    /**
+     * The SearchPanel.
+     */
     private SearchPanel searchPanel;
+    /**
+     * The PlaylistPanel.
+     */
     private PlaylistPanel playlistPanel;
+    /**
+     * The ObjectAreaPanel.
+     */
     private ObjectAreaPanel objectAreaPanel;
+    /**
+     * The resource manager for the client-server comunication.
+     */
     private ResourceManagerInterface resourceManager;
+    /**
+     * This is the object which contains the user's data. Null if not logged.
+     */
     private LoggedUser user;
+    /**
+     * True if logged in, else false.
+     */
     private boolean logged;
-
+    /**
+     * The user's tool bar.
+     */
     static Color backDark = new Color(51,51,51);
+    /**
+     * The user's tool bar.
+     */
     static Color compBackDark = new Color(70,70,70);
+    /**
+     * The user's tool bar.
+     */
     static Color compForeDark = new Color(245,245,245);
 
+    /**
+     * Empty constructor, initializes its fields
+     */
     public Frame() throws RemoteException, NotBoundException {
         super("Emotional Songs");
         setLayout(new BorderLayout());

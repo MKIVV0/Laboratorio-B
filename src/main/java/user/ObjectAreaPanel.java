@@ -118,8 +118,9 @@ public class ObjectAreaPanel extends JPanel {
                     if(songListener != null)
                         try {
                             songListener.addSong(song);
+                            JOptionPane.showMessageDialog(null, "Song added successfully!");
                         } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(null, "You alrready have this song");
+                            JOptionPane.showMessageDialog(null, "You already have this song");
                         } catch (playlistException ex) {
                         } catch (RemoteException ex) {
                         }
