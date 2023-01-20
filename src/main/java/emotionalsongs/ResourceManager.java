@@ -144,8 +144,6 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
         boolean feedbackAdded = dbES.addFeedback(emotion, user.getId(), song.getId(), score, notes);
         if (!feedbackAdded)
             throw new AlreadyValuedException("Error! You already left a feedback for this song.");
-        else
-            System.out.println("Thank you for your feedback!");
     }
 
 
