@@ -93,7 +93,7 @@ public class ToolBar extends JPanel {
                             } catch (RemoteException ex) {
                             } catch (SQLException ex) {
                             } catch (UserException ex) {
-                                JOptionPane.showMessageDialog(null, "Wrong Username / Password OR Already logged");
+                                JOptionPane.showMessageDialog(null, ex.getMessage());
                             }
                     }
                 }
@@ -168,7 +168,7 @@ public class ToolBar extends JPanel {
                                     registrationListener.datiForniti(re);
                                     JOptionPane.showMessageDialog(null, "User registered successfully!");
                                 } catch (UserException ex) {
-                                    JOptionPane.showMessageDialog(null, "The user with these data already exists!");
+                                    JOptionPane.showMessageDialog(null, ex.getMessage());
                                 } catch (RemoteException ex) {
                                 }
                         }
@@ -320,26 +320,4 @@ public class ToolBar extends JPanel {
         this.settingsListener = settingsListener;
     }
 
-    /*@Override
-    protected void paintComponent(Graphics grphcs) {
-        Graphics2D g2 = (Graphics2D) grphcs;
-        g2.setColor(getBackground());
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-        g2.fillRect(0, getHeight() - 25, getWidth(), getHeight());
-        super.paintComponent(grphcs);
-    }*/
-
-//    @Override
-//    protected void paintComponent(Graphics grphcs) {
-//        Graphics2D g2 = (Graphics2D) grphcs;
-//        g2.setColor(getBackground());
-//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//        GradientPaint gp = new GradientPaint(0, 0, Color.decode("#4568dc"), 0, getHeight(), Color.decode("#b06ab3"));
-//        g2.setPaint(gp);
-//        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-//        g2.fillRect(getWidth() - 25, 0, getWidth(), getHeight());
-//        g2.fillRect(0, getHeight() - 25, getWidth(), getHeight());
-//        super.paintComponent(grphcs);
-//    }
 }

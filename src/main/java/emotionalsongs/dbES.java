@@ -190,16 +190,14 @@ public class dbES {
      * @param user_id the username.
      * @param pwd the password.
      * @throws SQLException
-     * @throws UserException
      * @return a LoggedUser object.
      */
-    public static synchronized LoggedUser getLoggedUser(String user_id, String pwd) throws SQLException, UserException {
+    public static synchronized LoggedUser getLoggedUser(String user_id, String pwd) throws SQLException {
         String query1 = "SELECT * FROM registereduser WHERE user_id = \'" + user_id + "\' AND password = \'" + pwd + "\'";
         ResultSet rs = statement.executeQuery(query1);
         LoggedUser tmp;
-
         if (!rs.next()) {
-            throw new UserException("Wrong username or wrong password");
+            return null;
         } else {
             rs.first();
             tmp = new LoggedUser();
@@ -212,7 +210,6 @@ public class dbES {
             tmp.setPassword(rs.getString("password"));
             tmp.setPlaylistList(getPlaylists(user_id));
         }
-
         return tmp;
     }
 
@@ -354,15 +351,19 @@ public class dbES {
      * @param song_id the song identifier involved.
      * @param score the score left by the user.
      * @param notes the notes left by the user.
-     * @throws SQLException
      * @return true if the involved table has been modified, false otherwise.
      */
-    public static boolean addFeedback(Emotions emotion, String user_id, String song_id, String score, String notes) throws SQLException {
+    public static boolean addFeedback(Emotions emotion, String user_id, String song_id, String score, String notes) {
         String query = "INSERT INTO emotion(emotion_name, user_id, song_id, score, notes)\n" +
                 "SELECT '" + emotion.toString().toLowerCase() + "', '" + user_id + "', '" + song_id + "', '" + score + "', '" + notes + "'\n" +
                 "WHERE " +
                 "EXISTS (SELECT * FROM Playlist WHERE song_id = '" + song_id + "')";
-        int count = statement.executeUpdate(query);
+        int count;
+        try {
+            count = statement.executeUpdate(query);
+        }catch (SQLException e){
+            return false;
+        }
         if (count > 0) return true;
         else return false;
     }

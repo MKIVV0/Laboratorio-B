@@ -99,8 +99,12 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
 
         LoggedUser u = dbES.getLoggedUser(uid, pw);
 
+        if(u == null)
+            throw new UserException("Wrong username or password");
+
         if(users.containsKey(u.getId()))
             throw new UserException("already logged!");
+
         else
             users.put(u.getId(), u);
 
