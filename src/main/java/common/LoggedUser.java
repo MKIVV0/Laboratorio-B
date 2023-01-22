@@ -110,6 +110,14 @@ public class LoggedUser implements Serializable {
     public String getId() {
         return this.userID;
     }
+
+    /**
+     * user password getter.
+     */
+    public String getPassword() {
+        return password;
+    }
+
     /**
      * playlist list getter.
      */

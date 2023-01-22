@@ -125,6 +125,7 @@ public class ToolBar extends JPanel {
                 label.add(new JLabel("E-Mail", SwingConstants.RIGHT));
                 label.add(new JLabel("Username", SwingConstants.RIGHT));
                 label.add(new JLabel("Password", SwingConstants.RIGHT));
+                label.add(new JLabel("Repeat password", SwingConstants.RIGHT));
                 panel.add(label, BorderLayout.WEST);
                 JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
                 JTextField firstname = new JTextField();
@@ -134,6 +135,7 @@ public class ToolBar extends JPanel {
                 JTextField email = new JTextField();
                 JTextField username = new JTextField();
                 JPasswordField password = new JPasswordField();
+                JPasswordField password2 = new JPasswordField();
                 controls.add(firstname);
                 controls.add(lastname);
                 controls.add(fiscalcode);
@@ -141,6 +143,7 @@ public class ToolBar extends JPanel {
                 controls.add(email);
                 controls.add(username);
                 controls.add(password);
+                controls.add(password2);
                 panel.add(controls, BorderLayout.CENTER);
                 int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "registration", JOptionPane.OK_CANCEL_OPTION);
                 if (scelta == 0) {
@@ -151,18 +154,24 @@ public class ToolBar extends JPanel {
                     String em = email.getText();
                     String uid = username.getText();
                     String pw = new String(password.getPassword());
-                    if (fn.equals("") || ln.equals("") || FC.equals("") || addr.equals("") || em.equals("") || uid.equals("") || pw.equals(""))
+                    String pw2 = new String(password2.getPassword());
+                    if (fn.equals("") || ln.equals("") || FC.equals("") || addr.equals("") || em.equals("") || uid.equals("") || pw.equals("") || pw2.equals(""))
                         JOptionPane.showMessageDialog(null, "Please insert all info");
                     else {
-                        RegistrationEvent re = new RegistrationEvent(this, fn, ln, FC, addr, em, uid, pw);
-                        if (registrationListener != null)
-                            try {
-                                registrationListener.datiForniti(re);
-                                JOptionPane.showMessageDialog(null, "User registered successfully!");
-                            } catch (UserException ex) {
-                                JOptionPane.showMessageDialog(null, "The user with these data already exists!");
-                            } catch (RemoteException ex) {
-                            }
+                        if(!pw.equals(pw2)){
+                            JOptionPane.showMessageDialog(null, "Password missmatch");
+                        }
+                        else {
+                            RegistrationEvent re = new RegistrationEvent(this, fn, ln, FC, addr, em, uid, pw);
+                            if (registrationListener != null)
+                                try {
+                                    registrationListener.datiForniti(re);
+                                    JOptionPane.showMessageDialog(null, "User registered successfully!");
+                                } catch (UserException ex) {
+                                    JOptionPane.showMessageDialog(null, "The user with these data already exists!");
+                                } catch (RemoteException ex) {
+                                }
+                        }
                     }
                 }
             }
@@ -203,26 +212,40 @@ public class ToolBar extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 JPanel panel = new JPanel(new BorderLayout(5, 5));
                 JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+                label.add(new JLabel("Old password", SwingConstants.RIGHT));
                 label.add(new JLabel("New password", SwingConstants.RIGHT));
+                label.add(new JLabel("Repeat password", SwingConstants.RIGHT));
                 panel.add(label, BorderLayout.WEST);
                 JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+                JPasswordField oldPassword = new JPasswordField();
                 JPasswordField password = new JPasswordField();
+                JPasswordField password2 = new JPasswordField();
+                controls.add(oldPassword);
                 controls.add(password);
+                controls.add(password2);
                 panel.add(controls, BorderLayout.CENTER);
                 int scelta = JOptionPane.showConfirmDialog(Frame.getFrames()[0], panel, "modify password", JOptionPane.OK_CANCEL_OPTION);
                 if (scelta == 0) {
+                    String oldPw = new String(oldPassword.getPassword());
                     String pw = new String(password.getPassword());
-                    if (pw.equals("")) {
-                        JOptionPane.showMessageDialog(null, "Please insert a new password");
+                    String pw2 = new String(password2.getPassword());
+                    if (oldPw.equals("") || pw.equals("") || pw2.equals("")) {
+                        JOptionPane.showMessageDialog(null, "Please insert all data");
                     } else {
-                        if (settingsListener != null)
-                            try {
-                                settingsListener.modifyPassword(pw);
-                                JOptionPane.showMessageDialog(null, "Changed!");
-                            } catch (RemoteException ex) {
-                            } catch (SQLException ex) {
-                            } catch (UserException ex) {
-                            }
+                        if(!pw.equals(pw2)){
+                            JOptionPane.showMessageDialog(null, "Password missmatch");
+                        }
+                        else {
+                            if (settingsListener != null)
+                                try {
+                                    settingsListener.modifyPassword(oldPw, pw);
+                                    JOptionPane.showMessageDialog(null, "Changed!");
+                                } catch (RemoteException ex) {
+                                } catch (SQLException ex) {
+                                } catch (UserException ex) {
+                                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                                }
+                        }
                     }
                 }
             }

@@ -29,5 +29,5 @@ public interface SettingsListener {
      * @throws UserException
      * @throws RemoteException
      */
-    void modifyPassword(String nuovo) throws SQLException, UserException, RemoteException;
+    void modifyPassword(String vecchia, String nuova) throws SQLException, UserException, RemoteException;
 }

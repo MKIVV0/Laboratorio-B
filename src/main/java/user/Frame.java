@@ -119,9 +119,11 @@ public class Frame extends JFrame {
                 user.setUserID(nuovo);
             }
             @Override
-            public void modifyPassword(String nuovo) throws SQLException, UserException, RemoteException {
-                resourceManager.modifyUserParam(user, "password", nuovo);
-                user.setPassword(nuovo);
+            public void modifyPassword(String vecchia, String nuova) throws SQLException, UserException, RemoteException {
+                if(!vecchia.equals(user.getPassword()))
+                    throw new UserException("Old password missmatch");
+                resourceManager.modifyUserParam(user, "password", nuova);
+                user.setPassword(nuova);
             }
         });
 
