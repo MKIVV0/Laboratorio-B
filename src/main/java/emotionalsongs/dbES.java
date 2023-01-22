@@ -92,6 +92,7 @@ public class dbES {
         createDB(statement);
         url += resource;
         setConnection();
+        System.out.println("Connection successfully established.");
         initializeTables(statement, scriptPath1, scriptPath2);
     }
 
@@ -135,7 +136,6 @@ public class dbES {
     private static void setConnection() throws SQLException {
         connection = DriverManager.getConnection(url, userid, password);
         statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        System.out.println("Connection successfully established.");
     }
 
     /**
@@ -181,7 +181,7 @@ public class dbES {
         st.executeUpdate(script);
 
 
-        System.out.println("DB successfully initialized");
+        System.out.println("DB successfully initialized.");
     }
 
 

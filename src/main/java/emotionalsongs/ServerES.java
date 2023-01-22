@@ -29,14 +29,14 @@ public class ServerES {
         port = sc.nextLine();
         System.out.println("User[Enter for default]:");
         user = sc.nextLine();
-        System.out.println("Password [Enter for default]:");
+        System.out.println("Password:");
         password = sc.nextLine();
 
         ResourceManager g = new ResourceManager(server,port,user,password);
         Registry r = LocateRegistry.createRegistry(11000);
         r.rebind("Gestore", g);
 
-        System.err.println("server started");
+        System.err.println("Server started.");
 
     }
 
