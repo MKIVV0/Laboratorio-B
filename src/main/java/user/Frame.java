@@ -24,7 +24,7 @@ import java.util.LinkedList;
 public class Frame extends JFrame {
 
     /**
-     * The user's tool bar.
+     * The user's toolbar.
      */
     private ToolBar toolBar;
     /**
