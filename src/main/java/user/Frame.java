@@ -82,7 +82,6 @@ public class Frame extends JFrame {
         user = null;
         logged = false;
 
-        // BARRA STRUMENTI
         toolBar = new ToolBar();
         toolBar.setLogListener(new LogListener() {
             @Override
@@ -127,12 +126,7 @@ public class Frame extends JFrame {
             }
         });
 
-
-
-
-        // OBJECT AREA PANEL
         objectAreaPanel = new ObjectAreaPanel();
-
         objectAreaPanel.setSongListener(new SongListener() {
             @Override
             public Feedback guardaFeedback(Song song) throws NoFeedbackException, SQLException, RemoteException {
@@ -178,10 +172,6 @@ public class Frame extends JFrame {
             }
         });
 
-
-
-
-        // PANNELLO CERCA
         searchPanel = new SearchPanel();
         searchPanel.setCercaListener(new SearchListener() {
             @Override
@@ -209,7 +199,6 @@ public class Frame extends JFrame {
             }
         });
 
-        // PANNELLO PLAYLIST
         playlistPanel = new PlaylistPanel();
         playlistPanel.setPlaylistListener(new PlaylistListener() {
             @Override
@@ -242,9 +231,7 @@ public class Frame extends JFrame {
             }
         });
 
-        // PANNELLO
         panel = new JPanel(new BorderLayout());
-
         panel.add(searchPanel, BorderLayout.PAGE_START);
         panel.add(playlistPanel, BorderLayout.CENTER);
 
@@ -254,7 +241,6 @@ public class Frame extends JFrame {
 
         setBackground(backDark);
         panel.setBackground(backDark);
-
         setSize(800, 500);
         setLocationRelativeTo(null);
         addWindowListener(new WindowAdapter() {

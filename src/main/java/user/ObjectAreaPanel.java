@@ -68,18 +68,15 @@ public class ObjectAreaPanel extends JPanel {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
-        // JLIST
         songResultSet = new JList<Song>();
         songResultSet.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
         songResultSet.setSelectionForeground(Color.PINK);
         songResultSet.setSelectionBackground(Frame.backDark);
         songResultSet.setFocusable(false);
-
         JScrollPane scrollPane = new JScrollPane(songResultSet);
         scrollPane.setBorder(BorderFactory.createMatteBorder(0,1,0,0,Color.PINK));
         scrollPane.setVerticalScrollBar(new ScrollBar());
 
-        // PANNELLO DEI TASTI
         tasti = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         bottoneShowFeedback = new JButton("Feedbacks");
@@ -143,7 +140,6 @@ public class ObjectAreaPanel extends JPanel {
                 }
             }
         });
-
         bottoneAggiungi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -161,7 +157,6 @@ public class ObjectAreaPanel extends JPanel {
                 }
             }
         });
-
         bottoneTogli.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -177,7 +172,6 @@ public class ObjectAreaPanel extends JPanel {
                 }
             }
         });
-
         bottoneValuta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -232,7 +226,6 @@ public class ObjectAreaPanel extends JPanel {
         add(tasti, BorderLayout.SOUTH);
 
         setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
-
     }
 
     /**

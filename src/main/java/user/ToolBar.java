@@ -64,7 +64,6 @@ public class ToolBar extends JPanel {
         bottoneLogout = new JButton("Logout");
         bottoneLogout.setVisible(false);
 
-        // LOGIN
         bottoneLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,7 +98,6 @@ public class ToolBar extends JPanel {
                 }
             }
         });
-
         bottoneLogout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,7 +110,6 @@ public class ToolBar extends JPanel {
                     }
             }
         });
-
         bottoneRegistra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -176,7 +173,6 @@ public class ToolBar extends JPanel {
                 }
             }
         });
-
         bottoneModificaUsername.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -206,7 +202,6 @@ public class ToolBar extends JPanel {
                 }
             }
         });
-
         bottoneModificaPassword.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

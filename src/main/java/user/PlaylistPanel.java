@@ -67,22 +67,18 @@ public class PlaylistPanel extends JPanel {
     PlaylistPanel() {
         setLayout(new BorderLayout());
         setVisible(false);
-
         Border b = BorderFactory.createMatteBorder(1,0,0,0,Color.PINK);
         bordoInterno = BorderFactory.createTitledBorder(b,"Your playlists",0, 2,
                 new Font("Geneva", Font.BOLD, 12),Frame.compForeDark);
         bordoEsterno = BorderFactory.createEmptyBorder(0, 5, 5, 5);
         bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
-
         setBorder(bordoFinale);
 
         listaPlaylist = new JList<Playlist>();
         listaPlaylist.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
-
         listaPlaylist.setSelectionForeground(Color.PINK);
         listaPlaylist.setSelectionBackground(Frame.backDark);
         listaPlaylist.setFocusable(false);
-
         JScrollPane scrollPane = new JScrollPane(listaPlaylist);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setVerticalScrollBar(new ScrollBar());
@@ -142,7 +138,6 @@ public class PlaylistPanel extends JPanel {
                 }
             }
         });
-
         bottoneElimina.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -163,7 +158,6 @@ public class PlaylistPanel extends JPanel {
                 }
             }
         });
-
         bottoneApri.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -172,7 +166,6 @@ public class PlaylistPanel extends JPanel {
                         playlistListener.apriPlaylist((String)listaPlaylist.getSelectedValue());
             }
         });
-
         bottoneRinomina.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -212,7 +205,6 @@ public class PlaylistPanel extends JPanel {
         add(tasti, BorderLayout.SOUTH);
 
         setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
-
     }
 
     /**

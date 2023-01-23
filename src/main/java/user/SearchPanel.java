@@ -67,14 +67,11 @@ public class SearchPanel extends JPanel {
      */
     SearchPanel() {
         setLayout(new GridBagLayout());
-
-        // Bordi
         Border b = BorderFactory.createMatteBorder(1,0,0,0,Color.PINK);
         bordoInterno = BorderFactory.createTitledBorder(b,"Home",TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.TOP,
                 new Font("Geneva", Font.BOLD, 12),Frame.compForeDark);
         bordoEsterno = BorderFactory.createEmptyBorder(0, 5, 5, 5);
         bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
-
         setBorder(bordoFinale);
 
         labelCercaBrano = new JLabel("Song: ");
@@ -88,7 +85,6 @@ public class SearchPanel extends JPanel {
         fieldYear.setEnabled(false);
 
         labelCercaPer = new JLabel("Search by: ");
-
         radioCercaPerTitolo = new JRadioButton("Title");
         radioCercaPerTitolo.setActionCommand("title");
         radioCercaPerTitolo.setSelected(true);
@@ -114,14 +110,12 @@ public class SearchPanel extends JPanel {
                 }
             }
         });
-
         gruppoRadioCercaPer = new ButtonGroup();
         gruppoRadioCercaPer.add(radioCercaPerTitolo);
         gruppoRadioCercaPer.add(radioCercaPerAutore);
 
         bottoneFind = new JButton("Find!");
         bottoneFind.setFocusable(false);
-
         bottoneFind.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,114 +139,72 @@ public class SearchPanel extends JPanel {
             }
         });
 
-        // Layout
         GridBagConstraints gbc = new GridBagConstraints();
 
-        // RIGA 0
         gbc.gridx = 0;
         gbc.gridy = 0;
-
         gbc.weightx = 0.01;
         gbc.weighty = 0.03;
-
         gbc.anchor = GridBagConstraints.LINE_END;
-
         gbc.insets = new Insets(0, 0, 0, 5);
-
         add(labelCercaBrano, gbc);
 
-        // RIGA 0
         gbc.gridx = 1;
         gbc.gridy = 0;
-
         gbc.weightx = 0.01;
         gbc.weighty = 0.03;
-
         gbc.anchor = GridBagConstraints.LINE_START;
-
         gbc.insets = new Insets(0, 0, 0, 0);
-
         add(fieldCercaBrano, gbc);
 
-        // RIGA 1
         gbc.gridx = 0;
         gbc.gridy = 1;
-
         gbc.weightx = 0.01;
         gbc.weighty = 0.03;
-
         gbc.anchor = GridBagConstraints.LINE_END;
-
         gbc.insets = new Insets(0, 0, 0, 5);
-
         add(labelYear, gbc);
 
-        // RIGA 1
         gbc.gridx = 1;
         gbc.gridy = 1;
-
         gbc.weightx = 0.01;
         gbc.weighty = 0.03;
-
         gbc.anchor = GridBagConstraints.LINE_START;
-
         gbc.insets = new Insets(0, 0, 0, 0);
-
         add(fieldYear, gbc);
 
-        // RIGA 2
         gbc.gridx = 0;
         gbc.gridy = 2;
-
         gbc.weightx = 0.01;
         gbc.weighty = 0.03;
-
         gbc.anchor = GridBagConstraints.LINE_END;
-
         gbc.insets = new Insets(0, 0, 0, 5);
-
         add(labelCercaPer, gbc);
 
-        // RIGA 2
         gbc.gridx = 1;
         gbc.gridy = 2;
-
         gbc.weightx = 0.01;
         gbc.weighty = 0.03;
-
         gbc.anchor = GridBagConstraints.LINE_START;
-
         gbc.insets = new Insets(0, 0, 0, 0);
-
         add(radioCercaPerTitolo, gbc);
 
-        // RIGA 3
         gbc.gridx = 1;
         gbc.gridy = 3;
-
         gbc.weightx = 0.01;
         gbc.weighty = 0.03;
-
         gbc.anchor = GridBagConstraints.LINE_START;
-
         gbc.insets = new Insets(0, 0, 0, 5);
-
         add(radioCercaPerAutore, gbc);
 
-        // RIGA 4
         gbc.gridx = 0;
         gbc.gridy = 4;
-
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-
         gbc.gridwidth = 2;
         gbc.gridheight = 1;
-
         gbc.anchor = GridBagConstraints.PAGE_START;
-
         gbc.insets = new Insets(0, 0, 0, 0);
-
         add(bottoneFind, gbc);
 
         setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
