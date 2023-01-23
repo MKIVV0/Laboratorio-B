@@ -30,7 +30,15 @@ public class Frame extends JFrame {
     /**
      * JPanel which contains both searchPanel and playlistPanel.
      */
-    private JPanel panel;
+    private JPanel leftPanel;
+    /**
+     * JPanel which contains both toolbar and username label.
+     */
+    private JPanel northPanel;
+    /**
+     * JLabel which contains the username.
+     */
+    private JLabel usernameLabel;
     /**
      * The SearchPanel.
      */
@@ -82,6 +90,12 @@ public class Frame extends JFrame {
         user = null;
         logged = false;
 
+        usernameLabel = new JLabel();
+        usernameLabel.setForeground(compForeDark);
+        usernameLabel.setFont(new Font("Geneva", Font.BOLD, 14));
+        usernameLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+        usernameLabel.setVisible(false);
+
         toolBar = new ToolBar();
         toolBar.setLogListener(new LogListener() {
             @Override
@@ -90,6 +104,10 @@ public class Frame extends JFrame {
                 String password = le.getPassword();
                 user = resourceManager.login(user, username, password);
                 logged = user != null;
+                if(logged){
+                    usernameLabel.setText("Logged as:  " + user.getId());
+                    usernameLabel.setVisible(true);
+                }
                 toolBar.logged(logged);
                 objectAreaPanel.setLogged(logged);
                 playlistPanel.logged(user);
@@ -98,6 +116,7 @@ public class Frame extends JFrame {
             public void logout() throws UserException, RemoteException {
                 user = resourceManager.logout(user);
                 logged = user != null;
+                usernameLabel.setVisible(false);
                 toolBar.logged(logged);
                 objectAreaPanel.setSongOfPlaylist(false);
                 objectAreaPanel.setLogged(logged);
@@ -231,17 +250,22 @@ public class Frame extends JFrame {
             }
         });
 
-        panel = new JPanel(new BorderLayout());
-        panel.add(searchPanel, BorderLayout.PAGE_START);
-        panel.add(playlistPanel, BorderLayout.CENTER);
+        leftPanel = new JPanel(new BorderLayout());
+        leftPanel.add(searchPanel, BorderLayout.PAGE_START);
+        leftPanel.add(playlistPanel, BorderLayout.CENTER);
+
+        northPanel = new JPanel(new BorderLayout());
+        northPanel.add(toolBar, BorderLayout.CENTER);
+        northPanel.add(usernameLabel, BorderLayout.EAST);
 
         add(objectAreaPanel, BorderLayout.CENTER);
-        add(toolBar, BorderLayout.PAGE_START);
-        add(panel, BorderLayout.LINE_START);
+        add(northPanel, BorderLayout.PAGE_START);
+        add(leftPanel, BorderLayout.LINE_START);
 
         setBackground(backDark);
-        panel.setBackground(backDark);
-        setSize(800, 500);
+        leftPanel.setBackground(backDark);
+        northPanel.setBackground(backDark);
+        setSize(1100, 650);
         setLocationRelativeTo(null);
         addWindowListener(new WindowAdapter() {
             @Override

@@ -85,12 +85,12 @@ public class PlaylistPanel extends JPanel {
 
         tasti = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        bottoneApri = new JButton("Open");
+        bottoneApri = new JButton("open");
         bottoneApri.setVisible(false);
-        bottoneCrea = new JButton("New");
-        bottoneElimina = new JButton("Delete");
+        bottoneCrea = new JButton("+ playlist");
+        bottoneElimina = new JButton("delete");
         bottoneElimina.setVisible(false);
-        bottoneRinomina = new JButton("Rename");
+        bottoneRinomina = new JButton("rename");
         bottoneRinomina.setVisible(false);
 
         listaPlaylist.addListSelectionListener(new ListSelectionListener() {
