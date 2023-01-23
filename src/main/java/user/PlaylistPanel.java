@@ -135,11 +135,9 @@ public class PlaylistPanel extends JPanel {
                                 playlistListener.creaPlaylist(plName);
                                 JOptionPane.showMessageDialog(null, "Playlist " + plName + " created");
                             } catch (RemoteException ex) {
-                                JOptionPane.showMessageDialog(null, "remote");
                             } catch (playlistException ex){
-                                JOptionPane.showMessageDialog(null, "Playlist already exists");
+                                JOptionPane.showMessageDialog(null, ex.getMessage());
                             } catch (SQLException ex){
-                                JOptionPane.showMessageDialog(null, "sql");
                             }
                 }
             }
@@ -157,11 +155,9 @@ public class PlaylistPanel extends JPanel {
                             try{
                                 playlistListener.eliminaPlaylist(nomePlaylist);
                             } catch (SQLException ex) {
-                                JOptionPane.showMessageDialog(null, "sql");
                             } catch (playlistException ex) {
-                                JOptionPane.showMessageDialog(null, "pl");
+                                JOptionPane.showMessageDialog(null, ex.getMessage());
                             } catch (RemoteException ex) {
-                                JOptionPane.showMessageDialog(null, "remote");
                             }
                     }
                 }
@@ -199,11 +195,9 @@ public class PlaylistPanel extends JPanel {
                             playlistListener.rinominaPlaylist(vecchioNome, nuovoNome);
                             JOptionPane.showMessageDialog(null, "Playlist renamed");
                         } catch (RemoteException ex) {
-                            JOptionPane.showMessageDialog(null, "remote");
                         } catch (playlistException ex) {
-                            JOptionPane.showMessageDialog(null, "Playlist ex");
+                            JOptionPane.showMessageDialog(null, ex.getMessage());
                         } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(null, "sql");
                         }
                 }
             }

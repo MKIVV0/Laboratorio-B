@@ -135,7 +135,7 @@ public class ObjectAreaPanel extends JPanel {
                             f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                             f.setVisible(true);
                         } catch (NoFeedbackException ex) {
-                            JOptionPane.showMessageDialog(null, "No feedbacks for this song!");
+                            JOptionPane.showMessageDialog(null, ex.getMessage());
                         } catch (SQLException ex) {
                         } catch (RemoteException ex) {
                         }
@@ -154,8 +154,8 @@ public class ObjectAreaPanel extends JPanel {
                             songListener.addSong(song);
                             JOptionPane.showMessageDialog(null, "Song added successfully!");
                         } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(null, "You already have this song");
                         } catch (playlistException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage());
                         } catch (RemoteException ex) {
                         }
                 }
@@ -212,13 +212,11 @@ public class ObjectAreaPanel extends JPanel {
                                 songListener.valutaSong(ff);
                                 JOptionPane.showMessageDialog(null, "Thanks for your feedback!");
                             } catch (UserException ex) {
-                                throw new RuntimeException(ex);
+                                JOptionPane.showMessageDialog(null, ex.getMessage());
                             } catch (SQLException ex) {
-                                JOptionPane.showMessageDialog(null, "sql");
                             } catch (AlreadyValuedException ex) {
-                                JOptionPane.showMessageDialog(null, "already valued");
+                                JOptionPane.showMessageDialog(null, ex.getMessage());
                             } catch (RemoteException ex) {
-                                throw new RuntimeException(ex);
                             }
                     }
                 }

@@ -273,16 +273,13 @@ public class dbES {
      * @return true if the involved table has been modified, false otherwise.
      */
     public static boolean registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) {
-            String query = "INSERT INTO RegisteredUser VALUES (\'" + uid + "\', \'" + pwd + "\', \'" + email + "\', \'" + fn + "\', \'" + ln + "\', \'" + addr + "\', \'" + FC + "\')";
-            int count;
-            try{
-               count = statement.executeUpdate(query);
-               System.out.println("count = " + count + " User " + uid + " registered successfully.");
-//               if (count > 0) return true;
-            } catch (SQLException e){
-                 return false;
-            }
-           return true;
+        String query = "INSERT INTO RegisteredUser VALUES (\'" + uid + "\', \'" + pwd + "\', \'" + email + "\', \'" + fn + "\', \'" + ln + "\', \'" + addr + "\', \'" + FC + "\')";
+        try {
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
     }
 
 
@@ -358,14 +355,12 @@ public class dbES {
                 "SELECT '" + emotion.toString().toLowerCase() + "', '" + user_id + "', '" + song_id + "', '" + score + "', '" + notes + "'\n" +
                 "WHERE " +
                 "EXISTS (SELECT * FROM Playlist WHERE song_id = '" + song_id + "')";
-        int count;
         try {
-            count = statement.executeUpdate(query);
+            statement.executeUpdate(query);
         }catch (SQLException e){
             return false;
         }
-        if (count > 0) return true;
-        else return false;
+        return true;
     }
 
     /**
@@ -393,11 +388,14 @@ public class dbES {
      * @throws SQLException
      * @return true if the involved table has been modified, false otherwise.
      */
-    public static boolean createPlaylist(String pl_name, String user_id) throws SQLException {
+    public static boolean createPlaylist(String pl_name, String user_id) {
         String query = "INSERT INTO playlist VALUES ('" + pl_name + "', 'ZZZZZZZZZZZZZZZZZZ', '" + user_id + "')";
-        int count = statement.executeUpdate(query);
-        if (count > 0) return true;
-        else return false;
+        try {
+            statement.executeUpdate(query);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -428,14 +426,17 @@ public class dbES {
      * @throws SQLException
      * @return true if the involved table has been modified, false otherwise.
      */
-    public static boolean renamePlaylist(String curr_pl_name, String new_pl_name, String user_id) throws SQLException {
+    public static boolean renamePlaylist(String curr_pl_name, String new_pl_name, String user_id) {
         String query = "UPDATE playlist\n" +
                 "SET playlist_name = '" + new_pl_name + "'\n"
                 + "WHERE playlist_name = '" + curr_pl_name
                 + "' AND user_id = '" + user_id + "'";
-        int count = statement.executeUpdate(query);
-        if (count > 0) return true;
-        else return false;
+        try {
+            statement.executeUpdate(query);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -445,14 +446,17 @@ public class dbES {
      * @throws SQLException
      * @return true if the involved table has been modified, false otherwise.
      */
-    public static boolean deletePlaylist(String pl_name, String user_id) throws SQLException {
+    public static boolean deletePlaylist(String pl_name, String user_id) {
         String query = "DELETE FROM playlist\n"
                 + "WHERE playlist_name = '" + pl_name
                 + "' AND user_id = '" + user_id + "' AND (SELECT COUNT(*) " +
                 "FROM Playlist WHERE playlist_name = '" + pl_name + "') > 0";
-        int count = statement.executeUpdate(query);
-        if (count > 0) return true;
-        else return false;
+        try {
+            statement.executeUpdate(query);
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -463,14 +467,17 @@ public class dbES {
      * @throws SQLException
      * @return true if the involved table has been modified, false otherwise.
      */
-    public static boolean addSongToPlaylist(String pl_name, String song_id, String user_id) throws SQLException {
+    public static boolean addSongToPlaylist(String pl_name, String song_id, String user_id) {
         String query = "INSERT INTO playlist (playlist_name, song_id, user_id)" +
                 "SELECT '" + pl_name + "', '" + song_id + "', '" + user_id + "'" +
                 "WHERE " +
                 "(SELECT COUNT(*) FROM Playlist WHERE playlist_name = '" + pl_name + "') >= 1";
-        int count = statement.executeUpdate(query);
-        if (count > 0) return true;
-        else return false;
+        try{
+            statement.executeUpdate(query);
+        } catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
     /**
