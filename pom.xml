@@ -46,49 +46,6 @@
                     <settingsKey>sensibleKey</settingsKey>
                 </configuration>
 
-                <executions>
-
-                    <execution>
-                        <id>drop database</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <url>jdbc:postgresql://localhost:5432/</url>
-                            <autocommit>true</autocommit>
-                            <sqlCommand>drop database if exists schoolibdb</sqlCommand>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>create database</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <url>jdbc:postgresql://localhost:5432/</url>
-                            <autocommit>true</autocommit>
-                            <sqlCommand>create database schoolibdb</sqlCommand>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>create database schemas</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <url>jdbc:postgresql://localhost:5432/schoolibdb</url>
-                            <autocommit>true</autocommit>
-                            <srcFiles>
-                                <srcFile>src/main/sql/CreateDatabase.sql</srcFile>
-                            </srcFiles>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
             <!--create executable jar-->
@@ -134,32 +91,32 @@
                 </executions>
             </plugin>
 
+            <!--create javadoc-->
             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
-                <executions>
-                    <execution>
-                        <id>copy-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.parent.basedir}/jar</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>target</directory>
-                                    <includes>
-                                        <include>ServerES-1.0.jar</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <show>private</show>
+                    <nohelp>true</nohelp>
+                </configuration>
             </plugin>
 
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <stylesheetfile>${basedir}/src/main/javadoc/stylesheet.css</stylesheetfile>
+                    <show>public</show>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 
 </project>
