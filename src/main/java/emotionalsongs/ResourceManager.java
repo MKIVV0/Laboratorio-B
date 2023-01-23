@@ -54,7 +54,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @return a list of all the songs that are found.
      */
     @Override
-    public synchronized LinkedList<Song> findSong(String title) {
+    public LinkedList<Song> findSong(String title) {
         LinkedList<Song> tmp = new LinkedList<>();
         for (Song b : songRepo.values()) {
             if (b.getTitle().toLowerCase().contains(title.toLowerCase()))
@@ -72,7 +72,7 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
      * @return a list of all the songs that are found.
      */
     @Override
-    public synchronized LinkedList<Song> findSong(String author, int year){
+    public LinkedList<Song> findSong(String author, int year){
         LinkedList<Song> tmp = new LinkedList<>();
         for(Song b: songRepo.values()) {
             if(b.getAuthor().toLowerCase().contains(author.toLowerCase()) && b.getYear() == year)
@@ -179,22 +179,6 @@ public class ResourceManager extends UnicastRemoteObject implements ResourceMana
     public synchronized void registerUser(String fn, String ln, String FC, String addr, String email, String uid, String pwd) throws UserException, RemoteException {
         if (!dbES.registerUser(fn, ln, FC, addr, email, uid, pwd))
             throw new UserException("The user with these data already exists!");
-    }
-
-    /**
-     * deletes a user's feedback for a given song and a given emotion to
-     * the database.
-     * @param emotion the emotion involved.
-     * @param user the user.
-     * @param song the song involved.
-     * @throws SQLException
-     * @throws NoFeedbackException
-     * @throws RemoteException
-     * @return true if the involved table has been modified, false otherwise.
-     */
-    public synchronized void deleteFeedback(Emotions emotion, LoggedUser user, Song song) throws SQLException, NoFeedbackException, RemoteException {
-        if (!dbES.deleteFeedback(emotion, user.getId(), song.getId()))
-            throw new NoFeedbackException("This song with these parameters doesn't have any feedbacks!");
     }
 
     /**

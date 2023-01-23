@@ -364,24 +364,6 @@ public class dbES {
     }
 
     /**
-     * deletes a user's feedback for a given song and a given emotion to
-     * the database.
-     * @param emotion the emotion involved.
-     * @param user_id the user's username.
-     * @param song_id the song identifier involved.
-     * @throws SQLException
-     * @return true if the involved table has been modified, false otherwise.
-     */
-    public static boolean deleteFeedback(Emotions emotion, String user_id, String song_id) throws SQLException {
-        String query = "DELETE FROM emotion" +
-                " WHERE emotion_name = '" + emotion.toString().toLowerCase()
-                + "' AND user_id = '" + user_id + "' AND song_id = '" + song_id + "'";
-        int count = statement.executeUpdate(query);
-        if (count > 0) return true;
-        else return false;
-    }
-
-    /**
      * creates a new playlist that is added to the database.
      * @param pl_name the playlist's name.
      * @param user_id the user's username.

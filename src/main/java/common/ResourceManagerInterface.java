@@ -90,18 +90,6 @@ public interface ResourceManagerInterface extends Remote {
     Feedback getFeedback(Song song) throws SQLException, NoFeedbackException, RemoteException;
 
     /**
-     * deletes a user's feedback for a given song and a given emotion to
-     * the database.
-     * @param emotion the emotion involved.
-     * @param user the user.
-     * @param song the song involved.
-     * @throws SQLException
-     * @throws NoFeedbackException
-     * @throws RemoteException
-     */
-    void deleteFeedback(Emotions emotion, LoggedUser user, Song song) throws SQLException, NoFeedbackException, RemoteException;
-
-    /**
      * creates an empty playlist for a user.
      * @param pl_name the playlist's name.
      * @param user the user.
