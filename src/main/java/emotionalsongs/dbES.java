@@ -105,6 +105,7 @@ public class dbES {
      * @param pwd database's password credential.
      * @throws SQLException
      * @throws IOException
+     * @return database's singleton instance
      */
     public static dbES getInstance(String server, String p, String user, String pwd) throws SQLException, IOException {
 
@@ -140,6 +141,7 @@ public class dbES {
 
     /**
      * creates the default database.
+     * @param st Statement
      */
     public static void createDB(Statement st) {
         try {
@@ -367,7 +369,6 @@ public class dbES {
      * creates a new playlist that is added to the database.
      * @param pl_name the playlist's name.
      * @param user_id the user's username.
-     * @throws SQLException
      * @return true if the involved table has been modified, false otherwise.
      */
     public static boolean createPlaylist(String pl_name, String user_id) {
@@ -405,7 +406,6 @@ public class dbES {
      * @param curr_pl_name the playlist's old name.
      * @param new_pl_name the playlist's new name.
      * @param user_id the user's username.
-     * @throws SQLException
      * @return true if the involved table has been modified, false otherwise.
      */
     public static boolean renamePlaylist(String curr_pl_name, String new_pl_name, String user_id) {
@@ -425,7 +425,6 @@ public class dbES {
      * deletes a given playlist.
      * @param pl_name the playlist's name.
      * @param user_id the user's username.
-     * @throws SQLException
      * @return true if the involved table has been modified, false otherwise.
      */
     public static boolean deletePlaylist(String pl_name, String user_id) {
@@ -446,7 +445,6 @@ public class dbES {
      * @param pl_name the playlist's name.
      * @param song_id song involved.
      * @param user_id the user's username.
-     * @throws SQLException
      * @return true if the involved table has been modified, false otherwise.
      */
     public static boolean addSongToPlaylist(String pl_name, String song_id, String user_id) {

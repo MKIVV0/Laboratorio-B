@@ -17,11 +17,17 @@ public interface PlaylistListener {
     /**
      * Create a new playlist with the name given.
      * @param plName playlist's name
+     * @throws SQLException
+     * @throws playlistException
+     * @throws RemoteException
      */
     void creaPlaylist(String plName) throws SQLException, playlistException, RemoteException;
     /**
      * Delete the playlist specified by the name given.
      * @param plName playlist's name
+     * @throws SQLException
+     * @throws playlistException
+     * @throws RemoteException
      */
     void eliminaPlaylist(String plName) throws SQLException, playlistException, RemoteException;
     /**
@@ -33,6 +39,9 @@ public interface PlaylistListener {
      * Rename the playlist specified by the first argument with the name passed with the second one.
      * @param vecchioNome playlist's old name
      * @param nuovoNome playlist's new name
+     * @throws SQLException
+     * @throws playlistException
+     * @throws RemoteException
      */
     void rinominaPlaylist(String vecchioNome, String nuovoNome) throws SQLException, playlistException, RemoteException;
 }

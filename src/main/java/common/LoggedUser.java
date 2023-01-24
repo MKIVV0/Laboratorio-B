@@ -106,6 +106,7 @@ public class LoggedUser implements Serializable {
     }
     /**
      * userid getter.
+     * @return userid
      */
     public String getId() {
         return this.userID;
@@ -113,6 +114,7 @@ public class LoggedUser implements Serializable {
 
     /**
      * user password getter.
+     * @return password
      */
     public String getPassword() {
         return password;
@@ -120,6 +122,7 @@ public class LoggedUser implements Serializable {
 
     /**
      * playlist list getter.
+     * @return playlistList
      */
     public LinkedList<Playlist> getPlaylistList() {
         return playlistList;

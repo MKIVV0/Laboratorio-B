@@ -14,7 +14,7 @@ public class Song implements Serializable {
      */
     private String id;
     /**
-     * @song's title.
+     * song's title.
      */
     private String title;
     /**

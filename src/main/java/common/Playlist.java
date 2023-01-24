@@ -48,6 +48,7 @@ public class Playlist implements Serializable {
 
 	/**
 	 * song list getter.
+	 * @return songList
 	 */
 	public LinkedList<Song> getSongList() { 
 		return this.songList;
@@ -63,6 +64,7 @@ public class Playlist implements Serializable {
 
 	/**
 	 * playlist name getter.
+	 * @return playlistName
 	 */
 	public String getPlaylistName() {
 		return this.playlistName;

@@ -18,6 +18,8 @@ public interface ResourceManagerInterface extends Remote {
      * finds all the songs that contains a given string in
      * the title.
      * @param s the string or substring of a song title.
+     * @throws RemoteException
+     * @return a song list
      */
     LinkedList<Song> findSong(String s) throws RemoteException;
     /**
@@ -26,6 +28,8 @@ public interface ResourceManagerInterface extends Remote {
      * (e.g: 2004, not 4).
      * @param author the song's author
      * @param year the song's year
+     * @throws RemoteException
+     * @return a song list
      */
     LinkedList<Song> findSong(String author, int year) throws RemoteException;
     /**
@@ -37,6 +41,7 @@ public interface ResourceManagerInterface extends Remote {
      * @throws RemoteException
      * @throws UserException
      * @throws SQLException
+     * @return a logged user instance
      */
     LoggedUser login(LoggedUser u, String uid, String pw) throws RemoteException, UserException, SQLException;
 
@@ -59,6 +64,7 @@ public interface ResourceManagerInterface extends Remote {
      * @param u the singleton AbstractUser object present in each client.
      * @throws RemoteException
      * @throws UserException
+     * @return a null instance
      */
     LoggedUser logout(LoggedUser u) throws RemoteException, UserException;
 
@@ -96,6 +102,7 @@ public interface ResourceManagerInterface extends Remote {
      * @throws SQLException
      * @throws playlistException
      * @throws RemoteException
+     * @return a playlist
      */
     Playlist createPlaylist(String pl_name, LoggedUser user) throws SQLException, playlistException, RemoteException;
 

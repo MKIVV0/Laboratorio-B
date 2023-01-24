@@ -33,12 +33,14 @@ public class LogEvent extends EventObject {
     }
     /**
      * Username getter
+     * @return username
      */
     public String getUsername() {
         return username;
     }
     /**
-     * Getter
+     * Password getter
+     * @return password
      */
     public String getPassword() {
         return password;

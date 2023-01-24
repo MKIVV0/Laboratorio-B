@@ -9,6 +9,10 @@ package common;
  * condition occurs while handling playlists.
  */
 public class playlistException extends Exception {
+    /**
+     * playlistException constructor
+     * @param msg
+     */
     public playlistException(String msg) {
         super(msg);
     }

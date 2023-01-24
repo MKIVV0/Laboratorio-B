@@ -15,6 +15,9 @@ public class ClientES { // CLIENTES
 
     /**
      * The main method.
+     * @param args
+     * @throws NotBoundException
+     * @throws RemoteException
      */
     public static void main(String[] args) throws NotBoundException, RemoteException {
 

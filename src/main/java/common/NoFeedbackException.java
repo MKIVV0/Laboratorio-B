@@ -9,6 +9,10 @@ package common;
  * feedback present for a given song.
  */
 public class NoFeedbackException extends Exception {
+    /**
+     * NoFeedbackException constructor.
+     * @param message
+     */
     public NoFeedbackException(String message) {
         super(message);
     }
