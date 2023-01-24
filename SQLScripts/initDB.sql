@@ -17,7 +17,9 @@ CREATE TABLE IF NOT EXISTS RegisteredUser (
     CONSTRAINT lnamelength CHECK ( char_length ( user_id ) >=
     3),
     CONSTRAINT fclength CHECK (char_length(fiscal_code) = 16),
-    CONSTRAINT fcformat CHECK (fiscal_code ~* '^[a-zA-Z]{6}[0-9]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9]{2}([a-zA-Z]{1}[0-9]{3})[a-zA-Z]{1}$'::text)
+    CONSTRAINT fcformat CHECK (fiscal_code ~* '^[a-zA-Z]{6}[0-9]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9]{2}([a-zA-Z]{1}[0-9]{3})[a-zA-Z]{1}$'::text),
+    CONSTRAINT homaddrpattern CHECK (home_address ~* '^.*$'),
+    CONSTRAINT homeaddrlength CHECK (char_length(home_address) >= 9)
 );
 
 CREATE TABLE IF NOT EXISTS Song (
