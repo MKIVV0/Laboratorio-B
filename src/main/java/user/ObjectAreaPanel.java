@@ -13,8 +13,6 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -28,6 +26,10 @@ public class ObjectAreaPanel extends JPanel {
      * This attribute represents the song list that has to be shown on the screen
      */
     private JList songResultSet;
+    /**
+     * The list of the song's feedback
+     */
+    private JTextArea textArea;
     /**
      * this attribute contains the buttons of the class
      */
@@ -68,6 +70,17 @@ public class ObjectAreaPanel extends JPanel {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
+        textArea = new JTextArea();
+        textArea.setBorder(BorderFactory.createEmptyBorder(0,5,0,5));
+        textArea.setBackground(Frame.backDark);
+        textArea.setForeground(Frame.compForeDark);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        JScrollPane scrollPane2 = new JScrollPane(textArea);
+        scrollPane2.setPreferredSize(new Dimension(300,600));
+        scrollPane2.setBorder(BorderFactory.createMatteBorder(0,1,0,0,Color.PINK));
+        scrollPane2.setVerticalScrollBar(new ScrollBar());
+
         songResultSet = new JList<Song>();
         songResultSet.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
         songResultSet.setSelectionForeground(Color.PINK);
@@ -79,10 +92,10 @@ public class ObjectAreaPanel extends JPanel {
 
         tasti = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        bottoneShowFeedback = new JButton("Show song's feedbacks");
-        bottoneAggiungi = new JButton("Add to playlist");
-        bottoneValuta = new JButton("Evaluate song");
-        bottoneTogli = new JButton("Remove from playlist");
+        bottoneShowFeedback = new JButton("Feedbacks");
+        bottoneAggiungi = new JButton("Add");
+        bottoneValuta = new JButton("Evaluate");
+        bottoneTogli = new JButton("Remove");
         bottoneShowFeedback.setVisible(false);
         bottoneAggiungi.setVisible(false);
         bottoneValuta.setVisible(false);
@@ -115,22 +128,24 @@ public class ObjectAreaPanel extends JPanel {
                     Song song = (Song) songResultSet.getSelectedValue();
                     if(songListener != null) {
                         try {
+//                            Feedback feedbacks = songListener.guardaFeedback(song);
+//                            JTextArea textArea = new JTextArea();
+//                            textArea.append(feedbacks.toString());
+//                            textArea.setEditable(false);
+//                            JFrame f = new JFrame(song.getTitle() + "'s feedbacks");
+//                            f.setSize(500, 400);
+//                            f.add(new JScrollPane(textArea), BorderLayout.CENTER);
+//                            f.setLocationRelativeTo(null);
+//                            f.addWindowListener(new WindowAdapter() {
+//                                @Override
+//                                public void windowClosing(WindowEvent e) {
+//                                    f.dispose();
+//                                }
+//                            });
+//                            f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+//                            f.setVisible(true);
                             Feedback feedbacks = songListener.guardaFeedback(song);
-                            JTextArea textArea = new JTextArea();
-                            textArea.append(feedbacks.toString());
-                            textArea.setEditable(false);
-                            JFrame f = new JFrame(song.getTitle() + "'s feedbacks");
-                            f.setSize(500, 400);
-                            f.add(new JScrollPane(textArea), BorderLayout.CENTER);
-                            f.setLocationRelativeTo(null);
-                            f.addWindowListener(new WindowAdapter() {
-                                @Override
-                                public void windowClosing(WindowEvent e) {
-                                    f.dispose();
-                                }
-                            });
-                            f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                            f.setVisible(true);
+                            textArea.setText(feedbacks.toString());
                         } catch (NoFeedbackException ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage());
                         } catch (SQLException ex) {
@@ -224,6 +239,7 @@ public class ObjectAreaPanel extends JPanel {
 
         add(scrollPane, BorderLayout.CENTER);
         add(tasti, BorderLayout.SOUTH);
+        add(scrollPane2, BorderLayout.LINE_END);
 
         setColor(Frame.backDark, Frame.compBackDark, Frame.compForeDark);
     }
