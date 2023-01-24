@@ -79,10 +79,10 @@ public class ObjectAreaPanel extends JPanel {
 
         tasti = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        bottoneShowFeedback = new JButton("Feedbacks");
-        bottoneAggiungi = new JButton("Add");
-        bottoneValuta = new JButton("Evaluate");
-        bottoneTogli = new JButton("Remove");
+        bottoneShowFeedback = new JButton("Show song's feedbacks");
+        bottoneAggiungi = new JButton("Add to playlist");
+        bottoneValuta = new JButton("Evaluate song");
+        bottoneTogli = new JButton("Remove from playlist");
         bottoneShowFeedback.setVisible(false);
         bottoneAggiungi.setVisible(false);
         bottoneValuta.setVisible(false);

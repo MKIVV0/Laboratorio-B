@@ -270,8 +270,8 @@ public class Frame extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                int scelta = JOptionPane.showConfirmDialog(java.awt.Frame.getFrames()[0], "Continuare?",
-                        "Chiusura applicazione", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int scelta = JOptionPane.showConfirmDialog(java.awt.Frame.getFrames()[0], "Exit?",
+                        "Closing application", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (scelta == 0) {
                     if (user instanceof LoggedUser)
                         try {
