@@ -75,10 +75,10 @@ public class Summary implements Serializable {
      * @return the current object info.
      */
     public String toString() {
-        String tmp = "emotion name: " + this.emotionName +
-                "\nnumber of votes: " + this.numberOfVotes +
-                "\naverage score: " + this.AVGscore +
-                "\nnote list:\n";
+        String tmp = "Emotion: " + this.emotionName +
+                "\nNumber of votes: " + this.numberOfVotes +
+                "\nAverage score: " + this.AVGscore +
+                "\nComments\n";
         for (String s : this.noteList)
             tmp += s + "\n";
         return tmp;

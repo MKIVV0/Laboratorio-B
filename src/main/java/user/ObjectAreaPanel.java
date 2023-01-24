@@ -92,10 +92,10 @@ public class ObjectAreaPanel extends JPanel {
 
         tasti = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        bottoneShowFeedback = new JButton("Feedbacks");
-        bottoneAggiungi = new JButton("Add");
-        bottoneValuta = new JButton("Evaluate");
-        bottoneTogli = new JButton("Remove");
+        bottoneShowFeedback = new JButton("Show feedbacks");
+        bottoneAggiungi = new JButton("Add to playlist");
+        bottoneValuta = new JButton("Evaluate song");
+        bottoneTogli = new JButton("Remove from playlist");
         bottoneShowFeedback.setVisible(false);
         bottoneAggiungi.setVisible(false);
         bottoneValuta.setVisible(false);
@@ -128,24 +128,8 @@ public class ObjectAreaPanel extends JPanel {
                     Song song = (Song) songResultSet.getSelectedValue();
                     if(songListener != null) {
                         try {
-//                            Feedback feedbacks = songListener.guardaFeedback(song);
-//                            JTextArea textArea = new JTextArea();
-//                            textArea.append(feedbacks.toString());
-//                            textArea.setEditable(false);
-//                            JFrame f = new JFrame(song.getTitle() + "'s feedbacks");
-//                            f.setSize(500, 400);
-//                            f.add(new JScrollPane(textArea), BorderLayout.CENTER);
-//                            f.setLocationRelativeTo(null);
-//                            f.addWindowListener(new WindowAdapter() {
-//                                @Override
-//                                public void windowClosing(WindowEvent e) {
-//                                    f.dispose();
-//                                }
-//                            });
-//                            f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-//                            f.setVisible(true);
                             Feedback feedbacks = songListener.guardaFeedback(song);
-                            textArea.setText(feedbacks.toString());
+                            textArea.setText("             [ " + song.getTitle() + "'s Feedbacks ]\n\n" + feedbacks.toString());
                         } catch (NoFeedbackException ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage());
                         } catch (SQLException ex) {
